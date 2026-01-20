@@ -84,6 +84,23 @@ export const Board = () => {
     setMatrix(filledMatrix);
   };
 
+  const handleCellClick = (rowIndex: number, colIndex: number) => {
+    const currentCell: MatrixItem = matrix[rowIndex]?.[colIndex] as MatrixItem;
+
+    if (currentCell.isRevealed) return;
+
+    const newMatrix = matrix.map((row, rIndex) => {
+      if (rIndex !== rowIndex) return row;
+
+      return row.map((cell, cIndex) => {
+        if (cIndex !== colIndex) return cell;
+        return { ...cell, isRevealed: true };
+      });
+    });
+
+    setMatrix(newMatrix);
+  };
+
   useEffect(() => {
     startGame();
   }, [])
@@ -98,9 +115,14 @@ export const Board = () => {
                 return (
                   <div
                     key={`${rowIndex}-${colIndex}`}
-                    className="w-10 h-10 flex items-center justify-center text-white font-bold rounded-sm select-none"
+                    onClick={() => handleCellClick(rowIndex, colIndex)}
+                    className={`
+                      w-10 h-10 flex items-center justify-center 
+                      font-bold rounded-sm select-none
+                      ${cell.isRevealed ? 'bg-indigo-300' : 'bg-indigo-500 cursor-pointer hover:bg-indigo-400'}
+                    `}
                   >
-                    {cell.value}
+                    {cell.isRevealed ? cell.value : ''}
                   </div>
                 );
               })}
