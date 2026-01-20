@@ -1,5 +1,6 @@
 import {useState, useEffect} from 'react';
 import {colsCount, rowsCount} from './config';
+import { requestExpandedMode } from '@devvit/web/client';
 
 export type TreasureKind = 'chest' |'gold';
 
@@ -15,7 +16,11 @@ export interface MatrixItem {
   nearestTreasure?: TreasureKind | null;
 }
 
-export const Board = () => {
+export interface BoardProps {
+  fullScreenBtn?: boolean;
+}
+
+export const Board = ({fullScreenBtn = false}: BoardProps) => {
   const [matrix, setMatrix] = useState<MatrixItem[][]>([]);
 
   const getRandomInt = (max: number) => {
@@ -130,12 +135,23 @@ export const Board = () => {
           );
         })}
       </div>
-      <button
-        onClick={startGame}
-        className="px-6 py-2 cursor-pointer bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-full shadow-md transition-colors duration-200 active:scale-95"
-      >
-        New Game
-      </button>
+      <div className="flex flex-row gap-4">
+        <button
+          onClick={startGame}
+          className="px-6 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-full shadow-md transition-colors duration-200 active:scale-95"
+        >
+          New Game
+        </button>
+
+        {fullScreenBtn && (
+          <button
+            onClick={(e) => requestExpandedMode(e.nativeEvent, 'game')}
+            className="px-6 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-full shadow-md transition-colors duration-200 active:scale-95"
+          >
+            Full Screen
+          </button>
+        )}
+      </div>
     </div>
   )
 }
