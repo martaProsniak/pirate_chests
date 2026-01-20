@@ -1,2 +1,2 @@
-export const rowsCount = 5;
-export const colsCount = 5;
+export const rowsCount = 6;
+export const colsCount = 6;

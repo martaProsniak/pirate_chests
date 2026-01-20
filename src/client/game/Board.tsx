@@ -18,72 +18,102 @@ export interface MatrixItem {
 export const Board = () => {
   const [matrix, setMatrix] = useState<MatrixItem[][]>([]);
 
-  const treasures: Treasure[] = [
-    {
-      row: 2,
-      col: 0,
-      kind: 'chest'
-    },
-    {
-      row: 4,
-      col: 2,
-      kind: 'gold'
-    },
-    {
-      row: 1,
-      col: 3,
-      kind: 'gold'
-    }
-  ];
+  const getRandomInt = (max: number) => {
+    return Math.floor(Math.random() * max);
+  };
 
-  const findNearestTreasure = (row: number, col: number) => {
-      return treasures.reduce((acc: {minDistance: number, treasure: null | TreasureKind}, curr) => {
-        const distance = Math.abs(curr.row - row) + Math.abs(curr.col - col);
-        if (acc.minDistance > distance) {
-          acc.minDistance = distance;
-          acc.treasure = curr.kind;
+  const findNearestTreasure = (row: number, col: number, currentTreasures: Treasure[]) => {
+    return currentTreasures.reduce((acc: { minDistance: number, treasure: null | TreasureKind }, curr) => {
+      const distance = Math.abs(curr.row - row) + Math.abs(curr.col - col);
+      if (acc.minDistance > distance) {
+        acc.minDistance = distance;
+        acc.treasure = curr.kind;
+      }
+      return acc;
+    }, { minDistance: rowsCount + colsCount, treasure: null });
+  };
+
+  const startGame = () => {
+    const newTreasures: Treasure[] = [];
+    const treasuresToPlace: TreasureKind[] = ['chest', 'gold', 'gold'];
+
+    treasuresToPlace.forEach((kind) => {
+      let placed = false;
+      while (!placed) {
+        const randomRow = getRandomInt(rowsCount);
+        const randomCol = getRandomInt(colsCount);
+
+        const isOccupied = newTreasures.some(
+          (t) => t.row === randomRow && t.col === randomCol
+        );
+
+        if (!isOccupied) {
+          newTreasures.push({ row: randomRow, col: randomCol, kind });
+          placed = true;
         }
-        return acc;
-      }, {minDistance: rowsCount + colsCount, treasure: null});
-  }
+      }
+    });
+
+    const empty_matrix = Array.from(Array(rowsCount).keys()).map(() =>
+      Array.from(Array(colsCount).keys()).map(() => null)
+    );
+
+    const filledMatrix: MatrixItem[][] = empty_matrix.map((row, rowIndex) => {
+      return row.map((_cell, colIndex) => {
+        const treasure = newTreasures.find(
+          (t) => t.row === rowIndex && t.col === colIndex
+        );
+
+        if (treasure) {
+          return {
+            value: treasure.kind as string,
+            isRevealed: false,
+            nearestTreasure: treasure.kind,
+          };
+        }
+
+        const fieldInfo = findNearestTreasure(rowIndex, colIndex, newTreasures);
+        return {
+          value: fieldInfo.minDistance.toString(),
+          isRevealed: false,
+          nearestTreasure: fieldInfo.treasure,
+        };
+      });
+    });
+
+    setMatrix(filledMatrix);
+  };
 
   useEffect(() => {
-    const createMatrix = () => {
-      const empty_matrix = Array.from(Array(rowsCount).keys()).map(() => Array.from(Array(colsCount).keys()).map(() => null));
-      const filledMatrix: MatrixItem[][] = empty_matrix.map((row, rowIndex) => {
-        return row.map((_cell, colIndex) => {
-          const treasure = treasures.find((treasure) => treasure.row === rowIndex && treasure.col === colIndex);
-          if (treasure) {
-            return {
-              value: (treasure.kind as string),
-              isRevealed: false,
-              nearestTreasure: treasure.kind
-            };
-          }
-          const fieldInfo = findNearestTreasure(rowIndex, colIndex);
-          return {
-            value: fieldInfo.minDistance.toString(),
-            isRevealed: false,
-            nearestTreasure: fieldInfo.treasure,
-          };
-        })
-      });
-
-      setMatrix(filledMatrix);
-    }
-
-    createMatrix();
+    startGame();
   }, [])
 
   return (
-    <div className="flex flex-col flex-nowrap gap-1">
-      {matrix.map((row) => {
-        return <div className="flex flex-row flex-nowrap gap-1">
-          {row.map((cell) => {
-            return <div className="w-10 bg-pink-500">{cell.value}</div>;
-          })}
-        </div>
-      })}
+    <div className="flex flex-col items-center gap-6 p-4">
+      <div className="flex flex-col flex-nowrap gap-1 bg-gray-200 p-2 rounded-lg">
+        {matrix.map((row, rowIndex) => {
+          return (
+            <div key={rowIndex} className="flex flex-row flex-nowrap gap-1">
+              {row.map((cell, colIndex) => {
+                return (
+                  <div
+                    key={`${rowIndex}-${colIndex}`}
+                    className="w-10 h-10 flex items-center justify-center text-white font-bold rounded-sm select-none"
+                  >
+                    {cell.value}
+                  </div>
+                );
+              })}
+            </div>
+          );
+        })}
+      </div>
+      <button
+        onClick={startGame}
+        className="px-6 py-2 cursor-pointer bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-full shadow-md transition-colors duration-200 active:scale-95"
+      >
+        New Game
+      </button>
     </div>
   )
 }
