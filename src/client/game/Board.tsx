@@ -1,10 +1,24 @@
 import {useState, useEffect} from 'react';
 import {colsCount, rowsCount} from './config';
 
-export const Board = () => {
-  const [matrix, setMatrix] = useState<string[][]>([]);
+export type TreasureKind = 'chest' |'gold';
 
-  const treasures = [
+export interface Treasure {
+  row: number;
+  col: number;
+  kind: TreasureKind;
+}
+
+export interface MatrixItem {
+  value: string;
+  isRevealed: boolean;
+  nearestTreasure?: TreasureKind | null;
+}
+
+export const Board = () => {
+  const [matrix, setMatrix] = useState<MatrixItem[][]>([]);
+
+  const treasures: Treasure[] = [
     {
       row: 2,
       col: 0,
@@ -23,27 +37,35 @@ export const Board = () => {
   ];
 
   const findNearestTreasure = (row: number, col: number) => {
-      return treasures.reduce((acc, curr) => {
+      return treasures.reduce((acc: {minDistance: number, treasure: null | TreasureKind}, curr) => {
         const distance = Math.abs(curr.row - row) + Math.abs(curr.col - col);
         if (acc.minDistance > distance) {
           acc.minDistance = distance;
-          acc.treasure = curr;
+          acc.treasure = curr.kind;
         }
         return acc;
-      }, {minDistance: rowsCount + 1, treasure: {}});
+      }, {minDistance: rowsCount + colsCount, treasure: null});
   }
 
   useEffect(() => {
     const createMatrix = () => {
       const empty_matrix = Array.from(Array(rowsCount).keys()).map(() => Array.from(Array(colsCount).keys()).map(() => null));
-      const filledMatrix = empty_matrix.map((row, rowIndex) => {
+      const filledMatrix: MatrixItem[][] = empty_matrix.map((row, rowIndex) => {
         return row.map((_cell, colIndex) => {
           const treasure = treasures.find((treasure) => treasure.row === rowIndex && treasure.col === colIndex);
           if (treasure) {
-            return treasure.kind;
+            return {
+              value: (treasure.kind as string),
+              isRevealed: false,
+              nearestTreasure: treasure.kind
+            };
           }
           const fieldInfo = findNearestTreasure(rowIndex, colIndex);
-          return `${fieldInfo.minDistance}`;
+          return {
+            value: fieldInfo.minDistance.toString(),
+            isRevealed: false,
+            nearestTreasure: fieldInfo.treasure,
+          };
         })
       });
 
@@ -58,7 +80,7 @@ export const Board = () => {
       {matrix.map((row) => {
         return <div className="flex flex-row flex-nowrap gap-1">
           {row.map((cell) => {
-            return <div className="w-10 bg-pink-500">{cell}</div>;
+            return <div className="w-10 bg-pink-500">{cell.value}</div>;
           })}
         </div>
       })}
