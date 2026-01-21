@@ -9,7 +9,6 @@ import {Board} from '../game/Board';
 export const Splash = () => {
   return (
     <div className="flex relative flex-col items-center min-h-screen gap-4 bg-stone-950 text-white">
-      <div>Logo</div>
       <Board fullScreenBtn={true} />
     </div>
   );

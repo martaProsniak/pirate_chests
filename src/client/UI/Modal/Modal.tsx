@@ -1,4 +1,4 @@
-import { ReactNode, useEffect, useRef } from 'react';
+import { ReactNode, SyntheticEvent, useEffect, useRef } from 'react';
 import styles from './Modal.module.css';
 import { CloseIcon } from '../icons';
 
@@ -24,7 +24,7 @@ export const Modal = ({ isOpen, onClose, title, children, footer }: ModalProps) 
     }
   }, [isOpen]);
 
-  const handleCancel = (e: React.SyntheticEvent) => {
+  const handleCancel = (e: SyntheticEvent) => {
     e.preventDefault();
     onClose();
   };

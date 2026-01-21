@@ -1,5 +1,14 @@
-export const ChestIcon = () => (
-  <svg width="70%" height="70%" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+interface IconProps {
+  className?: string;
+}
+
+export const ChestIcon = ({ className = "w-[70%] h-[70%]" }: IconProps) => (
+  <svg
+    className={`${className} drop-shadow-sm`} // Tailwind kontroluje rozmiar
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
     <path d="M20 7L4 7" stroke="#5D4037" strokeWidth="2" strokeLinecap="round"/>
     <rect x="2" y="7" width="20" height="14" rx="2" fill="#8D6E63" stroke="#5D4037" strokeWidth="2"/>
     <path d="M2 11H22" stroke="#5D4037" strokeWidth="2"/>
@@ -8,8 +17,13 @@ export const ChestIcon = () => (
   </svg>
 );
 
-export const GoldIcon = () => (
-  <svg width="60%" height="60%" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+export const GoldIcon = ({ className = "w-[60%] h-[60%]" }: IconProps) => (
+  <svg
+    className={`${className} drop-shadow-sm`}
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
     <circle cx="12" cy="12" r="9" fill="#FFD700" stroke="#F9A825" strokeWidth="2"/>
     <circle cx="12" cy="12" r="6" stroke="#F9A825" strokeWidth="2" strokeDasharray="2 2"/>
     <path d="M12 8V16M10 10L14 14" stroke="#F57F17" strokeWidth="2" strokeLinecap="round"/>
@@ -21,3 +35,9 @@ export const CloseIcon = () => (
     <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
   </svg>
 );
+
+export const FullScreenIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4">
+    <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 3.75v4.5m0-4.5h4.5m-4.5 0L9 9M3.75 20.25v-4.5m0 4.5h4.5m-4.5 0L9 15M20.25 3.75h-4.5m4.5 0v4.5m0-4.5L15 9m5.25 11.25h-4.5m4.5 0v-4.5m0 4.5L15 15" />
+  </svg>
+)

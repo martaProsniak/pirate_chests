@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import { config } from './config';
-import { MatrixItem, Treasure, TreasureKind } from './types';
+import { config } from '../game/config';
+import { MatrixItem, Treasure, TreasureKind } from '../game/types';
 
 const shuffleArray = (array: number[]): number[] => {
   const newArray = [...array];

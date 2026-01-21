@@ -1,7 +1,8 @@
 import { requestExpandedMode } from '@devvit/web/client';
 import { Tile } from './Tile';
-import { useGame } from './useGame';
+import { useGame } from '../hooks/useGame';
 import { Modal } from '../UI/Modal/Modal';
+import { FullScreenIcon } from '../UI/icons';
 
 export interface BoardProps {
   fullScreenBtn?: boolean;
@@ -24,48 +25,53 @@ export const Board = ({ fullScreenBtn = false }: BoardProps) => {
   const modalFooterButton = (
     <button
       onClick={handleRestart}
-      className="
-        px-8 py-3
-        bg-emerald-600 hover:bg-emerald-500
-        text-white font-black uppercase tracking-wider
-        border-b-4 border-emerald-800 active:border-b-0 active:translate-y-1
-        rounded-lg shadow-lg
-        transition-all
-      "
+      className="px-8 py-3 bg-emerald-600 hover:bg-emerald-500 text-white font-black uppercase tracking-wider border-b-4 border-emerald-800 active:border-b-0 active:translate-y-1 rounded-lg shadow-lg transition-all"
     >
       Play Again
     </button>
   );
 
   return (
-    <div className="flex flex-col items-center gap-6 p-4 relative">
-      {/* Moves counter */}
-      <div className="bg-white px-6 py-2 rounded-full shadow-sm border border-gray-200 font-medium text-gray-700">
-        Moves left: <span className={`font-bold ${moves <= 3 ? 'text-red-500' : 'text-indigo-600'}`}>{moves}</span>
+    <div className="flex flex-col items-center justify-center min-h-[500px] w-full gap-5 py-4 px-2 bg-slate-800 rounded-xl relative overflow-hidden">
+
+      <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#fff_1px,transparent_1px)] [background-size:16px_16px]"></div>
+
+      <div className="relative z-10 flex items-center gap-3 bg-slate-900/80 backdrop-blur-sm border border-slate-700/50 px-4 py-1.5 rounded-lg cursor-default">
+        <span className="text-slate-400 text-[10px] font-bold uppercase tracking-widest">Moves Left</span>
+        <div className={`text-xl font-mono font-black ${moves <= 3 ? 'text-red-500 animate-pulse' : 'text-amber-400'}`}>
+          {moves}
+        </div>
       </div>
 
-      {/* Board */}
-      <div className="flex flex-col flex-nowrap gap-1 bg-gray-200 p-2 rounded-xl shadow-inner border border-gray-300">
-        {matrix.map((row, rowIndex) => (
-          <div key={rowIndex} className="flex flex-row flex-nowrap gap-1">
-            {row.map((cell, colIndex) => (
-              <Tile
-                key={`${rowIndex}-${colIndex}`}
-                item={cell}
-                onClick={() => handleCellClick(rowIndex, colIndex)}
-              />
-            ))}
-          </div>
-        ))}
+      <div className="relative z-10 p-3 bg-amber-200 rounded-lg shadow-[0_10px_20px_rgba(0,0,0,0.5)] border-4 border-amber-800/50">
+        <div className="flex flex-col gap-1 sm:gap-1.5">
+          {matrix.map((row, rowIndex) => (
+            <div key={rowIndex} className="flex gap-1 sm:gap-1.5">
+              {row.map((cell, colIndex) => (
+                <Tile
+                  key={`${rowIndex}-${colIndex}`}
+                  item={cell}
+                  onClick={() => handleCellClick(rowIndex, colIndex)}
+                />
+              ))}
+            </div>
+          ))}
+        </div>
       </div>
 
-      {/* Actions */}
-      <div className="flex flex-row gap-4 mt-2">
+      <div className="relative z-10 mt-1">
         {fullScreenBtn && (
           <button
             onClick={(e) => requestExpandedMode(e.nativeEvent, 'game')}
-            className="px-5 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold rounded-full shadow-sm transition-colors duration-200 flex items-center gap-2"
+            className="
+              flex items-center gap-2 px-4 py-2
+              bg-orange-600 hover:bg-orange-500
+              text-white font-bold text-xs uppercase tracking-wider
+              border-b-4 border-orange-800 active:border-b-0 active:translate-y-1
+              rounded-lg shadow-md transition-all
+            "
           >
+            <FullScreenIcon />
             Full Screen
           </button>
         )}
@@ -74,18 +80,16 @@ export const Board = ({ fullScreenBtn = false }: BoardProps) => {
       <Modal
         isOpen={isEnd}
         onClose={handleRestart}
-        title={isWin ? "🎉 Victory!" : "☠️ Game Over"}
+        title={isWin ? "Victory!" : "Game Over"}
         footer={modalFooterButton}
       >
         {isWin ? (
-          <p>
-            Congratulations! You found all the treasures using only your wits (and a metal detector).
-            The island is clean!
+          <p className="text-center">
+            You found all the treasures! The island is clean.
           </p>
         ) : (
-          <p>
-            You ran out of moves! The treasure is still out there, hidden beneath the sand.
-            Want to try another location?
+          <p className="text-center">
+            You ran out of moves. The treasures remain hidden...
           </p>
         )}
       </Modal>

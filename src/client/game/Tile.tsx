@@ -1,33 +1,48 @@
 import { MatrixItem } from './types';
 import { ChestIcon, GoldIcon } from '../UI/icons';
 
-interface FieldProps {
+interface TileProps {
   item: MatrixItem;
   onClick: () => void;
 }
 
-export const Tile = ({ item, onClick }: FieldProps) => {
+export const Tile = ({ item, onClick }: TileProps) => {
   const { isRevealed, value } = item;
 
-  const baseClasses =
-    'w-10 h-10 flex items-center justify-center font-bold rounded-sm select-none transition-all duration-200 cursor-pointer';
+  const baseClasses = "w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center font-bold rounded-md select-none transition-all duration-75";
 
-  const revealedClasses = 'bg-amber-200 shadow-inner';
-  const hiddenClasses = 'bg-amber-500 cursor-pointer hover:bg-amber-400 shadow-md';
+  const hiddenClasses = `
+    bg-amber-500 
+    border-2 border-b-4 border-amber-700 
+    text-transparent
+    cursor-pointer 
+    hover:bg-amber-400 hover:border-amber-600
+    active:border-b-2 active:translate-y-[2px]
+  `;
 
-  const classes = `${baseClasses} ${isRevealed ? revealedClasses : hiddenClasses}`;
+  const revealedClasses = "bg-amber-100 shadow-inner border-2 border-amber-900/20";
 
   return (
-    <div onClick={onClick} className={classes}>
+    <div
+      onClick={onClick}
+      className={`${baseClasses} ${isRevealed ? revealedClasses : hiddenClasses}`}
+    >
       {isRevealed && (
         <>
           {value === 'chest' && <ChestIcon />}
           {value === 'gold' && <GoldIcon />}
           {value !== 'chest' && value !== 'gold' && (
-            <span className="text-amber-900 text-lg">{value}</span>
+            <span className={`text-xl ${getValueColor()}`}>{value}</span>
           )}
         </>
       )}
     </div>
   );
+};
+
+const getValueColor = () => {
+  // const num = parseInt(val);
+  // if (num === 1) return "text-green-500 font-black";
+  // if (num === 2) return "text-green-700 font-extrabold";
+  return "text-amber-900/60 font-bold";
 };
