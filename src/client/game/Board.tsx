@@ -1,141 +1,20 @@
-import { useEffect, useState } from 'react';
-import { config } from './config';
 import { requestExpandedMode } from '@devvit/web/client';
-import { MatrixItem, Treasure, TreasureKind } from './types';
 import { Tile } from './Tile';
+import { useGame } from './useGame';
 
 export interface BoardProps {
   fullScreenBtn?: boolean;
 }
 
 export const Board = ({ fullScreenBtn = false }: BoardProps) => {
-  const [matrix, setMatrix] = useState<MatrixItem[][]>([]);
-  const [difficulty, _setDifficulty] = useState<'base'>('base');
-  const {rowsCount, colsCount, maxMoves, treasuresCount} = config[difficulty];
-  const [moves, setMoves] = useState<number>(maxMoves);
-  const [isEnd, setIsEnd] = useState(false);
-  const [treasuresFound, setTreasuresFound] = useState<number>(0);
-  const [isWin, setIsWin] = useState(false);
-
-  const getRandomInt = (max: number) => {
-    return Math.floor(Math.random() * max);
-  };
-
-  const findNearestTreasure = (row: number, col: number, currentTreasures: Treasure[]) => {
-    return currentTreasures.reduce(
-      (
-        acc: {
-          minDistance: number;
-          treasure: null | TreasureKind;
-        },
-        curr
-      ) => {
-        const distance = Math.abs(curr.row - row) + Math.abs(curr.col - col);
-        if (acc.minDistance > distance) {
-          acc.minDistance = distance;
-          acc.treasure = curr.kind;
-        }
-        return acc;
-      },
-      { minDistance: rowsCount + colsCount, treasure: null }
-    );
-  };
-
-  const resetState = () => {
-    setIsEnd(false);
-    setIsWin(false);
-    setMoves(maxMoves);
-    setTreasuresFound(0);
-  };
-
-  const startGame = () => {
-    const newTreasures: Treasure[] = [];
-    const treasuresToPlace: TreasureKind[] = ['chest', 'gold', 'gold'];
-
-    treasuresToPlace.forEach((kind) => {
-      let placed = false;
-      while (!placed) {
-        const randomRow = getRandomInt(rowsCount);
-        const randomCol = getRandomInt(colsCount);
-
-        const isOccupied = newTreasures.some((t) => t.row === randomRow && t.col === randomCol);
-
-        if (!isOccupied) {
-          newTreasures.push({ row: randomRow, col: randomCol, kind });
-          placed = true;
-        }
-      }
-    });
-
-    const empty_matrix = Array.from(Array(rowsCount).keys()).map(() =>
-      Array.from(Array(colsCount).keys()).map(() => null)
-    );
-
-    const filledMatrix: MatrixItem[][] = empty_matrix.map((row, rowIndex) => {
-      return row.map((_cell, colIndex) => {
-        const treasure = newTreasures.find((t) => t.row === rowIndex && t.col === colIndex);
-
-        if (treasure) {
-          return {
-            value: treasure.kind as string,
-            isRevealed: false,
-            nearestTreasure: treasure.kind,
-          };
-        }
-
-        const fieldInfo = findNearestTreasure(rowIndex, colIndex, newTreasures);
-        return {
-          value: fieldInfo.minDistance.toString(),
-          isRevealed: false,
-          nearestTreasure: fieldInfo.treasure,
-        };
-      });
-    });
-
-    setMatrix(filledMatrix);
-    resetState();
-  };
-
-  const handleCellClick = (rowIndex: number, colIndex: number) => {
-    if (isEnd) {
-      return;
-    }
-
-    const currentCell: MatrixItem = matrix[rowIndex]?.[colIndex] as MatrixItem;
-
-    if (currentCell.isRevealed) return;
-
-    const newMatrix = matrix.map((row, rIndex) => {
-      if (rIndex !== rowIndex) return row;
-
-      return row.map((cell, cIndex) => {
-        if (cIndex !== colIndex) return cell;
-        return { ...cell, isRevealed: true };
-      });
-    });
-
-    setMatrix(newMatrix);
-
-    if (currentCell.value === 'chest' || currentCell.value === 'gold') {
-      const updatedFound = treasuresFound + 1;
-      setTreasuresFound(updatedFound);
-
-      if (updatedFound === treasuresCount) {
-        setIsEnd(true);
-        setIsWin(true);
-      }
-    }
-    const leftMoves = moves - 1;
-    if (leftMoves === 0) {
-      setIsEnd(true);
-    } else {
-      setMoves(leftMoves);
-    }
-  };
-
-  useEffect(() => {
-    startGame();
-  }, []);
+  const {
+    matrix,
+    moves,
+    isEnd,
+    isWin,
+    startGame,
+    handleCellClick
+  } = useGame('base');
 
   return (
     <div className="flex flex-col items-center gap-4 p-3">
