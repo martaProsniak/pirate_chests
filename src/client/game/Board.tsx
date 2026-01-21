@@ -32,13 +32,13 @@ export const Board = ({ fullScreenBtn = false }: BoardProps) => {
   );
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-[500px] w-full gap-5 py-4 px-2 bg-slate-800 rounded-xl relative overflow-hidden">
+    <div className="font-pirate flex flex-col items-center justify-center min-h-[500px] w-full gap-5 py-4 px-2 bg-slate-800 rounded-xl relative overflow-hidden">
 
       <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#fff_1px,transparent_1px)] [background-size:16px_16px]"></div>
 
       <div className="relative z-10 flex items-center gap-3 bg-slate-900/80 backdrop-blur-sm border border-slate-700/50 px-4 py-1.5 rounded-lg cursor-default">
-        <span className="text-slate-400 text-[10px] font-bold uppercase tracking-widest">Moves Left</span>
-        <div className={`text-xl font-mono font-black ${moves <= 3 ? 'text-red-500 animate-pulse' : 'text-amber-400'}`}>
+        <span className="text-slate-400 text-lg font-bold uppercase tracking-widest">Moves Left</span>
+        <div className={`text-xl font-black ${moves <= 3 ? 'text-red-500 animate-pulse' : 'text-amber-400'}`}>
           {moves}
         </div>
       </div>
@@ -65,9 +65,9 @@ export const Board = ({ fullScreenBtn = false }: BoardProps) => {
             onClick={(e) => requestExpandedMode(e.nativeEvent, 'game')}
             className="
               flex items-center gap-2 px-4 py-2
-              bg-orange-600 hover:bg-orange-500
+              bg-cyan-600 hover:bg-cyan-500
               text-white font-bold text-xs uppercase tracking-wider
-              border-b-4 border-orange-800 active:border-b-0 active:translate-y-1
+              border-b-4 border-cyan-800 active:border-b-0 active:translate-y-1
               rounded-lg shadow-md transition-all
             "
           >

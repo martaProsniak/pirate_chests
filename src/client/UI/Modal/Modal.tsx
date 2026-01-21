@@ -34,7 +34,7 @@ export const Modal = ({ isOpen, onClose, title, children, footer }: ModalProps) 
   return (
     <dialog
       ref={dialogRef}
-      className={styles.gameDialog}
+      className={`font-pirate ${styles.gameDialog}`}
       onCancel={handleCancel}
       onClick={(e) => {
         const dialogDimensions = e.currentTarget.getBoundingClientRect();
