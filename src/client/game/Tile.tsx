@@ -1,5 +1,5 @@
 import { MatrixItem } from './types';
-import { ChestIcon, GoldIcon } from './icons';
+import { ChestIcon, GoldIcon } from '../UI/icons';
 
 interface FieldProps {
   item: MatrixItem;
@@ -12,8 +12,8 @@ export const Tile = ({ item, onClick }: FieldProps) => {
   const baseClasses =
     'w-10 h-10 flex items-center justify-center font-bold rounded-sm select-none transition-all duration-200 cursor-pointer';
 
-  const revealedClasses = 'bg-indigo-200 shadow-inner';
-  const hiddenClasses = 'bg-indigo-500 cursor-pointer hover:bg-indigo-400 shadow-md';
+  const revealedClasses = 'bg-amber-200 shadow-inner';
+  const hiddenClasses = 'bg-amber-500 cursor-pointer hover:bg-amber-400 shadow-md';
 
   const classes = `${baseClasses} ${isRevealed ? revealedClasses : hiddenClasses}`;
 
@@ -24,7 +24,7 @@ export const Tile = ({ item, onClick }: FieldProps) => {
           {value === 'chest' && <ChestIcon />}
           {value === 'gold' && <GoldIcon />}
           {value !== 'chest' && value !== 'gold' && (
-            <span className="text-indigo-900 text-lg">{value}</span>
+            <span className="text-amber-900 text-lg">{value}</span>
           )}
         </>
       )}
