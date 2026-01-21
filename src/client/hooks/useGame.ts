@@ -153,6 +153,7 @@ export const useGame = (initialDifficulty: 'base' = 'base') => {
     isWin,
     treasuresFound,
     startGame,
-    handleCellClick
+    handleCellClick,
+    totalTreasures: treasures.length,
   };
 };
