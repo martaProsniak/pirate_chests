@@ -160,7 +160,7 @@ export const Board = ({ fullScreenBtn = false }: BoardProps) => {
                     key={`${rowIndex}-${colIndex}`}
                     onClick={() => handleCellClick(rowIndex, colIndex)}
                     className={`
-    w-9 h-9 flex items-center justify-center 
+    w-10 h-10 flex items-center justify-center 
     font-bold rounded-sm select-none transition-all duration-200
     ${
       cell.isRevealed
