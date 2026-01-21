@@ -2,7 +2,16 @@ import { useState, useEffect } from 'react';
 import { config } from './config';
 import { MatrixItem, Treasure, TreasureKind } from './types';
 
-const getRandomInt = (max: number) => Math.floor(Math.random() * max);
+const shuffleArray = (array: number[]): number[] => {
+  const newArray = [...array];
+  for (let i = newArray.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    const temp = newArray[i]!;
+    newArray[i] = newArray[j]!;
+    newArray[j] = temp;
+  }
+  return newArray;
+};
 
 const findNearestTreasure = (row: number, col: number, currentTreasures: Treasure[], rows: number, cols: number) => {
   return currentTreasures.reduce(
@@ -38,20 +47,19 @@ export const useGame = (initialDifficulty: 'base' = 'base') => {
   };
 
   const startGame = () => {
-    const newTreasures: Treasure[] = [];
+    const totalCells = rowsCount * colsCount;
+    const allIndices = Array.from({ length: totalCells }, (_, i) => i);
 
-    treasures.forEach((kind) => {
-      let placed = false;
-      while (!placed) {
-        const randomRow = getRandomInt(rowsCount);
-        const randomCol = getRandomInt(colsCount);
-        const isOccupied = newTreasures.some((t) => t.row === randomRow && t.col === randomCol);
+    const shuffledIndices = shuffleArray(allIndices);
 
-        if (!isOccupied) {
-          newTreasures.push({ row: randomRow, col: randomCol, kind });
-          placed = true;
-        }
-      }
+    const newTreasures: Treasure[] = treasures.map((kind, index) => {
+      const gridIndex = shuffledIndices[index]!;
+
+      return {
+        row: Math.floor(gridIndex / colsCount),
+        col: gridIndex % colsCount,
+        kind: kind
+      };
     });
 
     const empty_matrix = Array.from(Array(rowsCount).keys()).map(() =>
