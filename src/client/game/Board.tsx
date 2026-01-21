@@ -1,21 +1,8 @@
-import { useState, useEffect } from 'react';
-import { colsCount, rowsCount, maxMoves, treasureCount } from './config';
+import { useEffect, useState } from 'react';
+import { config } from './config';
 import { requestExpandedMode } from '@devvit/web/client';
-import { ChestIcon, GoldIcon } from './icons';
-
-export type TreasureKind = 'chest' | 'gold';
-
-export interface Treasure {
-  row: number;
-  col: number;
-  kind: TreasureKind;
-}
-
-export interface MatrixItem {
-  value: string;
-  isRevealed: boolean;
-  nearestTreasure?: TreasureKind | null;
-}
+import { MatrixItem, Treasure, TreasureKind } from './types';
+import { Tile } from './Tile';
 
 export interface BoardProps {
   fullScreenBtn?: boolean;
@@ -23,6 +10,8 @@ export interface BoardProps {
 
 export const Board = ({ fullScreenBtn = false }: BoardProps) => {
   const [matrix, setMatrix] = useState<MatrixItem[][]>([]);
+  const [difficulty, _setDifficulty] = useState<'base'>('base');
+  const {rowsCount, colsCount, maxMoves, treasuresCount} = config[difficulty];
   const [moves, setMoves] = useState<number>(maxMoves);
   const [isEnd, setIsEnd] = useState(false);
   const [treasuresFound, setTreasuresFound] = useState<number>(0);
@@ -57,7 +46,7 @@ export const Board = ({ fullScreenBtn = false }: BoardProps) => {
     setIsWin(false);
     setMoves(maxMoves);
     setTreasuresFound(0);
-  }
+  };
 
   const startGame = () => {
     const newTreasures: Treasure[] = [];
@@ -131,7 +120,7 @@ export const Board = ({ fullScreenBtn = false }: BoardProps) => {
       const updatedFound = treasuresFound + 1;
       setTreasuresFound(updatedFound);
 
-      if (updatedFound === treasureCount) {
+      if (updatedFound === treasuresCount) {
         setIsEnd(true);
         setIsWin(true);
       }
@@ -155,31 +144,7 @@ export const Board = ({ fullScreenBtn = false }: BoardProps) => {
           return (
             <div key={rowIndex} className="flex flex-row flex-nowrap gap-1">
               {row.map((cell, colIndex) => {
-                return (
-                  <div
-                    key={`${rowIndex}-${colIndex}`}
-                    onClick={() => handleCellClick(rowIndex, colIndex)}
-                    className={`
-    w-10 h-10 flex items-center justify-center 
-    font-bold rounded-sm select-none transition-all duration-200
-    ${
-      cell.isRevealed
-        ? 'bg-indigo-200 shadow-inner'
-        : 'bg-indigo-500 cursor-pointer hover:bg-indigo-400 shadow-md'
-    }
-  `}
-                  >
-                    {cell.isRevealed && (
-                      <>
-                        {cell.value === 'chest' && <ChestIcon />}
-                        {cell.value === 'gold' && <GoldIcon />}
-                        {cell.value !== 'chest' && cell.value !== 'gold' && (
-                          <span className="text-indigo-900 text-lg">{cell.value}</span>
-                        )}
-                      </>
-                    )}
-                  </div>
-                );
+                return <Tile key={`${rowIndex}-${colIndex}`} item={cell} onClick={() => handleCellClick(rowIndex, colIndex)} />;
               })}
             </div>
           );

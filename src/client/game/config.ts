@@ -1,4 +1,8 @@
-export const rowsCount = 6;
-export const colsCount = 6;
-export const maxMoves = 10;
-export const treasureCount = 3;
+export const config = {
+  base: {
+    rowsCount: 6,
+    colsCount: 6,
+    maxMoves: 10,
+    treasuresCount: 3
+  }
+}
