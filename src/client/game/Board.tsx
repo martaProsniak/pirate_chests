@@ -3,6 +3,7 @@ import { Tile } from './Tile';
 import { useGame } from '../hooks/useGame';
 import { Modal } from '../UI/Modal/Modal';
 import { FullScreenIcon } from '../UI/icons';
+import { useEffect, useState } from 'react';
 
 export interface BoardProps {
   fullScreenBtn?: boolean;
@@ -17,19 +18,23 @@ export const Board = ({ fullScreenBtn = false }: BoardProps) => {
     startGame,
     handleCellClick
   } = useGame('base');
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  useEffect(() => {
+    if (isEnd) {
+      setIsModalOpen(true);
+    } else {
+      setIsModalOpen(false);
+    }
+  }, [isEnd]);
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
 
   const handleRestart = () => {
     startGame();
   };
-
-  const modalFooterButton = (
-    <button
-      onClick={handleRestart}
-      className="px-8 py-3 bg-emerald-600 hover:bg-emerald-500 text-white font-black uppercase tracking-wider border-b-4 border-emerald-800 active:border-b-0 active:translate-y-1 rounded-lg shadow-lg transition-all"
-    >
-      Play Again
-    </button>
-  );
 
   return (
     <div className="font-pirate flex flex-col items-center justify-center min-h-[500px] w-full gap-5 py-4 px-2 bg-slate-800 rounded-xl relative overflow-hidden">
@@ -37,7 +42,7 @@ export const Board = ({ fullScreenBtn = false }: BoardProps) => {
       <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#fff_1px,transparent_1px)] [background-size:16px_16px]"></div>
 
       <div className="relative z-10 flex items-center gap-3 bg-slate-900/80 backdrop-blur-sm border border-slate-700/50 px-4 py-1.5 rounded-lg cursor-default">
-        <span className="text-slate-400 text-lg font-bold uppercase tracking-widest">Moves Left</span>
+        <span className="text-slate-400 text-lg font-bold uppercase tracking-widest">Rum Left</span>
         <div className={`text-xl font-black ${moves <= 3 ? 'text-red-500 animate-pulse' : 'text-amber-400'}`}>
           {moves}
         </div>
@@ -52,6 +57,7 @@ export const Board = ({ fullScreenBtn = false }: BoardProps) => {
                   key={`${rowIndex}-${colIndex}`}
                   item={cell}
                   onClick={() => handleCellClick(rowIndex, colIndex)}
+                  highlighted={cell.isHighlighted}
                 />
               ))}
             </div>
@@ -78,20 +84,19 @@ export const Board = ({ fullScreenBtn = false }: BoardProps) => {
       </div>
 
       <Modal
-        isOpen={isEnd}
-        onClose={handleRestart}
-        title={isWin ? "Victory!" : "Game Over"}
-        footer={modalFooterButton}
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+        handleRestart={handleRestart}
       >
-        {isWin ? (
-          <p className="text-center">
-            You found all the treasures! The island is clean.
-          </p>
-        ) : (
-          <p className="text-center">
-            You ran out of moves. The treasures remain hidden...
-          </p>
-        )}
+        <h3 className={`font-pirate text-base mb-1 drop-shadow-sm ${isWin ? 'text-emerald-700' : 'text-red-800'}`}>
+          {isWin ? "Victory!" : "Game Over"}
+        </h3>
+        <p className="opacity-90">
+          {isWin
+            ? "You found all the treasures! You'rrgh rich!"
+            : "Out of rum! Other pirates found the treasures!"
+          }
+        </p>
       </Modal>
     </div>
   );

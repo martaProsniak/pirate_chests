@@ -4,9 +4,10 @@ import { ChestIcon, GoldIcon } from '../UI/icons';
 interface TileProps {
   item: MatrixItem;
   onClick: () => void;
+  highlighted?: boolean | undefined;
 }
 
-export const Tile = ({ item, onClick }: TileProps) => {
+export const Tile = ({ item, onClick, highlighted }: TileProps) => {
   const { isRevealed, value } = item;
 
   const baseClasses = "w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center font-bold rounded-md select-none transition-all duration-75";
@@ -20,7 +21,7 @@ export const Tile = ({ item, onClick }: TileProps) => {
     active:border-b-2 active:translate-y-[2px]
   `;
 
-  const revealedClasses = "bg-amber-100 shadow-inner border-2 border-amber-900/20";
+  const revealedClasses = `bg-amber-100 shadow-inner border-2 ${!highlighted ? 'border-amber-900/20' : 'border-red-600/80'}`;
 
   return (
     <div

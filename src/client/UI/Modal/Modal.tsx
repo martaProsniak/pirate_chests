@@ -1,95 +1,61 @@
-import { ReactNode, SyntheticEvent, useEffect, useRef } from 'react';
 import styles from './Modal.module.css';
-import { CloseIcon } from '../icons';
+import { ReactNode } from 'react';
 
 interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
-  title?: string;
   children?: ReactNode;
-  footer?: ReactNode;
+  handleRestart: () => void;
 }
 
-export const Modal = ({ isOpen, onClose, title, children, footer }: ModalProps) => {
-  const dialogRef = useRef<HTMLDialogElement>(null);
-
-  useEffect(() => {
-    const dialog = dialogRef.current;
-    if (!dialog) return;
-
-    if (isOpen) {
-      if (!dialog.open) dialog.showModal();
-    } else {
-      if (dialog.open) dialog.close();
-    }
-  }, [isOpen]);
-
-  const handleCancel = (e: SyntheticEvent) => {
-    e.preventDefault();
-    onClose();
-  };
-
+export const Modal = ({ isOpen, onClose, children, handleRestart }: ModalProps) => {
   if (!isOpen) return null;
 
   return (
-    <dialog
-      ref={dialogRef}
-      className={`font-pirate ${styles.gameDialog}`}
-      onCancel={handleCancel}
-      onClick={(e) => {
-        const dialogDimensions = e.currentTarget.getBoundingClientRect();
-        if (
-          e.clientX < dialogDimensions.left ||
-          e.clientX > dialogDimensions.right ||
-          e.clientY < dialogDimensions.top ||
-          e.clientY > dialogDimensions.bottom
-        ) {
-          onClose();
-        }
-      }}
-    >
+    <div className="fixed bottom-4 left-0 right-0 z-50 flex justify-center px-4 pointer-events-none">
+
       <div
-        className="
-          relative w-[90vw] max-w-md
-          bg-amber-100
-          border-4 border-amber-900
-          shadow-[8px_8px_0_0_rgba(0,0,0,0.3)]
+        className={`
+          relative w-full max-w-md 
+          border-4 border-amber-900 
+          shadow-2xl
           rounded-lg
           text-amber-900
           overflow-hidden
-        "
-        onClick={(e) => e.stopPropagation()}
+          pointer-events-auto
+          ${styles.slideUpAnimation}
+        `}
       >
-        <button
-          onClick={onClose}
-          className="
-            absolute top-3 right-3 p-1
-            text-amber-800 hover:text-red-700 hover:bg-amber-200
-            border-2 border-transparent hover:border-amber-800 rounded
-            transition-colors
-          "
-        >
-          <CloseIcon />
-        </button>
-
-        {title && (
-          <div className="bg-amber-200/50 px-6 pt-5 pb-3 border-b-2 border-amber-800/20">
-            <h2 className="text-2xl font-black uppercase tracking-wide text-amber-900 drop-shadow-sm">
-              {title}
-            </h2>
-          </div>
-        )}
-
-        <div className="px-6 py-6 text-lg font-medium leading-relaxed">
+        <div className="bg-amber-100/90 backdrop-blur-sm px-5 pt-3 pb-2 text-sm sm:text-base font-medium leading-snug">
           {children}
         </div>
-
-        {footer && (
-          <div className="px-6 py-4 bg-amber-200/30 border-t-2 border-amber-800/20 flex justify-center">
-            {footer}
-          </div>
-        )}
+        <div className="px-4 pb-3 pt-2 bg-amber-100 border-t-2 border-amber-800/20 flex justify-between items-center gap-4">
+          <button
+            onClick={onClose}
+            className="
+              px-4 py-0.5
+              text-amber-900/70 hover:text-amber-900 hover:bg-amber-200/50
+              font-pirate text-base tracking-wider
+              border-2 border-transparent hover:border-amber-800/30
+              rounded transition-all
+            "
+          >
+            Close
+          </button>
+          <button
+            onClick={handleRestart}
+            className="
+        px-4 py-0.5
+        bg-emerald-600 hover:bg-emerald-500
+        text-white font-pirate text-base tracking-wider
+        border-b-4 border-emerald-800 active:border-b-0 active:translate-y-1
+        rounded shadow-md transition-all
+      "
+          >
+            Play Again
+          </button>
+        </div>
       </div>
-    </dialog>
+    </div>
   );
 };

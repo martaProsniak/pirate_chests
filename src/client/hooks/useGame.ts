@@ -75,6 +75,7 @@ export const useGame = (initialDifficulty: 'base' = 'base') => {
             value: treasure.kind as string,
             isRevealed: false,
             nearestTreasure: treasure.kind,
+            isTreasure: true
           };
         }
 
@@ -107,7 +108,7 @@ export const useGame = (initialDifficulty: 'base' = 'base') => {
 
     setMatrix(newMatrix);
 
-    if (currentCell.value === 'chest' || currentCell.value === 'gold') {
+    if (currentCell.isTreasure) {
       const updatedFound = treasuresFound + 1;
       setTreasuresFound(updatedFound);
 
@@ -119,11 +120,27 @@ export const useGame = (initialDifficulty: 'base' = 'base') => {
     }
 
     const leftMoves = moves - 1;
+
     if (leftMoves === 0) {
+      revealTreasures();
       setIsEnd(true);
     }
+
     setMoves(leftMoves);
   };
+
+  const revealTreasures = () =>{
+    const newMatrix = matrix.map((row) => {
+      return row.map((cell) => {
+        if (cell.isTreasure) {
+          return {...cell, isRevealed: true, isHighlighted: true };
+        }
+        return cell;
+      })
+    });
+
+    setMatrix(newMatrix);
+  }
 
   useEffect(() => {
     startGame();

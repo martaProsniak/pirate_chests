@@ -10,4 +10,6 @@ export interface MatrixItem {
   value: string;
   isRevealed: boolean;
   nearestTreasure?: TreasureKind | null;
+  isTreasure?: boolean;
+  isHighlighted?: boolean;
 }
