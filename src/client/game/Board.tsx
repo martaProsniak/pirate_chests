@@ -52,6 +52,13 @@ export const Board = ({ fullScreenBtn = false }: BoardProps) => {
     );
   };
 
+  const resetState = () => {
+    setIsEnd(false);
+    setIsWin(false);
+    setMoves(maxMoves);
+    setTreasuresFound(0);
+  }
+
   const startGame = () => {
     const newTreasures: Treasure[] = [];
     const treasuresToPlace: TreasureKind[] = ['chest', 'gold', 'gold'];
@@ -97,6 +104,7 @@ export const Board = ({ fullScreenBtn = false }: BoardProps) => {
     });
 
     setMatrix(filledMatrix);
+    resetState();
   };
 
   const handleCellClick = (rowIndex: number, colIndex: number) => {
