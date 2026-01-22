@@ -5,12 +5,13 @@ import '../index.css';
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import {Board} from '../game/Board';
+import { Layout } from '../UI/Layout';
 
 export const Splash = () => {
   return (
-    <div className="flex relative flex-col items-center min-h-screen gap-4 bg-stone-950 text-white">
+    <Layout>
       <Board fullScreenBtn={true} />
-    </div>
+    </Layout>
   );
 };
 

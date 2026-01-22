@@ -40,10 +40,7 @@ export const Board = ({ fullScreenBtn = false }: BoardProps) => {
   };
 
   return (
-    <div className="font-pirate flex flex-col items-center min-h-screen w-full bg-slate-800 rounded-xl relative overflow-hidden">
-
-      <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#fff_1px,transparent_1px)] [background-size:16px_16px]"></div>
-
+    <div className="relative overflow-hidden">
       <div className="max-w-[368px] flex flex-col items-center gap-5 py-4 px-2">
         <div className="relative z-10 flex w-full items-end justify-between gap-x-3">
           <GameProgress
