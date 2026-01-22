@@ -11,7 +11,7 @@ export const Actions = ({ onRestart, onFullscreen, showFullscreenButton = false 
     flex items-center justify-center
     w-10 h-10
     bg-emerald-600 hover:bg-emerald-500
-    text-white
+    text-white cursor-pointer
     border-b-4 border-emerald-800 active:border-b-0 active:translate-y-1 active:mt-1
     rounded-lg shadow-md transition-all
   `;
