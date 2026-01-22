@@ -27,7 +27,7 @@ export const GameProgress = ({ moves, treasuresFound, totalTreasures }: GameProg
           Treasures
         </span>
         <span className="text-xl leading-none text-emerald-400 drop-shadow-md">
-          {treasuresFound}<span className="text-slate-500 text-lg">&nbsp;/&nbsp;</span>{totalTreasures}
+          {treasuresFound}<span className="text-slate-500 text-xl leading-none mx-1">&nbsp;/&nbsp;</span>{totalTreasures}
         </span>
       </div>
     </div>

@@ -41,7 +41,8 @@ export const Board = ({ fullScreenBtn = false }: BoardProps) => {
 
   return (
     <div className="relative overflow-hidden">
-      <div className="max-w-[368px] md:max-w-[440px] flex flex-col items-center gap-5 py-4 px-2">
+      <div className="min-w-fit flex flex-col items-center gap-5 py-4 px-2">
+
         <div className="relative z-10 flex w-full items-end justify-between gap-x-3">
           <GameProgress
             moves={moves}
@@ -55,6 +56,7 @@ export const Board = ({ fullScreenBtn = false }: BoardProps) => {
             showFullscreenButton={fullScreenBtn}
           />
         </div>
+
         <div className="relative z-10 p-3 bg-amber-200 rounded-lg shadow-[0_10px_20px_rgba(0,0,0,0.5)] border-4 border-amber-800/50">
           <div className="flex flex-col gap-1 sm:gap-1.5">
             {matrix.map((row, rowIndex) => (
@@ -64,7 +66,6 @@ export const Board = ({ fullScreenBtn = false }: BoardProps) => {
                     key={`${rowIndex}-${colIndex}`}
                     item={cell}
                     onClick={() => handleCellClick(rowIndex, colIndex)}
-                    highlighted={cell.isHighlighted}
                   />
                 ))}
               </div>
@@ -88,6 +89,7 @@ export const Board = ({ fullScreenBtn = false }: BoardProps) => {
           }
         </p>
       </Modal>
+
     </div>
   );
 };
