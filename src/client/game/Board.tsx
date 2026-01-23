@@ -41,9 +41,9 @@ export const Board = ({ fullScreenBtn = false }: BoardProps) => {
 
   return (
     <div className="relative overflow-hidden">
-      <div className="min-w-fit flex flex-col items-center gap-5 py-4 px-2">
+      <div className="min-w-fit flex flex-col items-center gap-3 py-4 px-2">
 
-        <div className="relative z-10 flex w-full items-end justify-between gap-x-3">
+        <div className="relative z-10 flex w-full items-end justify-between gap-x-3 px-6">
           <GameProgress
             moves={moves}
             treasuresFound={treasuresFound}
@@ -57,10 +57,15 @@ export const Board = ({ fullScreenBtn = false }: BoardProps) => {
           />
         </div>
 
-        <div className="relative z-10 p-3 bg-amber-200 rounded-lg shadow-[0_10px_20px_rgba(0,0,0,0.5)] border-4 border-amber-800/50">
-          <div className="flex flex-col gap-1 sm:gap-1.5">
+        <div className="relative z-10 p-10">
+          <img
+            src="/images/island.png"
+            alt="Island map"
+            className="absolute inset-0 w-full h-full object-contain pointer-events-none z-0"
+          />
+          <div className="relative flex flex-col gap-1">
             {matrix.map((row, rowIndex) => (
-              <div key={rowIndex} className="flex gap-1 sm:gap-1.5">
+              <div key={rowIndex} className="flex gap-1">
                 {row.map((cell, colIndex) => (
                   <Tile
                     key={`${rowIndex}-${colIndex}`}

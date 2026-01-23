@@ -12,17 +12,16 @@ export const Tile = ({ item, onClick }: TileProps) => {
   const baseClasses = "w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center font-bold rounded-md select-none transition-all duration-75";
 
   const hiddenClasses = `
-    bg-amber-500 
-    border-2 border-b-4 border-amber-700 
+    border-2 border-stone-700 border-dashed
     text-transparent
     cursor-pointer 
-    hover:bg-amber-400 hover:border-amber-600
+    hover:bg-stone-400 hover:border-stone-600
     active:border-b-2 active:translate-y-[2px]
   `;
 
-  const borderColorClass = isTreasure ? 'border-emerald-600/80' : 'border-amber-900/20';
+  const borderColorClass = isTreasure ? 'border-emerald-600' : 'border-stone-600';
 
-  const revealedClasses = `bg-amber-100 shadow-inner border-2 ${!isHighlighted ? borderColorClass : 'border-red-600/80'}`;
+  const revealedClasses = `shadow-inner border-2 ${isTreasure ? 'bg-yellow-100' : 'bg-transparent'} ${!isHighlighted ? borderColorClass : 'border-red-600/80'}`;
 
   return (
     <div
@@ -46,5 +45,5 @@ const getValueColor = () => {
   // const num = parseInt(val);
   // if (num === 1) return "text-green-500 font-black";
   // if (num === 2) return "text-green-700 font-extrabold";
-  return "text-amber-900/60 font-bold";
+  return "text-stone-900/60 font-bold";
 };
