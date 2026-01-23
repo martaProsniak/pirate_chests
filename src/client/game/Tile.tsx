@@ -12,16 +12,16 @@ export const Tile = ({ item, onClick }: TileProps) => {
   const baseClasses = "w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center font-bold rounded-md select-none transition-all duration-75";
 
   const hiddenClasses = `
-    border-2 border-stone-700 border-dashed
+    border-1 border-stone-700 border-dashed
     text-transparent
     cursor-pointer 
-    hover:bg-stone-400 hover:border-stone-600
+    hover:bg-amber-500 hover:border-amber-600
     active:border-b-2 active:translate-y-[2px]
   `;
 
   const borderColorClass = isTreasure ? 'border-emerald-600' : 'border-stone-600';
 
-  const revealedClasses = `shadow-inner border-2 ${isTreasure ? 'bg-yellow-100' : 'bg-transparent'} ${!isHighlighted ? borderColorClass : 'border-red-600/80'}`;
+  const revealedClasses = `shadow-inner border-2 ${isTreasure ? 'bg-amber-100' : 'bg-transparent'} ${!isHighlighted ? borderColorClass : 'border-red-600/80'}`;
 
   return (
     <div
