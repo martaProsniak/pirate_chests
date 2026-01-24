@@ -41,9 +41,11 @@ export const Board = ({ fullScreenBtn = false }: BoardProps) => {
 
   return (
     <div className="relative overflow-hidden">
-      <div className="min-w-fit flex flex-col items-center gap-4 py-4 px-2">
+      <div className="min-w-fit flex flex-col items-center gap-2 py-4 px-2">
 
-        <div className="relative z-10 flex w-full items-end justify-between gap-x-3 px-6">
+        <div className="relative z-10 flex w-full items-end justify-between gap-x-3 px-6 py-2 bg-amber-100/90 border-2 border-cyan-950
+          shadow-2xl
+          rounded-lg">
           <GameProgress
             moves={moves}
             treasuresFound={treasuresFound}
@@ -59,7 +61,7 @@ export const Board = ({ fullScreenBtn = false }: BoardProps) => {
 
         <div className="relative z-10 p-10">
           <img
-            src="/images/island.png"
+            src="/images/board.png"
             alt="Island map"
             className="absolute inset-0 w-full h-full object-contain pointer-events-none z-0"
           />
