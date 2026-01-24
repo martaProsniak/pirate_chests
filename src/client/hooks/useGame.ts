@@ -133,7 +133,8 @@ export const useGame = (initialDifficulty: 'base' = 'base') => {
     const newMatrix = matrix.map((row) => {
       return row.map((cell) => {
         if (cell.isTreasure) {
-          return {...cell, isRevealed: true, isHighlighted: true };
+          const highlighted = cell.isRevealed;
+          return {...cell, isRevealed: true, isHighlighted: !highlighted };
         }
         return cell;
       })

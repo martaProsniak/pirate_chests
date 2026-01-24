@@ -1,3 +1,37 @@
+import { ReactNode } from 'react';
+
+
+interface ProgressSectionProps {
+  label: string;
+  value: ReactNode;
+  iconSrc: string;
+  classes?: string;
+  imgClasses?: string;
+}
+
+const ProgressSection = ({ label, value, iconSrc, classes = '', imgClasses = '' }: ProgressSectionProps) => {
+  return (
+    <div className="flex items-center min-h-[44px]">
+      <img
+        src={iconSrc}
+        alt={label}
+        className={`object-contain w-14 h-14 select-none ${imgClasses}`}
+      />
+
+      <div className="flex flex-col gap-1 justify-center">
+        <span className="text-stone-600 text-xs font-bold uppercase tracking-widest leading-tight">
+          {label}
+        </span>
+        <span className={`text-xl font-pirate leading-none drop-shadow-sm ${classes}`}>
+          {value}
+        </span>
+      </div>
+
+    </div>
+  );
+};
+
+
 interface GameProgressProps {
   moves: number;
   treasuresFound: number;
@@ -6,30 +40,32 @@ interface GameProgressProps {
 
 export const GameProgress = ({ moves, treasuresFound, totalTreasures }: GameProgressProps) => {
   return (
-    <div className="flex gap-4 select-none">
+    <div className="flex items-center gap-3 select-none">
 
-      {/* Rum Left */}
-      <div className="flex flex-col items-center gap-y-1">
-        <span className="text-slate-400 text-sm tracking-widest uppercase">
-          Rum Left
-        </span>
-        <span className={`text-xl leading-none drop-shadow-md ${moves <= 3 ? 'text-red-500 animate-pulse' : 'text-amber-400'}`}>
-          {moves}
-        </span>
-      </div>
+      {/* RUM SECTION */}
+      <ProgressSection
+        label="Rum Left"
+        iconSrc="/images/rum.png"
+        value={moves}
+        classes={moves <= 3 ? 'text-red-500 animate-pulse' : 'text-stone-800'}
+      />
 
-      {/* Separator */}
-      <div className="w-[1px] bg-slate-600/50 self-center h-8 mx-1"></div>
+      {/* SEPARATOR */}
+      <div className="w-[1px] bg-stone-600/40 h-8"></div>
 
-      {/* Treasures */}
-      <div className="flex flex-col items-center gap-y-1">
-        <span className="text-slate-400 text-sm tracking-widest uppercase">
-          Treasures
-        </span>
-        <span className="text-xl leading-none text-emerald-400 drop-shadow-md">
-          {treasuresFound}<span className="text-slate-500 text-xl leading-none mx-1">&nbsp;/&nbsp;</span>{totalTreasures}
-        </span>
-      </div>
+      {/* TREASURES SECTION */}
+      <ProgressSection
+        label="Treasures"
+        iconSrc="/images/gold.png"
+        value={
+          <>
+            {treasuresFound} <span className="text-stone-600 text-xl leading-none">/</span> {totalTreasures}
+          </>
+        }
+        classes="text-stone-800"
+        imgClasses="-ml-3"
+      />
+
     </div>
   );
 };

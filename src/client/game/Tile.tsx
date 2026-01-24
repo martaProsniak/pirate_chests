@@ -1,5 +1,5 @@
-import { MatrixItem } from './types';
-import { GoldIcon } from '../UI/icons';
+import { MatrixItem, TreasureKind } from './types';
+import { Treasure } from './Treasure';
 
 interface TileProps {
   item: MatrixItem;
@@ -9,19 +9,18 @@ interface TileProps {
 export const Tile = ({ item, onClick }: TileProps) => {
   const { isRevealed, value, isTreasure, isHighlighted } = item;
 
-  const baseClasses = "w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center font-bold rounded-md select-none transition-all duration-75";
+  const baseClasses = "w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center font-bold rounded-md select-none transition-all duration-75 border-dashed";
 
   const hiddenClasses = `
-    border-1 border-b-2 border-green-700 border-dashed
     text-transparent
     cursor-pointer 
-    hover:bg-green-400/60 hover:border-b-3 hover:border-green-900
+    hover:border-1 hover:border-b-2 hover:border-green-900
     active:border-b-2 active:translate-y-[2px]
   `;
 
-  const borderColorClass = isTreasure ? 'border-emerald-700' : 'border-green-700';
+  const regularRevealedClasses = isTreasure ? 'border-yellow-600 bg-yellow-300' : 'bg-stone-500 border-stone-800';
 
-  const revealedClasses = `shadow-inner border-1 ${isTreasure ? '' : 'bg-transparent'} ${!isHighlighted ? borderColorClass : 'border-red-600/80'}`;
+  const revealedClasses = `shadow-inner border-1 ${isHighlighted ? 'border-red-600 bg-red-300' : regularRevealedClasses }`;
 
   return (
     <div
@@ -36,14 +35,8 @@ export const Tile = ({ item, onClick }: TileProps) => {
     >
       {isRevealed && (
         <>
-          {value === 'chest' && <div className="w-full h-full" style={{
-            backgroundImage: 'url("/images/chest.png")',
-            backgroundSize: 'contain',
-            backgroundPosition: 'center',
-            backgroundRepeat: 'no-repeat',
-          }}></div>}
-          {value === 'gold' && <GoldIcon />}
-          {value !== 'chest' && value !== 'gold' && (
+          {isTreasure && <Treasure kind={(value as TreasureKind)} />}
+          {!isTreasure && (
             <span className={`text-xl ${getValueColor()}`}>{value}</span>
           )}
         </>
@@ -56,5 +49,5 @@ const getValueColor = () => {
   // const num = parseInt(val);
   // if (num === 1) return "text-green-500 font-black";
   // if (num === 2) return "text-green-700 font-extrabold";
-  return "text-green-900/60 font-bold";
+  return "text-stone-100 font-bold";
 };
