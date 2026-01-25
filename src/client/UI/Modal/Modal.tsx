@@ -17,19 +17,23 @@ export const Modal = ({ isOpen, onClose, children, handleRestart }: ModalProps) 
       <div
         className={`
           relative w-full max-w-md 
-          border-4 border-amber-900 
-          shadow-2xl
-          rounded-lg
-          text-amber-900
+          text-amber-900 p-8
           overflow-hidden
           pointer-events-auto
           ${styles.slideUpAnimation}
         `}
+        style={{
+          backgroundImage: 'url("/images/banner.png")',
+          backgroundSize: '120% 280%',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat',
+        }}
       >
-        <div className="bg-amber-100/90 backdrop-blur-sm px-5 pt-3 pb-2 text-sm sm:text-base font-medium leading-snug">
+        <div className="pb-2 text-sm sm:text-base font-medium leading-snug"
+        >
           {children}
         </div>
-        <div className="px-4 pb-3 pt-2 bg-amber-100 border-t-2 border-amber-800/20 flex justify-between items-center gap-4">
+        <div className="pt-2  border-t-2  flex justify-between items-center gap-4">
           <button
             onClick={onClose}
             className="
