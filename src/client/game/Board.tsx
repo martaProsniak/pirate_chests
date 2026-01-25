@@ -41,26 +41,12 @@ export const Board = ({ fullScreenBtn = false }: BoardProps) => {
 
   return (
     <div className="relative overflow-hidden">
-      <div className="min-w-fit flex flex-col items-center gap-2 py-4 px-2">
-
-        <div className="relative z-10 flex w-full items-center justify-between gap-x-3 px-4 py-2"
-             style={{
-               backgroundImage: 'url("/images/wooden_banner_wide.png")',
-               backgroundSize: '142% 280%',
-               backgroundPosition: 'center',
-               backgroundRepeat: 'no-repeat',
-             }}
-        >
+      <div className="min-w-fit flex flex-col items-center py-1 px-2">
+        <div className="relative z-10 flex w-full items-center justify-center gap-x-1 px-4">
           <GameProgress
             moves={moves}
             treasuresFound={treasuresFound}
             totalTreasures={totalTreasures}
-          />
-
-          <Actions
-            onRestart={startGame}
-            onFullscreen={(e) => requestExpandedMode(e.nativeEvent, 'game')}
-            showFullscreenButton={fullScreenBtn}
           />
         </div>
 
@@ -101,6 +87,12 @@ export const Board = ({ fullScreenBtn = false }: BoardProps) => {
           }
         </p>
       </Modal>
+
+      <Actions
+        onRestart={startGame}
+        onFullscreen={(e) => requestExpandedMode(e.nativeEvent, 'game')}
+        showFullscreenButton={fullScreenBtn}
+      />
 
     </div>
   );

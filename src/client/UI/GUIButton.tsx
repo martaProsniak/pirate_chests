@@ -13,7 +13,7 @@ export const GuiButton = ({onClick, classes, label = '', image}: IGuiButtonProps
       aria-label={label}
       style={{
         backgroundImage: `url("/images/${image}.png")`,
-        backgroundSize: '100% 100%',
+        backgroundSize: '140% 140%',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
       }}

@@ -11,18 +11,18 @@ interface ProgressSectionProps {
 
 const ProgressSection = ({ label, value, iconSrc, classes = '', imgClasses = '' }: ProgressSectionProps) => {
   return (
-    <div className="flex items-center min-h-[44px]">
+    <div className="flex gap-x-1 items-center">
       <img
         src={iconSrc}
         alt={label}
-        className={`object-contain w-12 h-12 select-none ${imgClasses}`}
+        className={`object-contain h-12 select-none ${imgClasses}`}
       />
 
       <div className="flex flex-col gap-1 justify-center">
         <span className="text-orange-100 text-xs font-bold uppercase tracking-widest leading-tight">
           {label}
         </span>
-        <span className={`text-xl font-pirate leading-none drop-shadow-sm ${classes}`}>
+        <span className={`text-lg font-pirate leading-none drop-shadow-sm ${classes}`}>
           {value}
         </span>
       </div>
@@ -40,7 +40,14 @@ interface GameProgressProps {
 
 export const GameProgress = ({ moves, treasuresFound, totalTreasures }: GameProgressProps) => {
   return (
-    <div className="flex items-center gap-3 select-none">
+    <div className="flex w-fit items-center justify-between gap-2 select-none py-4 px-6"
+         style={{
+           backgroundImage: 'url("/images/wooden_banner.png")',
+           backgroundSize: '200% 240%',
+           backgroundPosition: 'center',
+           backgroundRepeat: 'no-repeat',
+         }}
+    >
 
       {/* RUM SECTION */}
       <ProgressSection

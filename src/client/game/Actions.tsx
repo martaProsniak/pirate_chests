@@ -9,7 +9,7 @@ interface ActionsProps {
 export const Actions = ({ onRestart, onFullscreen, showFullscreenButton = false }: ActionsProps) => {
 
   return (
-    <div className="flex items-end gap-2 mr-3">
+    <div className="fixed bottom-2 right-4 flex md:flex-col items-end gap-2 z-20">
       <GuiButton onClick={onRestart} label="Restart Game" image="replay_btn" />
 
       {showFullscreenButton && onFullscreen && (
