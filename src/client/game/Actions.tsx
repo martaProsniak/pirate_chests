@@ -9,15 +9,15 @@ interface ActionsProps {
 export const Actions = ({ onRestart, onFullscreen, showFullscreenButton = false }: ActionsProps) => {
   const btnClasses = `
     flex items-center justify-center
-    w-10 h-10
-    bg-emerald-600 hover:bg-emerald-500
+    w-8 h-8
+    bg-stone-500 hover:bg-stone-600
     text-white cursor-pointer
-    border-b-4 border-emerald-800 active:border-b-0 active:translate-y-1 active:mt-1
+    border-2 border-stone-800 active:border-b-0 active:translate-y-1 active:mt-1
     rounded-lg shadow-md transition-all
   `;
 
   return (
-    <div className="flex items-end gap-3">
+    <div className="flex items-end gap-2 mr-3">
       {/* Replay Button */}
       <button
         onClick={onRestart}

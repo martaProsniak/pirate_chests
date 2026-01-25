@@ -15,7 +15,7 @@ const ProgressSection = ({ label, value, iconSrc, classes = '', imgClasses = '' 
       <img
         src={iconSrc}
         alt={label}
-        className={`object-contain w-14 h-14 select-none ${imgClasses}`}
+        className={`object-contain w-12 h-12 select-none ${imgClasses}`}
       />
 
       <div className="flex flex-col gap-1 justify-center">
@@ -44,26 +44,22 @@ export const GameProgress = ({ moves, treasuresFound, totalTreasures }: GameProg
 
       {/* RUM SECTION */}
       <ProgressSection
-        label="Rum Left"
+        label="Rum"
         iconSrc="/images/rum.png"
         value={moves}
         classes={moves <= 3 ? 'text-red-500 animate-pulse' : 'text-stone-800'}
       />
 
-      {/* SEPARATOR */}
-      <div className="w-[1px] bg-stone-600/40 h-8"></div>
-
       {/* TREASURES SECTION */}
       <ProgressSection
         label="Treasures"
-        iconSrc="/images/gold.png"
+        iconSrc="/images/gold-hud.png"
         value={
           <>
             {treasuresFound} <span className="text-stone-600 text-xl leading-none">/</span> {totalTreasures}
           </>
         }
         classes="text-stone-800"
-        imgClasses="-ml-3"
       />
 
     </div>
