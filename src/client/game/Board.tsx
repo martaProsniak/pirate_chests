@@ -41,7 +41,7 @@ export const Board = ({ fullScreenBtn = false }: BoardProps) => {
 
   return (
     <div className="relative overflow-hidden">
-      <div className="min-w-fit flex flex-col items-center py-1 px-2">
+      <div className="min-w-fit flex flex-col items-center gap-4 py-1 px-2">
         <div className="relative z-10 flex w-full items-center justify-center gap-x-1 px-4">
           <GameProgress
             moves={moves}
