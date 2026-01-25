@@ -2,6 +2,17 @@ import { useState, useEffect } from 'react';
 import { config } from '../game/config';
 import { MatrixItem, Treasure, TreasureKind } from '../game/types';
 
+type PointsMap = {
+  [key in TreasureKind]: number
+}
+
+const pointsMap: PointsMap = {
+  chest: 200,
+  gold: 50
+}
+
+const RUM_POINTS = 10;
+
 const shuffleArray = (array: number[]): number[] => {
   const newArray = [...array];
   for (let i = newArray.length - 1; i > 0; i--) {
@@ -37,6 +48,7 @@ export const useGame = (initialDifficulty: 'base' = 'base') => {
   const [isEnd, setIsEnd] = useState(false);
   const [treasuresFound, setTreasuresFound] = useState<number>(0);
   const [isWin, setIsWin] = useState(false);
+  const [points, setPoints] = useState(0);
 
   // Actions
   const resetState = () => {
@@ -44,6 +56,7 @@ export const useGame = (initialDifficulty: 'base' = 'base') => {
     setIsWin(false);
     setMoves(maxMoves);
     setTreasuresFound(0);
+    setPoints(0);
   };
 
   const startGame = () => {
@@ -111,12 +124,17 @@ export const useGame = (initialDifficulty: 'base' = 'base') => {
     if (currentCell.isTreasure) {
       const updatedFound = treasuresFound + 1;
       setTreasuresFound(updatedFound);
+      let newPoints = points + pointsMap[(currentCell.value as TreasureKind)];
 
       if (updatedFound === treasures.length) {
         setIsEnd(true);
         setIsWin(true);
+        newPoints = newPoints + moves * RUM_POINTS
+        setPoints(newPoints);
         return;
       }
+
+      setPoints(newPoints);
     }
 
     const leftMoves = moves - 1;
@@ -156,5 +174,6 @@ export const useGame = (initialDifficulty: 'base' = 'base') => {
     startGame,
     handleCellClick,
     totalTreasures: treasures.length,
+    points
   };
 };
