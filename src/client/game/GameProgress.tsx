@@ -19,7 +19,7 @@ const ProgressSection = ({ label, value, iconSrc, classes = '', imgClasses = '' 
       />
 
       <div className="flex flex-col gap-1 justify-center">
-        <span className="text-stone-600 text-xs font-bold uppercase tracking-widest leading-tight">
+        <span className="text-orange-100 text-xs font-bold uppercase tracking-widest leading-tight">
           {label}
         </span>
         <span className={`text-xl font-pirate leading-none drop-shadow-sm ${classes}`}>
@@ -47,7 +47,7 @@ export const GameProgress = ({ moves, treasuresFound, totalTreasures }: GameProg
         label="Rum"
         iconSrc="/images/rum.png"
         value={moves}
-        classes={moves <= 3 ? 'text-red-500 animate-pulse' : 'text-stone-800'}
+        classes={moves <= 3 ? 'text-red-300 animate-pulse' : 'text-orange-200'}
       />
 
       {/* TREASURES SECTION */}
@@ -56,10 +56,10 @@ export const GameProgress = ({ moves, treasuresFound, totalTreasures }: GameProg
         iconSrc="/images/gold-hud.png"
         value={
           <>
-            {treasuresFound} <span className="text-stone-600 text-xl leading-none">/</span> {totalTreasures}
+            {treasuresFound} <span className="text-xl leading-none">/</span> {totalTreasures}
           </>
         }
-        classes="text-stone-800"
+        classes="text-orange-200"
       />
 
     </div>

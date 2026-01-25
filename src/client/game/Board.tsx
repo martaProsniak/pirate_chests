@@ -45,8 +45,8 @@ export const Board = ({ fullScreenBtn = false }: BoardProps) => {
 
         <div className="relative z-10 flex w-full items-center justify-between gap-x-3 px-4 py-2"
              style={{
-               backgroundImage: 'url("/images/banner.png")',
-               backgroundSize: '120% 310%',
+               backgroundImage: 'url("/images/wooden_banner_wide.png")',
+               backgroundSize: '142% 280%',
                backgroundPosition: 'center',
                backgroundRepeat: 'no-repeat',
              }}
@@ -91,10 +91,10 @@ export const Board = ({ fullScreenBtn = false }: BoardProps) => {
         onClose={handleCloseModal}
         handleRestart={handleRestart}
       >
-        <h3 className={`font-pirate text-base mb-1 drop-shadow-sm ${isWin ? 'text-emerald-700' : 'text-red-800'}`}>
-          {isWin ? "Victory!" : "Game Over"}
+        <h3 className={`font-pirate text-base mb-1 drop-shadow-sm ${isWin ? 'text-green-300' : 'text-red-300'}`}>
+          {isWin ? "Victory!" : "Game Over!"}
         </h3>
-        <p className="opacity-90">
+        <p className="text-orange-200">
           {isWin
             ? "You found all the treasures! You'rrgh rich!"
             : "Out of rum! Other pirates found the treasures!"

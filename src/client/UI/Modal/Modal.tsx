@@ -17,14 +17,14 @@ export const Modal = ({ isOpen, onClose, children, handleRestart }: ModalProps) 
       <div
         className={`
           relative w-full max-w-md 
-          text-amber-900 p-8
+          text-oragne-200 py-6 px-10
           overflow-hidden
           pointer-events-auto
           ${styles.slideUpAnimation}
         `}
         style={{
-          backgroundImage: 'url("/images/banner.png")',
-          backgroundSize: '120% 280%',
+          backgroundImage: 'url("/images/wooden_banner_wide.png")',
+          backgroundSize: '142% 280%',
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat',
         }}
@@ -38,7 +38,7 @@ export const Modal = ({ isOpen, onClose, children, handleRestart }: ModalProps) 
             onClick={onClose}
             className="
               px-4 py-0.5
-              text-amber-900/70 hover:text-amber-900 hover:bg-amber-200/50
+              text-orange-100 hover:text-orange-300
               font-pirate text-base tracking-wider
               border-2 border-transparent hover:border-amber-800/30
               rounded transition-all
@@ -50,9 +50,9 @@ export const Modal = ({ isOpen, onClose, children, handleRestart }: ModalProps) 
             onClick={handleRestart}
             className="
         px-4 py-0.5
-        bg-emerald-600 hover:bg-emerald-500
+        bg-green-600 hover:bg-green-500
         text-white font-pirate text-base tracking-wider
-        border-b-4 border-emerald-800 active:border-b-0 active:translate-y-1
+        border-b-4 border-green-800 active:border-b-0 active:translate-y-1
         rounded shadow-md transition-all
       "
           >

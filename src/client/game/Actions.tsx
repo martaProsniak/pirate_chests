@@ -10,21 +10,26 @@ export const Actions = ({ onRestart, onFullscreen, showFullscreenButton = false 
   const btnClasses = `
     flex items-center justify-center
     w-8 h-8
-    bg-stone-500 hover:bg-stone-600
     text-white cursor-pointer
-    border-2 border-stone-800 active:border-b-0 active:translate-y-1 active:mt-1
-    rounded-lg shadow-md transition-all
+    active:translate-y-1 active:mt-1
   `;
 
   return (
-    <div className="flex items-end gap-2 mr-3">
+    <div className="flex items-end gap-2 mr-3"
+    >
       {/* Replay Button */}
       <button
         onClick={onRestart}
         className={btnClasses}
         aria-label="Restart Game"
+        style={{
+          backgroundImage: 'url("/images/button_bg.png")',
+          backgroundSize: '140% 140%',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat',
+        }}
       >
-        <ReplayIcon />
+        <ReplayIcon className="w-4 h-4 mb-1 text-amber-900" />
       </button>
 
       {/* Fullscreen Button */}
@@ -33,8 +38,14 @@ export const Actions = ({ onRestart, onFullscreen, showFullscreenButton = false 
           onClick={onFullscreen}
           className={btnClasses}
           aria-label="Full Screen"
+          style={{
+            backgroundImage: 'url("/images/button_bg.png")',
+            backgroundSize: '140% 140%',
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat',
+          }}
         >
-          <FullScreenIcon />
+          <FullScreenIcon className="w-4 h-4 mb-1 text-amber-900" />
         </button>
       )}
     </div>
