@@ -3,9 +3,10 @@ export interface IGuiButtonProps {
   image: string;
   label: string;
   classes?: string;
+  variant?: 'icon' | 'text'
 }
 
-export const GuiButton = ({onClick, classes, label = '', image}: IGuiButtonProps) => {
+export const GuiButton = ({onClick, classes, label = '', image, variant = 'icon'}: IGuiButtonProps) => {
   return (
     <button
       onClick={onClick}
@@ -13,11 +14,14 @@ export const GuiButton = ({onClick, classes, label = '', image}: IGuiButtonProps
       aria-label={label}
       style={{
         backgroundImage: `url("/images/${image}.png")`,
-        backgroundSize: '140% 140%',
+        backgroundSize: variant === 'icon' ? '140% 140%' : '280% 140%',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
       }}
     >
+      {variant === 'text' && (
+        <span>{label}</span>
+      )}
     </button>
   )
 }

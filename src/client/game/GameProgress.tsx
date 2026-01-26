@@ -40,7 +40,7 @@ interface GameProgressProps {
 
 export const GameProgress = ({ moves, treasuresFound, totalTreasures }: GameProgressProps) => {
   return (
-    <div className="flex w-fit items-center justify-between gap-4 select-none py-3 px-[110px]"
+    <div className="flex w-full items-center justify-center gap-4 select-none py-3 px-12"
          style={{
            backgroundImage: 'url("/images/banner_paper_wide.png")',
            backgroundSize: '100% 400%',

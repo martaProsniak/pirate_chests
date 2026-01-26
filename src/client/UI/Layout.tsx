@@ -11,7 +11,7 @@ export const Layout = ({ children, className = '' }: LayoutProps) => {
          style={{
            backgroundImage: 'url("/images/water.png")',
            backgroundRepeat: 'repeat',
-           backgroundSize: '256px auto',
+           backgroundSize: '128px auto',
            backgroundBlendMode: 'cover',
          }}
     >
