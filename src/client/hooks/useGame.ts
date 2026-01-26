@@ -8,7 +8,8 @@ type PointsMap = {
 
 const pointsMap: PointsMap = {
   chest: 200,
-  gold: 50
+  gold: 50,
+  bomb: 0
 }
 
 const RUM_POINTS = 10;
@@ -28,6 +29,11 @@ const findNearestTreasure = (row: number, col: number, currentTreasures: Treasur
   return currentTreasures.reduce(
     (acc: { minDistance: number; treasure: null | TreasureKind }, curr) => {
       const distance = Math.abs(curr.row - row) + Math.abs(curr.col - col);
+      if (acc.minDistance === distance && curr.kind === 'bomb') {
+        acc.minDistance = distance;
+        acc.treasure = curr.kind;
+        return acc;
+      }
       if (acc.minDistance > distance) {
         acc.minDistance = distance;
         acc.treasure = curr.kind;
@@ -41,7 +47,7 @@ const findNearestTreasure = (row: number, col: number, currentTreasures: Treasur
 export const useGame = (initialDifficulty: 'base' = 'base') => {
   // State
   const [difficulty] = useState(initialDifficulty);
-  const { rowsCount, colsCount, maxMoves, treasures } = config[difficulty];
+  const { rowsCount, colsCount, maxMoves, treasures, bombsCount } = config[difficulty];
 
   const [matrix, setMatrix] = useState<MatrixItem[][]>([]);
   const [moves, setMoves] = useState<number>(maxMoves);
@@ -49,6 +55,7 @@ export const useGame = (initialDifficulty: 'base' = 'base') => {
   const [treasuresFound, setTreasuresFound] = useState<number>(0);
   const [isWin, setIsWin] = useState(false);
   const [points, setPoints] = useState(0);
+  const [wasBombed, setWasBombed] = useState(false);
 
   // Actions
   const resetState = () => {
@@ -57,6 +64,7 @@ export const useGame = (initialDifficulty: 'base' = 'base') => {
     setMoves(maxMoves);
     setTreasuresFound(0);
     setPoints(0);
+    setWasBombed(false);
   };
 
   const startGame = () => {
@@ -85,10 +93,9 @@ export const useGame = (initialDifficulty: 'base' = 'base') => {
 
         if (treasure) {
           return {
-            value: treasure.kind as string,
+            isTreasure: true,
+            value: treasure.kind,
             isRevealed: false,
-            nearestTreasure: treasure.kind,
-            isTreasure: true
           };
         }
 
@@ -121,10 +128,15 @@ export const useGame = (initialDifficulty: 'base' = 'base') => {
 
     setMatrix(newMatrix);
 
+    if (currentCell.value === 'bomb') {
+      setWasBombed(true);
+      setIsEnd(true);
+    }
+
     if (currentCell.isTreasure) {
       const updatedFound = treasuresFound + 1;
       setTreasuresFound(updatedFound);
-      let newPoints = points + pointsMap[(currentCell.value as TreasureKind)];
+      let newPoints = points + pointsMap[(currentCell.value)];
 
       if (updatedFound === treasures.length) {
         setIsEnd(true);
@@ -174,6 +186,8 @@ export const useGame = (initialDifficulty: 'base' = 'base') => {
     startGame,
     handleCellClick,
     totalTreasures: treasures.length,
-    points
+    points,
+    wasBombed,
+    bombsCount
   };
 };

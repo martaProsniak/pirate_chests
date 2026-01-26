@@ -11,7 +11,7 @@ interface ProgressSectionProps {
 
 const ProgressSection = ({ label, value, iconSrc, classes = '', imgClasses = '' }: ProgressSectionProps) => {
   return (
-    <div className="flex gap-x-1 items-center">
+    <div className="flex gap-x-2 items-center">
       <img
         src={iconSrc}
         alt={label}
@@ -36,9 +36,10 @@ interface GameProgressProps {
   moves: number;
   treasuresFound: number;
   totalTreasures: number;
+  bombs?: number;
 }
 
-export const GameProgress = ({ moves, treasuresFound, totalTreasures }: GameProgressProps) => {
+export const GameProgress = ({ moves, treasuresFound, totalTreasures, bombs }: GameProgressProps) => {
   return (
     <div className="flex w-full items-center justify-center gap-4 select-none py-3 px-12"
          style={{
@@ -54,7 +55,7 @@ export const GameProgress = ({ moves, treasuresFound, totalTreasures }: GameProg
         label="Rum"
         iconSrc="/images/rum.png"
         value={moves}
-        classes={moves <= 3 ? 'text-red-500 animate-pulse' : 'text-stone-600'}
+        classes={moves <= 3 ? `text-red-500 ${moves > 0 && 'animate-pulse'}` : 'text-stone-600'}
       />
 
       {/* TREASURES SECTION */}
@@ -69,6 +70,15 @@ export const GameProgress = ({ moves, treasuresFound, totalTreasures }: GameProg
         classes="text-stone-600"
       />
 
+      {bombs ? (
+        <ProgressSection
+          label="Bombs"
+          iconSrc="/images/bomb_hud.png"
+          value={bombs}
+          classes="text-stone-600"
+          imgClasses="h-14"
+        />
+      ) : null}
     </div>
   );
 };

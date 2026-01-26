@@ -1,4 +1,4 @@
-export type TreasureKind = 'chest' | 'gold';
+export type TreasureKind = 'chest' | 'gold' | 'bomb';
 
 export interface Treasure {
   row: number;
@@ -6,10 +6,22 @@ export interface Treasure {
   kind: TreasureKind;
 }
 
-export interface MatrixItem {
+export interface MatrixClue {
+  isTreasure: false;
+  nearestTreasure: TreasureKind | null;
   value: string;
-  isRevealed: boolean;
-  nearestTreasure?: TreasureKind | null;
-  isTreasure?: boolean;
-  isHighlighted?: boolean;
+  isHighlighted?: false;
 }
+
+export interface MatrixTreasure {
+  isTreasure: true;
+  isHighlighted?: boolean;
+  value: TreasureKind;
+}
+
+export type MatrixItem = {
+  isRevealed: boolean;
+} & (
+  | MatrixClue
+  | MatrixTreasure
+  );

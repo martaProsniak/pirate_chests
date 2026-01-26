@@ -1,4 +1,4 @@
-import { MatrixItem, TreasureKind } from './types';
+import { MatrixClue, MatrixItem } from './types';
 import { Treasure } from './Treasure';
 
 interface TileProps {
@@ -18,7 +18,7 @@ export const Tile = ({ item, onClick }: TileProps) => {
     active:border-b-2 active:translate-y-[2px]
   `;
 
-  const regularRevealedClasses = isTreasure ? 'border-yellow-600 bg-yellow-300' : 'bg-stone-300 border-stone-800';
+  const regularRevealedClasses = !isTreasure ? 'bg-stone-300 border-stone-800' : value !== 'bomb' ? 'border-yellow-600 bg-yellow-300' : 'bg-red-300 border-red-800';
 
   const revealedClasses = `shadow-inner border-1 ${isHighlighted ? 'border-red-600 bg-red-300' : regularRevealedClasses }`;
 
@@ -35,9 +35,9 @@ export const Tile = ({ item, onClick }: TileProps) => {
     >
       {isRevealed && (
         <>
-          {isTreasure && <Treasure kind={(value as TreasureKind)} />}
+          {isTreasure && <Treasure kind={value} />}
           {!isTreasure && (
-            <span className={`text-xl ${getValueColor()}`}>{value}</span>
+            <span className={`text-xl ${getValueColor(item)}`}>{value}</span>
           )}
         </>
       )}
@@ -45,9 +45,9 @@ export const Tile = ({ item, onClick }: TileProps) => {
   );
 };
 
-const getValueColor = () => {
-  // const num = parseInt(val);
-  // if (num === 1) return "text-green-500 font-black";
-  // if (num === 2) return "text-green-700 font-extrabold";
+const getValueColor = (item: MatrixClue) => {
+  if (item.nearestTreasure=== 'bomb') {
+    return "text-red-700 font-bold";
+  }
   return "text-stone-800 font-bold";
 };
