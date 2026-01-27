@@ -41,7 +41,7 @@ export const Modal = ({ isOpen, onClose, children, handleRestart }: ModalProps) 
               text-orange-100 hover:text-orange-300
               font-pirate text-base tracking-wider
               border-2 border-transparent hover:border-amber-800/30
-              rounded transition-all
+              rounded transition-all cursor-pointer
             "
           >
             Close
@@ -53,7 +53,7 @@ export const Modal = ({ isOpen, onClose, children, handleRestart }: ModalProps) 
         bg-green-600 hover:bg-green-500
         text-white font-pirate text-base tracking-wider
         border-b-4 border-green-800 active:border-b-0 active:translate-y-1
-        rounded shadow-md transition-all
+        rounded shadow-md transition-all cursor-pointer
       "
           >
             Play Again

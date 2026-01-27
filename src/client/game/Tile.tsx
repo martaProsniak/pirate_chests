@@ -7,7 +7,7 @@ interface TileProps {
 }
 
 export const Tile = ({ item, onClick }: TileProps) => {
-  const { isRevealed, value, isTreasure, isHighlighted } = item;
+  const { isRevealed, value, isTreasure, isHighlighted, bombs } = item;
 
   const baseClasses = "w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center font-bold rounded-md select-none transition-all duration-75 border-dashed";
 
@@ -18,7 +18,7 @@ export const Tile = ({ item, onClick }: TileProps) => {
     active:border-b-2 active:translate-y-[2px]
   `;
 
-  const regularRevealedClasses = !isTreasure ? 'bg-stone-300 border-stone-800' : value !== 'bomb' ? 'border-yellow-600 bg-yellow-300' : 'bg-red-300 border-red-800';
+  const regularRevealedClasses = !isTreasure ? 'bg-stone-300 border-stone-800' : value !== 'bomb' ? 'border-yellow-600 bg-yellow-300' : 'bg-stone-300 border-stone-800';
 
   const revealedClasses = `shadow-inner border-1 ${isHighlighted ? 'border-red-600 bg-red-300' : regularRevealedClasses }`;
 
@@ -37,7 +37,7 @@ export const Tile = ({ item, onClick }: TileProps) => {
         <>
           {isTreasure && <Treasure kind={value} />}
           {!isTreasure && (
-            <span className={`text-xl ${getValueColor(item)}`}>{value}</span>
+            <span className={`text-xl ${getValueColor(item)}`}>{value}{bombs > 0 && `/${bombs}`}</span>
           )}
         </>
       )}

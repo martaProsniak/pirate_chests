@@ -21,7 +21,7 @@ export const Board = ({ fullScreenBtn = false }: BoardProps) => {
     totalTreasures,
     treasuresFound,
     wasBombed,
-    bombsCount
+    mapInfo
   } = useGame('base');
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -49,7 +49,7 @@ export const Board = ({ fullScreenBtn = false }: BoardProps) => {
             moves={moves}
             treasuresFound={treasuresFound}
             totalTreasures={totalTreasures}
-            bombs={bombsCount}
+            bombs={mapInfo.bombs}
           />
         </div>
 
@@ -85,11 +85,10 @@ export const Board = ({ fullScreenBtn = false }: BoardProps) => {
         </h3>
         <p className="text-orange-200 text-base">
           {isWin && "You found all the treasures! You'rrgh rich!"}
-          {wasBombed ?
-            "Bloody rats! Bomb exploded right to yarrrgh face! Better luck next time."
-            :
+          {wasBombed && "Bloody rats! Bomb exploded right to yarrrgh face! Better luck next time."}
+          {(!isWin && !wasBombed) && (
             "Out of rum! Other pirates found the treasures!"
-          }
+          )}
         </p>
       </Modal>
 

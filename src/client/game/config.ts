@@ -6,8 +6,9 @@ export type ConfigItem = {
   rowsCount: number;
   colsCount: number;
   maxMoves: number;
-  treasures: TreasureKind[];
-  bombsCount: number;
+  treasures: {
+    [key in TreasureKind]: number;
+  };
 }
 
 export type Config = {
@@ -19,7 +20,10 @@ export const config: Config = {
     rowsCount: 6,
     colsCount: 6,
     maxMoves: 10,
-    treasures: ['chest', 'gold', 'gold'],
-    bombsCount: 0,
+    treasures: {
+      chest: 1,
+      gold: 2,
+      bomb: 3
+    }
   }
 }
