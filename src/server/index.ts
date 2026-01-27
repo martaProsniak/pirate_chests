@@ -1,6 +1,6 @@
 import express from 'express';
-import { InitResponse, IncrementResponse, DecrementResponse } from '../shared/types/api';
-import { redis, reddit, createServer, context, getServerPort } from '@devvit/web/server';
+import { InitResponse } from '../shared/types/api';
+import { reddit, createServer, context, getServerPort } from '@devvit/web/server';
 import { createPost } from './core/post';
 
 const app = express();
@@ -29,15 +29,13 @@ router.get<{ postId: string }, InitResponse | { status: string; message: string 
     }
 
     try {
-      const [count, username] = await Promise.all([
-        redis.get('count'),
+      const [username] = await Promise.all([
         reddit.getCurrentUsername(),
       ]);
 
       res.json({
         type: 'init',
         postId: postId,
-        count: count ? parseInt(count) : 0,
         username: username ?? 'anonymous',
       });
     } catch (error) {
@@ -51,45 +49,6 @@ router.get<{ postId: string }, InitResponse | { status: string; message: string 
   }
 );
 
-router.post<{ postId: string }, IncrementResponse | { status: string; message: string }, unknown>(
-  '/api/increment',
-  async (_req, res): Promise<void> => {
-    const { postId } = context;
-    if (!postId) {
-      res.status(400).json({
-        status: 'error',
-        message: 'postId is required',
-      });
-      return;
-    }
-
-    res.json({
-      count: await redis.incrBy('count', 1),
-      postId,
-      type: 'increment',
-    });
-  }
-);
-
-router.post<{ postId: string }, DecrementResponse | { status: string; message: string }, unknown>(
-  '/api/decrement',
-  async (_req, res): Promise<void> => {
-    const { postId } = context;
-    if (!postId) {
-      res.status(400).json({
-        status: 'error',
-        message: 'postId is required',
-      });
-      return;
-    }
-
-    res.json({
-      count: await redis.incrBy('count', -1),
-      postId,
-      type: 'decrement',
-    });
-  }
-);
 
 router.post('/internal/on-app-install', async (_req, res): Promise<void> => {
   try {

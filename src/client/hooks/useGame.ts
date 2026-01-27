@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { config } from '../game/config';
 import { MatrixItem, Treasure, TreasureKind } from '../game/types';
 
-type PointsMap = {
+type TreasureInfo = {
   [key in TreasureKind]: number
 }
 
@@ -11,9 +11,15 @@ interface NearestTreasure {
   treasure: TreasureKind
 }
 
-const pointsMap: PointsMap = {
+const pointsMap: TreasureInfo = {
   chest: 200,
   gold: 50,
+  bomb: 0
+}
+
+const movesMap: TreasureInfo = {
+  chest: 2,
+  gold: 1,
   bomb: 0
 }
 
@@ -177,6 +183,7 @@ export const useGame = (initialDifficulty: 'base' = 'base') => {
     setMatrix(newMatrix);
 
     if (currentCell.value === 'bomb') {
+      setMoves(0);
       revealTreasures();
       setWasBombed(true);
       setIsEnd(true);
@@ -187,6 +194,8 @@ export const useGame = (initialDifficulty: 'base' = 'base') => {
       const updatedFound = treasuresFound + 1;
       setTreasuresFound(updatedFound);
       let newPoints = points + pointsMap[(currentCell.value)];
+      const newMoves = moves + movesMap[(currentCell.value)];
+      setMoves(newMoves);
 
       if (updatedFound === mapInfo.totalTreasures) {
         setIsEnd(true);
