@@ -1,4 +1,4 @@
-import { TreasureKind } from './types';
+import { TreasureKind } from '../../shared/types/game';
 
 export type Difficulty = 'base'
 

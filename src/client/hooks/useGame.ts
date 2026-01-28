@@ -1,23 +1,20 @@
 import { useState, useEffect } from 'react';
 import { config } from '../game/config';
-import { MatrixItem, Treasure, TreasureKind } from '../game/types';
-
-type TreasureInfo = {
-  [key in TreasureKind]: number
-}
+import { MatrixItem, Treasure } from '../game/types';
+import { FindingsMap, TreasureKind } from '../../shared/types/game';
 
 interface NearestTreasure {
   minDistance: number;
   treasure: TreasureKind
 }
 
-const pointsMap: TreasureInfo = {
+const pointsMap: FindingsMap = {
   chest: 200,
   gold: 50,
   bomb: 0
 }
 
-const movesMap: TreasureInfo = {
+const movesMap: FindingsMap = {
   chest: 2,
   gold: 1,
   bomb: 0

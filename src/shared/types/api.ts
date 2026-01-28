@@ -1,20 +1,16 @@
+import { FindingsMap } from './game';
+
 export type InitResponse = {
   type: 'init';
   postId: string;
   username: string;
 };
 
-export type Findings = {
-  chests: number;
-  gold: number;
-  bombs: number;
-}
-
 export type UserStats = {
   score: number;
   gamesPlayed: number;
   wins: number;
-  findings: Findings
+  findings: FindingsMap;
 };
 
 export type LeaderboardEntry = {
@@ -34,7 +30,7 @@ export type DailyChallengeResponse = {
 export type SubmitScoreRequest = {
   moves: number;
   score: number;
-  findings: Findings;
+  findings: FindingsMap;
   isWin: boolean;
   isDaily: boolean;
   attempt: number;

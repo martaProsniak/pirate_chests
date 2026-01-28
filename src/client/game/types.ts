@@ -1,4 +1,4 @@
-export type TreasureKind = 'chest' | 'gold' | 'bomb';
+import { TreasureKind } from '../../shared/types/game';
 
 export interface Treasure {
   row: number;
@@ -23,7 +23,4 @@ export interface MatrixTreasure {
 
 export type MatrixItem = {
   isRevealed: boolean;
-} & (
-  | MatrixClue
-  | MatrixTreasure
-  );
+} & (MatrixClue | MatrixTreasure);
