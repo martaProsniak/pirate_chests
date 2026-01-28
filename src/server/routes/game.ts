@@ -56,7 +56,7 @@ router.get('/api/daily-challenge', async (_req, res) => {
     let seed = await redis.get(seedKey);
     if (!seed) {
       seed = `pirate-${today}-${generateRandomId()}`;
-      await redis.set(seedKey, seed, { expiration: new Date(Date.now() + 172800000) });
+      await redis.set(seedKey, seed, { expiration: new Date(Date.now() + (1000 * 60 * 60 * 24 * 30)) });
     }
 
     const attemptsRaw = await redis.get(attemptsKey);
@@ -68,9 +68,9 @@ router.get('/api/daily-challenge', async (_req, res) => {
       gamesPlayed: parseRedisInt(statsRaw?.gamesPlayed),
       wins: parseRedisInt(statsRaw?.wins),
       findings: {
-        chests: parseRedisInt(statsRaw?.findings_chests),
+        chest: parseRedisInt(statsRaw?.findings_chests),
         gold: parseRedisInt(statsRaw?.findings_gold),
-        bombs: parseRedisInt(statsRaw?.findings_bombs),
+        bomb: parseRedisInt(statsRaw?.findings_bombs),
       }
     };
 
@@ -111,9 +111,9 @@ router.post('/api/submit-score', async (req, res) => {
     await redis.hIncrBy(statsKey, 'totalScore', score);
 
     if (findings) {
-      if (findings.chests > 0) await redis.hIncrBy(statsKey, 'findings_chests', findings.chests);
+      if (findings.chest > 0) await redis.hIncrBy(statsKey, 'findings_chests', findings.chest);
       if (findings.gold > 0) await redis.hIncrBy(statsKey, 'findings_gold', findings.gold);
-      if (findings.bombs > 0) await redis.hIncrBy(statsKey, 'findings_bombs', findings.bombs);
+      if (findings.bomb > 0) await redis.hIncrBy(statsKey, 'findings_bombs', findings.bomb);
     }
 
     if (isWin) await redis.hIncrBy(statsKey, 'wins', 1);
@@ -137,9 +137,9 @@ router.post('/api/submit-score', async (req, res) => {
       gamesPlayed: parseRedisInt(updatedStatsRaw?.gamesPlayed),
       wins: parseRedisInt(updatedStatsRaw?.wins),
       findings: {
-        chests: parseRedisInt(updatedStatsRaw?.findings_chests),
+        chest: parseRedisInt(updatedStatsRaw?.findings_chests),
         gold: parseRedisInt(updatedStatsRaw?.findings_gold),
-        bombs: parseRedisInt(updatedStatsRaw?.findings_bombs),
+        bomb: parseRedisInt(updatedStatsRaw?.findings_bombs),
       }
     };
 

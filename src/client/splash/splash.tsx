@@ -7,9 +7,10 @@ import { createRoot } from 'react-dom/client';
 import {Board} from '../game/Board';
 import { Layout } from '../UI/Layout';
 import { GuiButton } from '../UI/GUIButton';
+import { Menu } from './Menu';
 
 export const Splash = () => {
-  const [showWelcomeScreen, setShowWelcomeScreen] = useState(false);
+  const [showWelcomeScreen, setShowWelcomeScreen] = useState(true);
   return (
     <Layout>
       {showWelcomeScreen && (
@@ -17,6 +18,7 @@ export const Splash = () => {
           <div className="h-40 w-40">
             <img src="/images/logo.png" alt="logo" />
           </div>
+          <Menu />
           <div
             className="p-8"
             style={{
