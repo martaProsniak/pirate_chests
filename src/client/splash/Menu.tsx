@@ -1,129 +1,164 @@
-import { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { requestExpandedMode } from '@devvit/web/client';
 import { usePirateChestAPI } from '../hooks/usePirateChestApi';
-import { SubmitScoreRequest } from '../../shared/types/api';
+import { DailyChallengeResponse } from '../../shared/types/api';
+import { TrophyIcon, ScrollIcon } from '../UI/icons';
+import { GuiButton } from '../UI/GUIButton';
 
-export const Menu = () => {
-  const { initApp, getDailyChallenge, submitScore, getLeaderboard, loading, error } = usePirateChestAPI();
-  const [lastResponse, setLastResponse] = useState<string>('Oczekiwanie na test...');
+interface MenuProps {
+  onStart?: (mode?: 'daily' | 'practice', seed?: string) => void;
+  onShowLeaderboard?: () => void;
+  onShowGuides?: () => void;
+}
 
-  const logResponse = (label: string, data: any) => {
-    console.log(`[TEST] ${label}:`, data);
-    setLastResponse(`${label}:\n${JSON.stringify(data, null, 2)}`);
-  };
+export const Menu = ({ onStart, onShowLeaderboard, onShowGuides }: MenuProps) => {
+  const { getDailyChallenge, loading } = usePirateChestAPI();
+  const [dailyData, setDailyData] = useState<DailyChallengeResponse | null>(null);
 
-  const handleInit = async () => {
-    const data = await initApp();
-    logResponse('Init Response', data);
-  };
-
-  const handleGetDaily = async () => {
-    const data = await getDailyChallenge();
-    logResponse('Daily Challenge Data', data);
-  };
-
-  const handleSimulateWin = async () => {
-    const dummyData: SubmitScoreRequest = {
-      isDaily: true,
-      isWin: true,
-      moves: 15,
-      score: 500,
-      attempt: 1,
-      findings: {
-        chest: 5,
-        gold: 150,
-        bomb: 2
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = await getDailyChallenge();
+      if (data) {
+        setDailyData(data);
       }
     };
+    fetchData();
+  }, [getDailyChallenge]);
 
-    const data = await submitScore(dummyData);
-    logResponse('Submit Score (WIN)', data);
+  const handlePlay = (e: React.MouseEvent, mode: 'daily' | 'practice') => {
+    requestExpandedMode(e.nativeEvent, 'game');
+
+    // 2. Start gry
+    // Jeśli daily, przekazujemy seed z API. Jeśli practice, seed undefined (losowy)
+    const seed = mode === 'daily' ? dailyData?.seed : undefined;
+    if (onStart) {
+      onStart(mode, seed);
+    }
   };
 
-  const handleSimulateLoss = async () => {
-    const dummyData: SubmitScoreRequest = {
-      isDaily: false,
-      isWin: false,
-      moves: 5,
-      score: 50,
-      attempt: 1,
-      findings: {
-        chest: 1,
-        gold: 10,
-        bomb: 1
-      }
-    };
-
-    const data = await submitScore(dummyData);
-    logResponse('Submit Score (LOSS)', data);
-  };
-
-  const handleGetLeaderboard = async () => {
-    const data = await getLeaderboard();
-    logResponse('Leaderboard', data);
-  };
+  const hasPlayedDaily = dailyData ? dailyData.attempts > 0 : false;
+  const totalGold = dailyData?.stats?.findings?.gold ?? 0;
 
   return (
-    <div className="p-4 bg-gray-900 text-white min-h-screen font-mono text-sm">
-      <h1 className="text-xl font-bold mb-4 text-yellow-500">🛠️ API Test Dashboard</h1>
+    <div
+      className="flex flex-col items-center justify-center min-h-screen w-full text-amber-950 font-sans relative overflow-hidden"
+      // style={{
+      //   backgroundImage: 'url("/images/wood.png")',
+      //   backgroundRepeat: 'repeat',
+      //   backgroundSize: '128px auto',
+      //   backgroundBlendMode: 'cover', // lub 'multiply' zależnie od efektu jaki chcesz
+      //   backgroundColor: '#5D4037'   // fallback color (ciemny brąz)
+      // }}
+    >
+      {/* Kontener ograniczający szerokość (100% mobile, 70% tablet+) */}
+      <div className="w-full h-full max-h-screen flex flex-col items-center justify-center gap-2 px-6 py-4 relative z-10">
 
-      {error && (
-        <div className="bg-red-900/50 border border-red-500 p-2 mb-4 rounded text-red-200">
-          🚨 ERROR: {error}
+        {/* --- LOGO --- */}
+        <div className="drop-shadow-2xl filter animate-fade-in flex items-center">
+          <img
+            src="/images/logo.png"
+            alt="Pirate Sweeper Logo"
+            className="h-32 w-36 object-cover hover:scale-105 transition-transform duration-500"
+          />
         </div>
-      )}
 
-      <div className="flex flex-wrap gap-2 mb-6">
-        <button
-          onClick={handleInit}
-          disabled={loading}
-          className="px-4 py-2 bg-blue-700 hover:bg-blue-600 rounded disabled:opacity-50"
-        >
-          1. Init App
-        </button>
+        {/* --- GŁÓWNE PRZYCISKI (Obrazkowe Tło) --- */}
+        <div className="flex flex-col gap-2 w-[220px]">
 
-        <button
-          onClick={handleGetDaily}
-          disabled={loading}
-          className="px-4 py-2 bg-purple-700 hover:bg-purple-600 rounded disabled:opacity-50"
-        >
-          2. Get Daily (Seed)
-        </button>
+          {/* 1. DAILY CHALLENGE */}
+          <button
+            onClick={(e) => handlePlay(e, 'daily')}
+            disabled={loading || hasPlayedDaily}
+            className={`
+              relative group flex flex-col items-center justify-center
+              h-14 w-full
+              text-amber-100 font-pirate text-2xl tracking-widest uppercase
+              transition-all duration-150 active:scale-95
+              drop-shadow-lg hover:drop-shadow-xl
+              ${(loading || hasPlayedDaily) ? 'opacity-60 grayscale cursor-not-allowed' : 'hover:brightness-110'}
+            `}
+            style={{
+              backgroundImage: 'url("/images/menu_btn.png")',
+              backgroundSize: '100% 100%',
+              backgroundRepeat: 'no-repeat',
+            }}
+          >
+            {loading ? (
+              <span className="text-sm font-sans animate-pulse">Loading Map...</span>
+            ) : hasPlayedDaily ? (
+              <div className="flex flex-col items-center leading-none mt-[-4px]">
+                <span className="text-gray-300 text-xl">Daily Done</span>
+                <span className="text-[10px] font-sans text-gray-400 normal-case tracking-normal opacity-80 mt-1">
+                  Come back tomorrow!
+                </span>
+              </div>
+            ) : (
+              <span className="mt-[-4px] drop-shadow-[0_2px_0_rgba(0,0,0,0.5)]">
+                Daily Run
+              </span>
+            )}
+          </button>
 
-        <button
-          onClick={handleSimulateWin}
-          disabled={loading}
-          className="px-4 py-2 bg-green-700 hover:bg-green-600 rounded disabled:opacity-50"
-        >
-          3. Submit WIN (Daily)
-        </button>
+          {/* 2. PRACTICE MODE */}
+          <button
+            onClick={(e) => handlePlay(e, 'practice')}
+            disabled={loading}
+            className="
+              relative group flex items-center justify-center
+              h-14 w-full
+              text-amber-100 font-pirate text-xl tracking-wider uppercase
+              transition-all duration-150 active:scale-95
+              drop-shadow-lg hover:drop-shadow-xl hover:brightness-110
+            "
+            style={{
+              backgroundImage: 'url("/images/menu_btn.png")',
+              backgroundSize: '100% 100%',
+              backgroundRepeat: 'no-repeat',
+              filter: 'hue-rotate(-15deg) sepia(0.3)' // Lekka zmiana odcienia dla odróżnienia
+            }}
+          >
+            <span className="mt-[-4px] drop-shadow-[0_2px_0_rgba(0,0,0,0.5)]">
+              Practice
+            </span>
+          </button>
+        </div>
 
-        <button
-          onClick={handleSimulateLoss}
-          disabled={loading}
-          className="px-4 py-2 bg-red-700 hover:bg-red-600 rounded disabled:opacity-50"
-        >
-          4. Submit LOSS (Practice)
-        </button>
+        {/* --- DRUGI RZĄD (GUI BUTTONS) --- */}
+        <div className="flex gap-4 w-full max-w-xs justify-center mt-2">
 
-        <button
-          onClick={handleGetLeaderboard}
-          disabled={loading}
-          className="px-4 py-2 bg-yellow-700 hover:bg-yellow-600 rounded disabled:opacity-50"
-        >
-          5. Get Leaderboard
-        </button>
-      </div>
+          <GuiButton
+            variant="svg"
+            onClick={onShowLeaderboard}
+            // classes="w-14 h-14"
+            image="button_bg"
+            label={"Leaderboard"}
+            svgIcon={<TrophyIcon className="w-4 h-4 text-yellow-500 drop-shadow-md" />}
+          >
 
-      <div className="bg-black/50 p-4 rounded border border-gray-700 relative">
-        <span className="absolute top-2 right-2 text-xs text-gray-500">RESPONSE LOG</span>
-        {loading ? (
-          <div className="animate-pulse text-blue-400">Loading data from Reddit/Redis...</div>
-        ) : (
-          <pre className="whitespace-pre-wrap break-all text-green-400">
-            {lastResponse}
-          </pre>
+          </GuiButton>
+
+          <GuiButton
+            variant="svg"
+            onClick={onShowGuides}
+            // classes="w-14 h-14"
+            image="button_bg"
+            label={"Guides"}
+            svgIcon={<ScrollIcon className="w-4 h-4 text-amber-100 drop-shadow-md" />}
+          >
+          </GuiButton>
+
+        </div>
+
+        {dailyData && (
+          <div className="mt-8 flex items-center gap-2 px-4 py-1.5 bg-black/40 backdrop-blur-sm rounded-full text-amber-100 font-mono text-xs border border-white/10 shadow-lg">
+            <span className="opacity-80">Lifetime Loot:</span>
+            <span className="text-yellow-400 font-bold text-sm">{totalGold}</span>
+          </div>
         )}
+
       </div>
+
+      <div className="absolute inset-0 bg-black/10 pointer-events-none z-0" />
     </div>
   );
 };
