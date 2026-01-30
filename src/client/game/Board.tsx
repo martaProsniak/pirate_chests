@@ -21,7 +21,8 @@ export const Board = ({ fullScreenBtn = false }: BoardProps) => {
     totalTreasures,
     treasuresFound,
     wasBombed,
-    mapInfo
+    mapInfo,
+    points
   } = useGame('base');
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -50,6 +51,7 @@ export const Board = ({ fullScreenBtn = false }: BoardProps) => {
             treasuresFound={treasuresFound}
             totalTreasures={totalTreasures}
             bombs={mapInfo.bombs}
+            points={points}
           />
         </div>
 

@@ -19,7 +19,7 @@ export const GuiButton = ({onClick, classes, label = '', image, variant = 'icon'
       aria-label={label}
       style={{
         backgroundImage: `url("/images/${image}.png")`,
-        backgroundSize: variant === 'text' ? '92px 48px' : '48px 48px',
+        backgroundSize: '100% 100%',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
       }}

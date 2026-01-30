@@ -11,12 +11,14 @@ interface NearestTreasure {
 const pointsMap: FindingsMap = {
   chest: 200,
   gold: 50,
+  fish: 1,
   bomb: 0
 }
 
 const movesMap: FindingsMap = {
-  chest: 2,
+  chest: 3,
   gold: 1,
+  fish: 0,
   bomb: 0
 }
 
@@ -187,25 +189,28 @@ export const useGame = (initialDifficulty: 'base' = 'base') => {
       return;
     }
 
+    let bonusMoves = 0;
+
     if (currentCell.isTreasure) {
       const updatedFound = treasuresFound + 1;
       setTreasuresFound(updatedFound);
       let newPoints = points + pointsMap[(currentCell.value)];
-      const newMoves = moves + movesMap[(currentCell.value)];
-      setMoves(newMoves);
+      bonusMoves = movesMap[(currentCell.value)];
 
       if (updatedFound === mapInfo.totalTreasures) {
         setIsEnd(true);
         setIsWin(true);
-        newPoints = newPoints + moves * RUM_POINTS
+        const movesLeft = moves - 1 + bonusMoves
+        newPoints = newPoints + (movesLeft * RUM_POINTS);
         setPoints(newPoints);
+        setMoves(movesLeft);
         return;
       }
 
       setPoints(newPoints);
     }
 
-    const leftMoves = moves - 1;
+    const leftMoves = (moves - 1) + bonusMoves;
 
     if (leftMoves === 0) {
       revealTreasures();

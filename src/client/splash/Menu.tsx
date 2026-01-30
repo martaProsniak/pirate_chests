@@ -130,7 +130,7 @@ export const Menu = ({ onStart, onShowLeaderboard, onShowGuides }: MenuProps) =>
             variant="svg"
             onClick={onShowLeaderboard}
             // classes="w-14 h-14"
-            image="button_bg"
+            image="empty_btn"
             label={"Leaderboard"}
             svgIcon={<TrophyIcon className="w-4 h-4 text-yellow-500 drop-shadow-md" />}
           >
@@ -141,7 +141,7 @@ export const Menu = ({ onStart, onShowLeaderboard, onShowGuides }: MenuProps) =>
             variant="svg"
             onClick={onShowGuides}
             // classes="w-14 h-14"
-            image="button_bg"
+            image="empty_btn"
             label={"Guides"}
             svgIcon={<ScrollIcon className="w-4 h-4 text-amber-100 drop-shadow-md" />}
           >

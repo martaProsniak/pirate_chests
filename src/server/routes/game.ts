@@ -70,6 +70,7 @@ router.get('/api/daily-challenge', async (_req, res) => {
       findings: {
         chest: parseRedisInt(statsRaw?.findings_chests),
         gold: parseRedisInt(statsRaw?.findings_gold),
+        fish: parseRedisInt(statsRaw?.findings_fish),
         bomb: parseRedisInt(statsRaw?.findings_bombs),
       }
     };
@@ -139,6 +140,7 @@ router.post('/api/submit-score', async (req, res) => {
       findings: {
         chest: parseRedisInt(updatedStatsRaw?.findings_chests),
         gold: parseRedisInt(updatedStatsRaw?.findings_gold),
+        fish: parseRedisInt(updatedStatsRaw?.findings_fish),
         bomb: parseRedisInt(updatedStatsRaw?.findings_bombs),
       }
     };

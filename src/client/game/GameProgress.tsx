@@ -15,11 +15,11 @@ const ProgressSection = ({ label, value, iconSrc, classes = '', imgClasses = '' 
       <img
         src={iconSrc}
         alt={label}
-        className={`object-contain h-12 select-none ${imgClasses}`}
+        className={`object-contain h-8 select-none ${imgClasses}`}
       />
 
       <div className="flex flex-col gap-1 justify-center">
-        <span className="text-stone-500 text-xs font-bold uppercase tracking-widest leading-tight">
+        <span className="text-stone-500 text-xs font-bold uppercase leading-tight">
           {label}
         </span>
         <span className={`text-lg font-pirate leading-none drop-shadow-sm ${classes}`}>
@@ -37,14 +37,15 @@ interface GameProgressProps {
   treasuresFound: number;
   totalTreasures: number;
   bombs?: number;
+  points: number;
 }
 
-export const GameProgress = ({ moves, treasuresFound, totalTreasures, bombs }: GameProgressProps) => {
+export const GameProgress = ({ moves, treasuresFound, totalTreasures, bombs, points }: GameProgressProps) => {
   return (
-    <div className="flex w-full items-center justify-center gap-4 select-none py-3 px-12"
+    <div className="flex w-full items-center justify-between gap-4 select-none py-3 px-8"
          style={{
            backgroundImage: 'url("/images/banner_paper_wide.png")',
-           backgroundSize: '100% 400%',
+           backgroundSize: '110% 400%',
            backgroundPosition: 'center',
            backgroundRepeat: 'no-repeat',
          }}
@@ -61,7 +62,7 @@ export const GameProgress = ({ moves, treasuresFound, totalTreasures, bombs }: G
       {/* TREASURES SECTION */}
       <ProgressSection
         label="Treasures"
-        iconSrc="/images/gold-hud.png"
+        iconSrc="/images/chest.png"
         value={
           <>
             {treasuresFound} <span className="text-xl leading-none">/</span> {totalTreasures}
@@ -76,9 +77,20 @@ export const GameProgress = ({ moves, treasuresFound, totalTreasures, bombs }: G
           iconSrc="/images/bomb_hud.png"
           value={bombs}
           classes="text-stone-600"
-          imgClasses="h-14"
+          imgClasses="h-10"
         />
       ) : null}
+
+      <ProgressSection
+        label="Gold"
+        iconSrc="/images/gold-hud.png"
+        value={
+          <>
+            {points}
+          </>
+        }
+        classes="text-stone-600"
+      />
     </div>
   );
 };

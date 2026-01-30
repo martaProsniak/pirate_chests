@@ -22,8 +22,9 @@ export const config: Config = {
     maxMoves: 10,
     treasures: {
       chest: 1,
-      gold: 2,
-      bomb: 3
+      gold: 3,
+      bomb: 1,
+      fish: 1
     }
   }
 }
