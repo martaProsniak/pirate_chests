@@ -11,7 +11,7 @@ import { NewMenu } from './NewMenu';
 // import { Menu } from './Menu';
 
 export const Splash = () => {
-  const [showWelcomeScreen, _setShowWelcomeScreen] = useState(false);
+  const [showWelcomeScreen, _setShowWelcomeScreen] = useState(true);
   return (
     <Layout>
       {showWelcomeScreen && (
