@@ -7,7 +7,7 @@ interface LayoutProps {
 
 export const Layout = ({ children, className = '' }: LayoutProps) => {
   return (
-    <div className={`font-pirate flex flex-col items-center min-h-screen w-full max-h-screen  relative overflow-hidden ${className}`}
+    <div className={`font-pirate flex flex-col items-center min-h-screen w-full h-full  relative overflow-hidden ${className}`}
          style={{
            backgroundImage: 'url("/images/water.png")',
            backgroundRepeat: 'repeat',

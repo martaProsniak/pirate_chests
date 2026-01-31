@@ -161,6 +161,14 @@ export const useGame = (initialDifficulty: 'base' = 'base') => {
       });
     });
 
+    const revealedItem = filledMatrix.flat().find((item) => {
+      return !item.isTreasure && +item.value >= 3;
+    });
+
+    if (revealedItem) {
+      revealedItem.isRevealed = true;
+    }
+
     setMatrix(filledMatrix);
     resetState();
   };

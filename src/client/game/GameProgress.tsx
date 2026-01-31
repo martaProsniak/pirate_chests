@@ -62,7 +62,7 @@ export const GameProgress = ({ moves, treasuresFound, totalTreasures, bombs, poi
       {/* TREASURES SECTION */}
       <ProgressSection
         label="Treasures"
-        iconSrc="/images/chest.png"
+        iconSrc="/images/gold.png"
         value={
           <>
             {treasuresFound} <span className="text-xl leading-none">/</span> {totalTreasures}
@@ -74,16 +74,15 @@ export const GameProgress = ({ moves, treasuresFound, totalTreasures, bombs, poi
       {bombs ? (
         <ProgressSection
           label="Bombs"
-          iconSrc="/images/bomb_hud.png"
+          iconSrc="/images/bomb.png"
           value={bombs}
           classes="text-stone-600"
-          imgClasses="h-10"
         />
       ) : null}
 
       <ProgressSection
         label="Gold"
-        iconSrc="/images/gold-hud.png"
+        iconSrc="/images/money.png"
         value={
           <>
             {points}
