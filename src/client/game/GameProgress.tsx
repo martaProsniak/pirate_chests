@@ -11,22 +11,15 @@ interface ProgressSectionProps {
 
 const ProgressSection = ({ label, value, iconSrc, classes = '', imgClasses = '' }: ProgressSectionProps) => {
   return (
-    <div className="flex gap-x-2 items-center">
+    <div className="flex gap-x-2 items-center justify-center w-full">
       <img
         src={iconSrc}
         alt={label}
-        className={`object-contain h-8 select-none ${imgClasses}`}
+        className={`object-contain h-6 select-none ${imgClasses}`}
       />
-
-      <div className="flex flex-col gap-1 justify-center">
-        <span className="text-stone-500 text-xs font-bold uppercase leading-tight">
-          {label}
-        </span>
-        <span className={`text-lg font-pirate leading-none drop-shadow-sm ${classes}`}>
-          {value}
-        </span>
+      <div className={`text-xl font-indie font-bold drop-shadow-sm ${classes}`}>
+        {value}
       </div>
-
     </div>
   );
 };
@@ -64,9 +57,9 @@ export const GameProgress = ({ moves, treasuresFound, totalTreasures, bombs, poi
         label="Treasures"
         iconSrc="/images/gold.png"
         value={
-          <>
-            {treasuresFound} <span className="text-xl leading-none">/</span> {totalTreasures}
-          </>
+          <span>
+            {treasuresFound}/{totalTreasures}
+          </span>
         }
         classes="text-stone-600"
       />

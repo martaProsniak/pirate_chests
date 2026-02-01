@@ -9,7 +9,7 @@ import { Layout } from '../UI/Layout';
 import { NewMenu } from './NewMenu';
 
 export const Splash = () => {
-  const [showWelcomeScreen, _setShowWelcomeScreen] = useState(true);
+  const [showWelcomeScreen, _setShowWelcomeScreen] = useState(false);
   return (
     <Layout className="overflow-y-auto">
       {showWelcomeScreen && (

@@ -8,7 +8,7 @@ interface LayoutProps {
 
 export const Layout = ({ children, className = '', image = 'wood' }: LayoutProps) => {
   return (
-    <div className={`font-pirate flex flex-col items-center min-h-screen w-full h-full  relative ${className}`}
+    <div className={`font-pirate flex flex-col items-center min-h-screen w-full h-full  relative scrollbar-pirate ${className}`}
          style={{
            backgroundImage: `url("/images/${image}.png")`,
            backgroundRepeat: 'repeat',

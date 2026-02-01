@@ -153,7 +153,7 @@ export const useGame = (initialDifficulty: 'base' = 'base') => {
         const fieldInfo = findNearestTreasure(rowIndex, colIndex, shuffledTreasures, rowsCount + colsCount);
         return {
           value: fieldInfo.minDistance.toString(),
-          isRevealed: false,
+          isRevealed: true,
           nearestTreasure: fieldInfo.treasure,
           bombs: countBombsNearby(rowIndex, colIndex, shuffledTreasures),
           isTreasure: false,

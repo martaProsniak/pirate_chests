@@ -1,5 +1,6 @@
-import { MatrixClue, MatrixItem } from './types';
+import { MatrixItem } from './types';
 import { Treasure } from './Treasure';
+import { Clue } from './Clue';
 
 interface TileProps {
   item: MatrixItem;
@@ -37,17 +38,10 @@ export const Tile = ({ item, onClick }: TileProps) => {
         <>
           {isTreasure && <Treasure kind={value} />}
           {!isTreasure && (
-            <span className={`text-xl ${getValueColor(item)}`}>{value}{bombs > 0 && `/${bombs}`}</span>
+            <Clue value={value} bombs={bombs}/>
           )}
         </>
       )}
     </div>
   );
-};
-
-const getValueColor = (item: MatrixClue) => {
-  if (item.nearestTreasure=== 'bomb') {
-    return "text-red-700 font-bold";
-  }
-  return "text-stone-800 font-bold";
 };
