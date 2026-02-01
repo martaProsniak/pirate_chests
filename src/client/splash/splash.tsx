@@ -15,7 +15,7 @@ export const Splash = () => {
       {showWelcomeScreen && (
         <NewMenu />
         )}
-      {!showWelcomeScreen && (<Board fullScreenBtn={true} />)}
+      {!showWelcomeScreen && (<Board mode="practice" initialData={null} fullScreenBtn={true} />)}
     </Layout>
   );
 };

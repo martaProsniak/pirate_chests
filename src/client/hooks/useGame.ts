@@ -1,12 +1,8 @@
-import { useState, useEffect } from 'react';
-import { config } from '../game/config';
-import { MatrixItem, Treasure } from '../game/types';
-import { FindingsMap, TreasureKind } from '../../shared/types/game';
-
-interface NearestTreasure {
-  minDistance: number;
-  treasure: TreasureKind
-}
+import { useState, useEffect, useRef, useCallback } from 'react';
+import { MatrixItem } from '../game/types';
+import { FindingsMap, GameConfigItem } from '../../shared/types/game';
+import { usePirateChestAPI } from './usePirateChestApi';
+import { DailyChallengeResponse, PracticeGameResponse } from '../../shared/types/api';
 
 const pointsMap: FindingsMap = {
   chest: 200,
@@ -23,162 +19,120 @@ const movesMap: FindingsMap = {
 }
 
 const RUM_POINTS = 10;
+const FALLBACK_GRID_SIZE = 6;
 
-const shuffleArray = (array: number[]): number[] => {
-  const newArray = [...array];
-  for (let i = newArray.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    const temp = newArray[i]!;
-    newArray[i] = newArray[j]!;
-    newArray[j] = temp;
-  }
-  return newArray;
-};
-
-const findNearestTreasure = (row: number, col: number, currentTreasures: Treasure[], initialDistance: number): NearestTreasure => {
-  return <NearestTreasure>currentTreasures.reduce(
-    (acc: { minDistance: number; treasure: TreasureKind | null }, curr) => {
-      if (curr.kind === 'bomb') {
-        return acc;
-      }
-
-      const distance = Math.abs(curr.row - row) + Math.abs(curr.col - col);
-      if (acc.minDistance > distance) {
-        acc.minDistance = distance;
-        acc.treasure = curr.kind;
-      }
-
-      return acc;
-    },
-    { minDistance: initialDistance, treasure: null }
-  );
-};
-
-const countBombsNearby = (row: number, col: number, currentTreasures: Treasure[]) => {
-  return currentTreasures.filter(({kind}) => kind === 'bomb').reduce((acc, curr) => {
-    if ((curr.row === row + 1) && (curr.col === col)) {
-      acc++;
-    }
-    if ((curr.row === row - 1) && (curr.col === col)) {
-      acc++;
-    }
-    if ((curr.col === col + 1) && (curr.row === row)) {
-      acc++;
-    }
-    if ((curr.col === col - 1) && (curr.row === row)) {
-      acc++;
-    }
-    return acc;
-  }, 0)
+interface UseGameProps {
+  mode: 'daily' | 'practice';
+  initialData?: DailyChallengeResponse | PracticeGameResponse | null;
 }
 
-export const useGame = (initialDifficulty: 'base' = 'base') => {
-  const [difficulty] = useState(initialDifficulty);
-  const { rowsCount, colsCount, maxMoves, treasures } = config[difficulty];
+export const useGame = ({ mode, initialData }: UseGameProps) => {
+  const {
+    getDailyChallenge,
+    getPracticeChallenge,
+    submitScore,
+    loading: apiLoading
+  } = usePirateChestAPI();
 
-  const [matrix, setMatrix] = useState<MatrixItem[][]>([]);
-  const [moves, setMoves] = useState<number>(maxMoves);
+  const [gridSize, setGridSize] = useState({
+    rows: initialData?.gameConfig?.rowsCount ?? FALLBACK_GRID_SIZE,
+    cols: initialData?.gameConfig?.colsCount ?? FALLBACK_GRID_SIZE,
+  });
+
+  const [matrix, setMatrix] = useState<MatrixItem[][]>(initialData?.matrix ?? []);
+  const [moves, setMoves] = useState<number>(10);
   const [isEnd, setIsEnd] = useState(false);
   const [treasuresFound, setTreasuresFound] = useState<number>(0);
   const [isWin, setIsWin] = useState(false);
   const [points, setPoints] = useState(0);
   const [wasBombed, setWasBombed] = useState(false);
+  const [gameLoading, setGameLoading] = useState(false);
+  const [findings, setFindings] = useState<FindingsMap>({
+    chest: 0, gold: 0, fish: 0, bomb: 0
+  });
+  const [mapInfo, setMapInfo] = useState({
+    bomb: 0, chest: 0, gold: 0, fish: 0, totalTreasures: 0
+  });
+  const loadedRef = useRef(false);
 
-  const countTreasures = () => {
-    return (Object.keys(treasures) as TreasureKind[]).reduce((acc, key) => {
-      if (key === 'bomb') {
-        return acc;
-      }
-      return acc + (treasures[key] ?? 0);
-    }, 0);
+  const loadGameData = useCallback((dataMatrix: MatrixItem[][], dataConfig: GameConfigItem) => {
+    setMatrix(dataMatrix);
+    setGridSize({
+      rows: dataConfig.rowsCount,
+      cols: dataConfig.colsCount
+    });
+    resetState(dataConfig);
+  }, []);
+
+  const countTreasures = (treasures: FindingsMap) => {
+    return treasures.gold + treasures.chest + treasures.fish;
   }
 
-  const mapInfo = {
-    bombs: treasures.bomb,
-    chests: treasures.chest,
-    gold: treasures.gold,
-    totalTreasures: countTreasures()
-  }
-
-  const resetState = () => {
+  const resetState = (config: GameConfigItem) => {
     setIsEnd(false);
     setIsWin(false);
-    setMoves(maxMoves);
+    setMoves(config.maxMoves);
     setTreasuresFound(0);
     setPoints(0);
     setWasBombed(false);
+    setFindings({ chest: 0, gold: 0, fish: 0, bomb: 0 });
+    const newMapInfo = {...config.treasures, totalTreasures: countTreasures(config.treasures)}
+    setMapInfo(newMapInfo);
   };
 
-  const getShuffledTreasures = () : Treasure[] => {
-    const totalCells = rowsCount * colsCount;
-    const allIndices = Array.from({ length: totalCells }, (_, i) => i);
+  const startGame = useCallback(async () => {
+    if (mode === 'daily' && initialData && !loadedRef.current) {
+      loadGameData(initialData.matrix, initialData.gameConfig);
+      loadedRef.current = true;
+      return;
+    }
 
-    const shuffledIndices = shuffleArray(allIndices);
+    setGameLoading(true);
 
-    const treasuresArray = (Object.keys(treasures) as TreasureKind[]).reduce((acc: TreasureKind[], key: TreasureKind) => {
-      const temp = Array.from({length: treasures[key]}).fill(key) as TreasureKind[];
-      return acc.concat(temp);
-    }, []);
+    try {
+      let data: DailyChallengeResponse | PracticeGameResponse | null = null;
 
-    return treasuresArray.map((kind, index) => {
-      const gridIndex = shuffledIndices[index]!;
-      return {
-        row: Math.floor(gridIndex / colsCount),
-        col: gridIndex % colsCount,
-        kind: kind
-      };
-    });
-  }
+      if (mode === 'daily') {
+        data = await getDailyChallenge();
+      } else {
+        data = await getPracticeChallenge();
+      }
 
-  const startGame = () => {
-    const shuffledTreasures = getShuffledTreasures();
+      if (data) {
+        loadGameData(data.matrix, data.gameConfig);
+      }
+    } catch (e) {
+      console.error("Failed to start game", e);
+    } finally {
+      setGameLoading(false);
+    }
+  }, [mode, initialData, getDailyChallenge, getPracticeChallenge, loadGameData]);
 
-    const empty_matrix = Array.from(Array(rowsCount).keys()).map(() =>
-      Array.from(Array(colsCount).keys()).map(() => null)
-    );
+  const finishGame = async (
+    won: boolean,
+    finalScore: number,
+    finalFindings: FindingsMap,
+    finalMoves: number
+  ) => {
+    setIsEnd(true);
+    setIsWin(won);
 
-    let maxDistance = 0;
-    let farItem = {row: 0, col: 0};
-
-    const filledMatrix: MatrixItem[][] = empty_matrix.map((row, rowIndex) => {
-      return row.map((_cell, colIndex) => {
-        const treasure = shuffledTreasures.find((t) => t.row === rowIndex && t.col === colIndex);
-
-        if (treasure) {
-          return {
-            isTreasure: true,
-            value: treasure.kind,
-            isRevealed: false,
-            bombs: 0
-          };
-        }
-
-        const fieldInfo = findNearestTreasure(rowIndex, colIndex, shuffledTreasures, rowsCount + colsCount);
-        const bombs = countBombsNearby(rowIndex, colIndex, shuffledTreasures);
-
-        if (fieldInfo.minDistance >= maxDistance && bombs === 0) {
-          maxDistance = fieldInfo.minDistance;
-          farItem = {row: rowIndex, col: colIndex};
-        }
-
-        return {
-          value: fieldInfo.minDistance.toString(),
-          isRevealed: false,
-          nearestTreasure: fieldInfo.treasure,
-          bombs: bombs,
-          isTreasure: false,
-        };
+    try {
+      await submitScore({
+        isDaily: mode === 'daily',
+        isWin: won,
+        score: finalScore,
+        moves: finalMoves,
+        findings: finalFindings,
+        attempt: 1
       });
-    });
-
-    filledMatrix[farItem.row]![farItem.col]!.isRevealed = true;
-
-    setMatrix(filledMatrix);
-    resetState();
+    } catch (e) {
+      console.error("Failed to submit score", e);
+    }
   };
 
-  const handleCellClick = (rowIndex: number, colIndex: number) => {
-    if (isEnd) return;
+  const handleCellClick = async (rowIndex: number, colIndex: number) => {
+    if (isEnd || gameLoading || apiLoading) return;
 
     const currentCell = matrix[rowIndex]?.[colIndex];
     if (!currentCell || currentCell.isRevealed) return;
@@ -197,25 +151,33 @@ export const useGame = (initialDifficulty: 'base' = 'base') => {
       setMoves(0);
       revealTreasures();
       setWasBombed(true);
-      setIsEnd(true);
+      const newFindings = { ...findings, bomb: findings.bomb + 1 };
+      setFindings(newFindings);
+
+      await finishGame(false, points, newFindings, 0);
       return;
     }
 
     let bonusMoves = 0;
 
     if (currentCell.isTreasure) {
+      const kind = currentCell.value;
+
       const updatedFound = treasuresFound + 1;
       setTreasuresFound(updatedFound);
-      let newPoints = points + pointsMap[(currentCell.value)];
-      bonusMoves = movesMap[(currentCell.value)];
+
+      const newFindings = { ...findings, [kind]: findings[kind] + 1 };
+      setFindings(newFindings);
+
+      let newPoints = points + (pointsMap[kind] || 0);
+      bonusMoves = movesMap[kind] || 0;
 
       if (updatedFound === mapInfo.totalTreasures) {
-        setIsEnd(true);
-        setIsWin(true);
         const movesLeft = moves - 1 + bonusMoves
         newPoints = newPoints + (movesLeft * RUM_POINTS);
         setPoints(newPoints);
         setMoves(movesLeft);
+        finishGame(true, newPoints, newFindings, movesLeft);
         return;
       }
 
@@ -226,7 +188,7 @@ export const useGame = (initialDifficulty: 'base' = 'base') => {
 
     if (leftMoves === 0) {
       revealTreasures();
-      setIsEnd(true);
+      finishGame(false, points, findings, 0);
     }
 
     setMoves(leftMoves);
@@ -252,6 +214,7 @@ export const useGame = (initialDifficulty: 'base' = 'base') => {
 
   return {
     matrix,
+    gridSize,
     moves,
     isEnd,
     isWin,
@@ -261,6 +224,7 @@ export const useGame = (initialDifficulty: 'base' = 'base') => {
     totalTreasures: mapInfo.totalTreasures,
     points,
     wasBombed,
-    mapInfo
+    mapInfo,
+    loading: gameLoading || apiLoading
   };
 };

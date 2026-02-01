@@ -16,13 +16,14 @@ export const NewMenu = () => {
     const fetchData = async () => {
       const data = await getDailyChallenge();
       if (data) {
+        console.log(data);
         setDailyData(data);
       }
     };
     fetchData();
   }, [getDailyChallenge]);
 
-  const totalGold = dailyData?.stats?.findings?.gold ?? 0;
+  const totalGold = dailyData?.stats?.score ?? 0;
 
   return (
     <main className="flex flex-col items-center justify-between min-h-screen h-auto p-0 pt-2 gap-2 w-full relative">

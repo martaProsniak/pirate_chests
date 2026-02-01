@@ -73,6 +73,11 @@ router.get('/api/daily-challenge', async (_req, res) => {
 
     const attemptsRaw = await redis.get(attemptsKey);
     const attempts = parseRedisInt(attemptsRaw);
+
+    if (attempts > 0) {
+      console.log('Already played daily');
+    }
+
     const statsRaw = await redis.hGetAll(statsKey);
     const stats: UserStats = getUserStats(statsRaw);
     const currUser = await reddit.getCurrentUser();
@@ -147,15 +152,14 @@ router.post('/api/submit-score', async (req, res) => {
 
     if (isDaily) {
       await redis.incrBy(attemptsKey, 1);
-      if (isWin) {
-        const currUser = await reddit.getCurrentUser();
-        const username = currUser?.username ?? 'Anonymous';
+      const currUser = await reddit.getCurrentUser();
+      const username = currUser?.username ?? 'Anonymous';
 
-        await redis.zAdd(leaderboardKey, {
-          member: `${username}::${userId}`,
-          score: score,
-        });
-      }
+      await redis.zAdd(leaderboardKey, {
+        member: `${username}::${userId}`,
+        score: score,
+      });
+
     }
 
     const updatedStatsRaw = await redis.hGetAll(statsKey);

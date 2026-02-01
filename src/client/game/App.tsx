@@ -4,7 +4,7 @@ import { Layout } from '../UI/Layout';
 export const App = () => {
   return (
     <Layout className="overflow-hidden" image="water">
-      <Board />
+      <Board initialData={null} mode='practice' />
     </Layout>
   );
 };
