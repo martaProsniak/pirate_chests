@@ -1,0 +1,9 @@
+@keyframes rock-ship {
+  0% { transform: rotate(-5deg) translateY(0); }
+  50% { transform: rotate(5deg) translateY(-5px); }
+  100% { transform: rotate(-5deg) translateY(0); }
+}
+
+.animate-rock {
+  animation: rock-ship 3s ease-in-out infinite;
+}

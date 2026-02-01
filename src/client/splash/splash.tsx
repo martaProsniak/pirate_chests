@@ -27,7 +27,7 @@ export const Splash = () => {
           setMenuData({
             username: data.username,
             score: data.stats.score,
-            mode: 'practice',
+            mode: determinedMode,
           });
         }
       } catch (e) {

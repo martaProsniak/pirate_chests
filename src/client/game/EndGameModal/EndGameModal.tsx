@@ -157,7 +157,7 @@ export const EndGameModal = ({
               </div>
             </div>
 
-            {(mode === 'daily' || mode === 'practice') && (
+            {(mode === 'daily') && (
               <div className="bg-black/20 rounded-lg p-3 border border-white/10">
                 <h4 className="text-amber-200 font-pirate text-xl mb-2 border-b border-white/10 pb-1">
                   Captains Table
@@ -183,7 +183,7 @@ export const EndGameModal = ({
               </div>
             )}
 
-            {(mode === 'daily' || mode === 'practice') && (
+            {mode === 'daily' && (
               <div className="flex flex-col gap-2 items-center justify-center pt-2 border-t border-white/10">
                 {!hasPosted ? (
                   <>
