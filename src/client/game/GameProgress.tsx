@@ -17,7 +17,7 @@ const ProgressSection = ({ label, value, iconSrc, classes = '', imgClasses = '' 
         alt={label}
         className={`object-contain h-6 select-none ${imgClasses}`}
       />
-      <div className={`text-xl font-indie font-bold drop-shadow-sm ${classes}`}>
+      <div className={`text-xl leading-5 font-indie font-bold drop-shadow-sm ${classes}`}>
         {value}
       </div>
     </div>
@@ -35,12 +35,13 @@ interface GameProgressProps {
 
 export const GameProgress = ({ moves, treasuresFound, totalTreasures, bombs, points }: GameProgressProps) => {
   return (
-    <div className="flex w-full items-center justify-between gap-4 select-none py-3 px-8"
+    <div className="flex w-full items-center justify-evenly gap-4 select-none"
          style={{
-           backgroundImage: 'url("/images/banner_paper_wide.png")',
-           backgroundSize: '110% 400%',
-           backgroundPosition: 'center',
-           backgroundRepeat: 'no-repeat',
+           borderImageSource: 'url("/images/banner_hud.png")',
+           borderImageSlice: '96 fill',
+           borderWidth: '16px',
+           borderStyle: 'solid',
+           background: 'none'
          }}
     >
 

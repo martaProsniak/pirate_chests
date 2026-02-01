@@ -9,7 +9,7 @@ export interface GuideProps {
 const Guide = ({image, alt, children}: GuideProps) => {
   return (
     <article className="flex flex-row flex-nowrap items-center justify-start gap-2 w-full">
-      <div className="size-5">
+      <div className="size-7">
         <img src={`/images/${image}.png`} alt={alt} className="w-full h-full object-contain" />
       </div>
       <p className="text-lg leading-5 text-stone-800 font-indie font-bold">{children}</p>

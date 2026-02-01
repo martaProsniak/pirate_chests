@@ -10,7 +10,7 @@ export const Clue = ({value, bombs} : ClueProps) => {
     <div className="w-full h-full relative flex items-center justify-center">
       <div className="relative size-9 flex items-center justify-center overflow-hidden">
         <div
-          className="absolute inset-0 opacity-20"
+          className="absolute inset-0 opacity-30"
           style={{
             backgroundImage: 'url("/images/steps.png")',
             backgroundSize: 'contain',
