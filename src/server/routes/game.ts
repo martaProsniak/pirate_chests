@@ -61,21 +61,24 @@ router.get('/api/daily-challenge', async (_req, res) => {
     const attemptsKey = `daily_attempts:${today}:${userId}`;
     const statsKey = `user_stats:${userId}`;
 
-    let matrixJson = await redis.get(boardKey);
-
-    if (!matrixJson) {
-      const newMatrix = generateBoard('base');
-      matrixJson = JSON.stringify(newMatrix);
-      await redis.set(boardKey, matrixJson, { expiration: new Date(Date.now() * (1000 * 60 * 60 * 24 * 30)) });
-    }
-
-    const matrix = JSON.parse(matrixJson);
-
     const attemptsRaw = await redis.get(attemptsKey);
     const attempts = parseRedisInt(attemptsRaw);
+    let matrix;
 
     if (attempts > 0) {
-      console.log('Already played daily');
+      console.log(`User ${userId} already played daily. Generating random map.`);
+      matrix = generateBoard('base');
+    } else {
+      let matrixJson = await redis.get(boardKey);
+
+      if (!matrixJson) {
+        console.log(`Generating new Daily Board for ${today}`);
+        const newMatrix = generateBoard('base');
+        matrixJson = JSON.stringify(newMatrix);
+        await redis.set(boardKey, matrixJson, { expiration: new Date(Date.now() + (1000 * 60 * 60 * 24 * 30)) });
+      }
+
+      matrix = JSON.parse(matrixJson);
     }
 
     const statsRaw = await redis.hGetAll(statsKey);
@@ -132,11 +135,21 @@ router.post('/api/submit-score', async (req, res) => {
 
   const { score, findings, isWin, isDaily } = req.body as SubmitScoreRequest;
   const today = getTodayKey();
+  let confirmedIsDaily = isDaily;
 
   try {
     const statsKey = `user_stats:${userId}`;
     const attemptsKey = `daily_attempts:${today}:${userId}`;
     const leaderboardKey = `daily_leaderboard:${today}`;
+
+    if (isDaily) {
+      const currentAttemptsRaw = await redis.get(attemptsKey);
+      const currentAttempts = parseRedisInt(currentAttemptsRaw);
+
+      if (currentAttempts > 0) {
+        confirmedIsDaily = false;
+      }
+    }
 
     await redis.hIncrBy(statsKey, 'gamesPlayed', 1);
     await redis.hIncrBy(statsKey, 'totalScore', score);
@@ -150,7 +163,7 @@ router.post('/api/submit-score', async (req, res) => {
 
     if (isWin) await redis.hIncrBy(statsKey, 'wins', 1);
 
-    if (isDaily) {
+    if (confirmedIsDaily) {
       await redis.incrBy(attemptsKey, 1);
       const currUser = await reddit.getCurrentUser();
       const username = currUser?.username ?? 'Anonymous';

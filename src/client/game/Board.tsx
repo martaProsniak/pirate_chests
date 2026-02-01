@@ -5,15 +5,12 @@ import { Modal } from '../UI/Modal/Modal';
 import { useEffect, useState } from 'react';
 import { GameProgress } from './GameProgress';
 import { Actions } from './Actions';
-import { DailyChallengeResponse, PracticeGameResponse } from '../../shared/types/api';
 
 export interface BoardProps {
   mode: 'daily' | 'practice';
-  initialData?: DailyChallengeResponse | PracticeGameResponse | null;
-  fullScreenBtn?: boolean;
 }
 
-export const Board = ({ mode = 'practice', initialData = null, fullScreenBtn = false }: BoardProps) => {
+export const Board = ({ mode = 'practice' }: BoardProps) => {
   const {
     matrix,
     moves,
@@ -27,7 +24,7 @@ export const Board = ({ mode = 'practice', initialData = null, fullScreenBtn = f
     mapInfo,
     points,
     loading
-  } = useGame({ mode, initialData });
+  } = useGame({ mode });
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
@@ -115,8 +112,6 @@ export const Board = ({ mode = 'practice', initialData = null, fullScreenBtn = f
 
       <Actions
         onRestart={startGame}
-        onFullscreen={(e) => requestExpandedMode(e.nativeEvent, 'game')}
-        showFullscreenButton={fullScreenBtn}
       />
 
     </div>

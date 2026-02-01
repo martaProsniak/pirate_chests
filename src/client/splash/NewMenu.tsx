@@ -1,30 +1,16 @@
 import { GuiButton } from '../UI/GUIButton';
-import { requestExpandedMode } from '@devvit/web/client';
-import { useEffect, useState } from 'react';
-import { usePirateChestAPI } from '../hooks/usePirateChestApi';
-import { DailyChallengeResponse } from '../../shared/types/api';
 import { Guides } from './Guides';
 import { SplashFooter } from './SplashFooter';
+import { MouseEvent } from 'react';
 
+export interface NewMenuProps {
+  score?: number;
+  username?: string;
+  mode?: 'daily' | 'practice',
+  handleStart?: (e: MouseEvent) => void;
+}
 
-export const NewMenu = () => {
-
-  const { getDailyChallenge } = usePirateChestAPI();
-  const [dailyData, setDailyData] = useState<DailyChallengeResponse | null>(null);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const data = await getDailyChallenge();
-      if (data) {
-        console.log(data);
-        setDailyData(data);
-      }
-    };
-    fetchData();
-  }, [getDailyChallenge]);
-
-  const totalGold = dailyData?.stats?.score ?? 0;
-
+export const NewMenu = ({score = 0, username = 'Anonymus', mode = 'practice', handleStart}: NewMenuProps) => {
   return (
     <main className="flex flex-col items-center justify-between min-h-screen h-auto p-0 pt-2 gap-2 w-full relative">
       <section className="flex flex-row items-center justify-center h-16 w-10/12 grow">
@@ -32,12 +18,12 @@ export const NewMenu = () => {
       </section>
       <Guides />
       <section className="flex flex-col items-center justify-center w-full gap-2 grow">
-        <GuiButton image="menu_btn" label="To the Seas!" variant="text" onClick={(e) => requestExpandedMode(e.nativeEvent, 'game')} />
+        <GuiButton image="menu_btn" label={mode === 'daily' ? 'Daily Adventure' : 'Casual Adventure'} variant="text" onClick={(e) => handleStart && handleStart(e)} />
         <div className="flex flex-row items-center">
           <GuiButton image="leadership_btn" label="Leaders" variant="icon" onClick={() => console.log("Leaders")} />
         </div>
       </section>
-      <SplashFooter totalGold={totalGold} username={dailyData?.username} />
+      <SplashFooter totalGold={score} username={username} />
     </main>
   )
 }

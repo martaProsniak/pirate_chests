@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { MatrixItem } from '../game/types';
 import { FindingsMap, GameConfigItem } from '../../shared/types/game';
 import { usePirateChestAPI } from './usePirateChestApi';
@@ -23,10 +23,9 @@ const FALLBACK_GRID_SIZE = 6;
 
 interface UseGameProps {
   mode: 'daily' | 'practice';
-  initialData?: DailyChallengeResponse | PracticeGameResponse | null;
 }
 
-export const useGame = ({ mode, initialData }: UseGameProps) => {
+export const useGame = ({ mode }: UseGameProps) => {
   const {
     getDailyChallenge,
     getPracticeChallenge,
@@ -35,11 +34,11 @@ export const useGame = ({ mode, initialData }: UseGameProps) => {
   } = usePirateChestAPI();
 
   const [gridSize, setGridSize] = useState({
-    rows: initialData?.gameConfig?.rowsCount ?? FALLBACK_GRID_SIZE,
-    cols: initialData?.gameConfig?.colsCount ?? FALLBACK_GRID_SIZE,
+    rows: FALLBACK_GRID_SIZE,
+    cols: FALLBACK_GRID_SIZE,
   });
 
-  const [matrix, setMatrix] = useState<MatrixItem[][]>(initialData?.matrix ?? []);
+  const [matrix, setMatrix] = useState<MatrixItem[][]>([]);
   const [moves, setMoves] = useState<number>(10);
   const [isEnd, setIsEnd] = useState(false);
   const [treasuresFound, setTreasuresFound] = useState<number>(0);
@@ -53,7 +52,6 @@ export const useGame = ({ mode, initialData }: UseGameProps) => {
   const [mapInfo, setMapInfo] = useState({
     bomb: 0, chest: 0, gold: 0, fish: 0, totalTreasures: 0
   });
-  const loadedRef = useRef(false);
 
   const loadGameData = useCallback((dataMatrix: MatrixItem[][], dataConfig: GameConfigItem) => {
     setMatrix(dataMatrix);
@@ -81,11 +79,6 @@ export const useGame = ({ mode, initialData }: UseGameProps) => {
   };
 
   const startGame = useCallback(async () => {
-    if (mode === 'daily' && initialData && !loadedRef.current) {
-      loadGameData(initialData.matrix, initialData.gameConfig);
-      loadedRef.current = true;
-      return;
-    }
 
     setGameLoading(true);
 
@@ -106,7 +99,7 @@ export const useGame = ({ mode, initialData }: UseGameProps) => {
     } finally {
       setGameLoading(false);
     }
-  }, [mode, initialData, getDailyChallenge, getPracticeChallenge, loadGameData]);
+  }, [mode, getDailyChallenge, getPracticeChallenge, loadGameData]);
 
   const finishGame = async (
     won: boolean,
