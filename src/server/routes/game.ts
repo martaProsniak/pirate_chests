@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { redis, reddit, context } from '@devvit/web/server';
-import { getTodayKey, generateRandomId, parseRedisInt } from '../utils/helpers';
+import { getTodayKey, parseRedisInt, getUserStats } from '../utils/helpers';
 import {
   InitResponse,
   DailyChallengeResponse,
@@ -8,10 +8,19 @@ import {
   SubmitScoreResponse,
   LeaderboardResponse,
   LeaderboardEntry,
-  UserStats
+  UserStats, PracticeGameResponse,
 } from '../../shared/types/api';
+import { Difficulty } from '../../shared/types/game';
+import { CONFIG } from '../core/game-config';
+import { generateBoard } from '../core/board';
 
 const router = Router();
+
+const getClientGameConfig = (difficulty: Difficulty = 'base') => {
+  const currentConfig = CONFIG[difficulty];
+
+  return {...currentConfig};
+};
 
 router.get('/api/init', async (_req, res) => {
   const { postId } = context;
@@ -48,37 +57,29 @@ router.get('/api/daily-challenge', async (_req, res) => {
 
   try {
     const today = getTodayKey();
-
-    const seedKey = `daily_seed:${today}`;
+    const boardKey = `daily_board:${today}`;
     const attemptsKey = `daily_attempts:${today}:${userId}`;
     const statsKey = `user_stats:${userId}`;
 
-    let seed = await redis.get(seedKey);
-    if (!seed) {
-      seed = `pirate-${today}-${generateRandomId()}`;
-      await redis.set(seedKey, seed, { expiration: new Date(Date.now() + (1000 * 60 * 60 * 24 * 30)) });
+    let matrixJson = await redis.get(boardKey);
+
+    if (!matrixJson) {
+      const newMatrix = generateBoard('base');
+      matrixJson = JSON.stringify(newMatrix);
+      await redis.set(boardKey, matrixJson, { expiration: new Date(Date.now() * (1000 * 60 * 60 * 24 * 30)) });
     }
+
+    const matrix = JSON.parse(matrixJson);
 
     const attemptsRaw = await redis.get(attemptsKey);
     const attempts = parseRedisInt(attemptsRaw);
-
     const statsRaw = await redis.hGetAll(statsKey);
-    const stats: UserStats = {
-      score: parseRedisInt(statsRaw?.totalScore),
-      gamesPlayed: parseRedisInt(statsRaw?.gamesPlayed),
-      wins: parseRedisInt(statsRaw?.wins),
-      findings: {
-        chest: parseRedisInt(statsRaw?.findings_chests),
-        gold: parseRedisInt(statsRaw?.findings_gold),
-        fish: parseRedisInt(statsRaw?.findings_fish),
-        bomb: parseRedisInt(statsRaw?.findings_bombs),
-      }
-    };
-
+    const stats: UserStats = getUserStats(statsRaw);
     const currUser = await reddit.getCurrentUser();
 
     const response: DailyChallengeResponse = {
-      seed: seed,
+      matrix: matrix,
+      gameConfig: getClientGameConfig('base'),
       date: today!,
       attempts: attempts,
       stats: stats,
@@ -86,10 +87,34 @@ router.get('/api/daily-challenge', async (_req, res) => {
     };
 
     res.json(response);
-
   } catch (error) {
     console.error('Daily Challenge Error:', error);
     res.status(500).json({ status: 'error', message: 'Internal server error' });
+  }
+});
+
+router.get('/api/practice-challenge', async (_req, res) => {
+  const difficulty: Difficulty = 'base';
+  const { userId } = context;
+
+  try {
+    const matrix = generateBoard(difficulty);
+    const statsKey = `user_stats:${userId}`;
+    const statsRaw = await redis.hGetAll(statsKey);
+    const stats: UserStats = getUserStats(statsRaw);
+    const currUser = await reddit.getCurrentUser();
+
+    const response: PracticeGameResponse = {
+      matrix: matrix,
+      gameConfig: getClientGameConfig('base'),
+      stats: stats,
+      username: currUser?.username ?? 'Anonymous Pirate',
+    };
+
+    res.json(response);
+  } catch (error) {
+    console.error('Practice Error:', error);
+    res.status(500).json({ status: 'error' });
   }
 });
 
@@ -112,9 +137,10 @@ router.post('/api/submit-score', async (req, res) => {
     await redis.hIncrBy(statsKey, 'totalScore', score);
 
     if (findings) {
-      if (findings.chest > 0) await redis.hIncrBy(statsKey, 'findings_chests', findings.chest);
+      if (findings.chest > 0) await redis.hIncrBy(statsKey, 'findings_chest', findings.chest);
       if (findings.gold > 0) await redis.hIncrBy(statsKey, 'findings_gold', findings.gold);
-      if (findings.bomb > 0) await redis.hIncrBy(statsKey, 'findings_bombs', findings.bomb);
+      if (findings.fish > 0) await redis.hIncrBy(statsKey, 'findings_fish', findings.fish);
+      if (findings.bomb > 0) await redis.hIncrBy(statsKey, 'findings_bomb', findings.bomb);
     }
 
     if (isWin) await redis.hIncrBy(statsKey, 'wins', 1);
@@ -133,17 +159,7 @@ router.post('/api/submit-score', async (req, res) => {
     }
 
     const updatedStatsRaw = await redis.hGetAll(statsKey);
-    const newStats: UserStats = {
-      score: parseRedisInt(updatedStatsRaw?.totalScore),
-      gamesPlayed: parseRedisInt(updatedStatsRaw?.gamesPlayed),
-      wins: parseRedisInt(updatedStatsRaw?.wins),
-      findings: {
-        chest: parseRedisInt(updatedStatsRaw?.findings_chests),
-        gold: parseRedisInt(updatedStatsRaw?.findings_gold),
-        fish: parseRedisInt(updatedStatsRaw?.findings_fish),
-        bomb: parseRedisInt(updatedStatsRaw?.findings_bombs),
-      }
-    };
+    const newStats: UserStats = getUserStats(updatedStatsRaw);
 
     res.json({ success: true, newStats } as SubmitScoreResponse);
 

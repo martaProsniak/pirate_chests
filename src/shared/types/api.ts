@@ -1,4 +1,4 @@
-import { FindingsMap } from './game';
+import { FindingsMap, GameConfigItem, MatrixItem } from './game';
 
 export type InitResponse = {
   type: 'init';
@@ -20,9 +20,17 @@ export type LeaderboardEntry = {
 };
 
 export type DailyChallengeResponse = {
-  seed: string;
+  matrix: MatrixItem[][];
+  gameConfig: GameConfigItem;
   date: string;
   attempts: number;
+  stats: UserStats;
+  username: string;
+};
+
+export type PracticeGameResponse = {
+  matrix: MatrixItem[][];
+  gameConfig: GameConfigItem;
   stats: UserStats;
   username: string;
 };
