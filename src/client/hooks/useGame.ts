@@ -137,6 +137,9 @@ export const useGame = (initialDifficulty: 'base' = 'base') => {
       Array.from(Array(colsCount).keys()).map(() => null)
     );
 
+    let maxDistance = 0;
+    let farItem = {row: 0, col: 0};
+
     const filledMatrix: MatrixItem[][] = empty_matrix.map((row, rowIndex) => {
       return row.map((_cell, colIndex) => {
         const treasure = shuffledTreasures.find((t) => t.row === rowIndex && t.col === colIndex);
@@ -151,23 +154,24 @@ export const useGame = (initialDifficulty: 'base' = 'base') => {
         }
 
         const fieldInfo = findNearestTreasure(rowIndex, colIndex, shuffledTreasures, rowsCount + colsCount);
+        const bombs = countBombsNearby(rowIndex, colIndex, shuffledTreasures);
+
+        if (fieldInfo.minDistance >= maxDistance && bombs === 0) {
+          maxDistance = fieldInfo.minDistance;
+          farItem = {row: rowIndex, col: colIndex};
+        }
+
         return {
           value: fieldInfo.minDistance.toString(),
-          isRevealed: true,
+          isRevealed: false,
           nearestTreasure: fieldInfo.treasure,
-          bombs: countBombsNearby(rowIndex, colIndex, shuffledTreasures),
+          bombs: bombs,
           isTreasure: false,
         };
       });
     });
 
-    const revealedItem = filledMatrix.flat().find((item) => {
-      return !item.isTreasure && +item.value >= 3;
-    });
-
-    if (revealedItem) {
-      revealedItem.isRevealed = true;
-    }
+    filledMatrix[farItem.row]![farItem.col]!.isRevealed = true;
 
     setMatrix(filledMatrix);
     resetState();
