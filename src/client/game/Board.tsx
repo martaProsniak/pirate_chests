@@ -1,14 +1,21 @@
-import { requestExpandedMode } from '@devvit/web/client';
 import { Tile } from './Tile';
 import { useGame } from '../hooks/useGame';
-import { Modal } from '../UI/Modal/Modal';
 import { useEffect, useState } from 'react';
 import { GameProgress } from './GameProgress';
 import { Actions } from './Actions';
+import { EndGameModal } from './EndGameModal/EndGameModal';
 
 export interface BoardProps {
   mode: 'daily' | 'practice';
 }
+
+// TODO:
+//
+// - wydzielić modal do osobnego komponentu (EndGameModal)
+//
+// - modal musi przyjmować propsy: isOpen, onClose, handleRestart, mode, a także inne, które okażą się potrzebne
+//
+// - jeśli mode jest daily, chcemy widzieć tablicę leaderboard
 
 export const Board = ({ mode = 'practice' }: BoardProps) => {
   const {
@@ -23,7 +30,8 @@ export const Board = ({ mode = 'practice' }: BoardProps) => {
     wasBombed,
     mapInfo,
     points,
-    loading
+    loading,
+    findings
   } = useGame({ mode });
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -93,22 +101,17 @@ export const Board = ({ mode = 'practice' }: BoardProps) => {
         </div>
       </div>
 
-      <Modal
+      <EndGameModal
         isOpen={isModalOpen}
         onClose={handleCloseModal}
-        handleRestart={handleRestart}
-      >
-        <h3 className={`font-pirate text-lg mb-1 drop-shadow-sm ${isWin ? 'text-green-300' : 'text-red-300'}`}>
-          {isWin ? "Victory!" : "Game Over!"}
-        </h3>
-        <p className="text-orange-200 text-base">
-          {isWin && "You found all the treasures! You'rrgh rich!"}
-          {wasBombed && "Bloody rats! Bomb exploded right to yarrrgh face! Better luck next time."}
-          {(!isWin && !wasBombed) && (
-            "Out of rum! Other pirates found the treasures!"
-          )}
-        </p>
-      </Modal>
+        onRestart={handleRestart}
+        mode={mode}
+        isWin={isWin}
+        wasBombed={wasBombed}
+        points={points}
+        findings={findings}
+        moves={moves}
+      />
 
       <Actions
         onRestart={startGame}

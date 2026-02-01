@@ -53,3 +53,16 @@ export type LeaderboardResponse = {
   entries: LeaderboardEntry[];
   userRank?: number;
 };
+
+export type PostCommentRequest = {
+  score: number;
+  isWin: boolean;
+  wasBombed: boolean;
+  moves: number;
+  findings: FindingsMap;
+};
+
+export type PostCommentResponse = {
+  success: boolean;
+  commentId?: string;
+};

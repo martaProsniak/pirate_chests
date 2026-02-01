@@ -17,7 +17,7 @@ const ProgressSection = ({ label, value, iconSrc, classes = '', imgClasses = '' 
         alt={label}
         className={`object-contain h-6 select-none ${imgClasses}`}
       />
-      <div className={`text-xl leading-5 font-indie font-bold drop-shadow-sm ${classes}`}>
+      <div className={`text-xl leading-5 font-pirate font-bold drop-shadow-sm ${classes}`}>
         {value}
       </div>
     </div>

@@ -8,7 +8,7 @@ import {
   SubmitScoreResponse,
   LeaderboardResponse,
   LeaderboardEntry,
-  UserStats, PracticeGameResponse,
+  UserStats, PracticeGameResponse, PostCommentResponse, PostCommentRequest,
 } from '../../shared/types/api';
 import { Difficulty } from '../../shared/types/game';
 import { CONFIG } from '../core/game-config';
@@ -210,6 +210,62 @@ router.get('/api/leaderboard', async (_req, res) => {
   } catch (error) {
     console.error('Leaderboard Error:', error);
     res.status(500).json({ entries: [] });
+  }
+});
+
+router.post('/api/post-comment', async (req, res) => {
+  const { userId, postId } = context;
+
+  if (!userId || !postId) {
+    res.status(401).json({ error: 'Unauthorized' });
+    return;
+  }
+
+  const { score, isWin, wasBombed, moves, findings } = req.body as PostCommentRequest;
+
+  try {
+    const lootList: string[] = [];
+    if (findings.chest > 0) lootList.push(`${findings.chest}x 📦 Chests`);
+    if (findings.gold > 0) lootList.push(`${findings.gold}x 💰 Gold`);
+    if (findings.fish > 0) lootList.push(`${findings.fish}x 🐟 Fish`);
+
+    const lootString = lootList.length > 0 ? lootList.join(', ') : 'Seaweed and salt';
+
+    let commentText = '';
+
+    if (isWin) {
+      commentText = `**VICTORY!** 🏴‍☠️\n\n` +
+        `I looted the entire island!\n` +
+        `💰 **Score:** ${score}\n` +
+        `🍺 **Rum left:** ${moves}\n` +
+        `💎 **Loot:** ${lootString}\n\n` +
+        `Can ye beat my score, scallywags?`;
+    } else if (wasBombed) {
+      commentText = `**BOOM!** 💣💥\n\n` +
+        `Stepped on a bomb and lost me leg!\n` +
+        `☠️ **Final Score:** ${score}\n` +
+        `🎒 **Loot before disaster:** ${lootString}\n\n` +
+        `Watch yer step!`;
+    } else {
+      commentText = `**OUT OF RUM!** 🦜\n\n` +
+        `Thirsty crew refused to move.\n` +
+        `📉 **Score:** ${score}\n` +
+        `🎒 **Loot found:** ${lootString}\n\n` +
+        `Better luck next tide!`;
+    }
+
+    commentText += `\n\n*Play the Daily Challenge to test yer luck!*`;
+
+    const comment = await reddit.submitComment({
+      id: postId,
+      text: commentText,
+    });
+
+    res.json({ success: true, commentId: comment.id } as PostCommentResponse);
+
+  } catch (error) {
+    console.error('Post Comment Error:', error);
+    res.status(500).json({ status: 'error', message: 'Failed to post comment' });
   }
 });
 

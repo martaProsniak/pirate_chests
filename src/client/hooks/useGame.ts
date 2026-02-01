@@ -67,7 +67,7 @@ export const useGame = ({ mode }: UseGameProps) => {
   }
 
   const resetState = (config: GameConfigItem) => {
-    setIsEnd(false);
+    setIsEnd(true);
     setIsWin(false);
     setMoves(config.maxMoves);
     setTreasuresFound(0);
@@ -218,6 +218,7 @@ export const useGame = ({ mode }: UseGameProps) => {
     points,
     wasBombed,
     mapInfo,
-    loading: gameLoading || apiLoading
+    loading: gameLoading || apiLoading,
+    findings,
   };
 };
