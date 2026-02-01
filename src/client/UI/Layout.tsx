@@ -3,15 +3,16 @@ import { ReactNode } from 'react';
 interface LayoutProps {
   children: ReactNode;
   className?: string;
+  image?: string;
 }
 
-export const Layout = ({ children, className = '' }: LayoutProps) => {
+export const Layout = ({ children, className = '', image = 'wood' }: LayoutProps) => {
   return (
-    <div className={`font-pirate flex flex-col items-center min-h-screen w-full h-full  relative overflow-hidden ${className}`}
+    <div className={`font-pirate flex flex-col items-center min-h-screen w-full h-full  relative ${className}`}
          style={{
-           backgroundImage: 'url("/images/water.png")',
+           backgroundImage: `url("/images/${image}.png")`,
            backgroundRepeat: 'repeat',
-           backgroundSize: '128px auto',
+           backgroundSize: `${image === 'wood' ? '512px' : '128px'} auto`,
            backgroundBlendMode: 'cover',
          }}
     >

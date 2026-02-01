@@ -3,7 +3,7 @@ import { Layout } from '../UI/Layout';
 
 export const App = () => {
   return (
-    <Layout>
+    <Layout className="overflow-hidden" image="water">
       <Board />
     </Layout>
   );

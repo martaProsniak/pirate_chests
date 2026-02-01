@@ -42,13 +42,6 @@ export const Menu = ({ onStart, onShowLeaderboard, onShowGuides }: MenuProps) =>
   return (
     <div
       className="flex flex-col items-center justify-center min-h-screen w-full text-amber-950 font-sans relative overflow-hidden"
-      // style={{
-      //   backgroundImage: 'url("/images/wood.png")',
-      //   backgroundRepeat: 'repeat',
-      //   backgroundSize: '128px auto',
-      //   backgroundBlendMode: 'cover', // lub 'multiply' zależnie od efektu jaki chcesz
-      //   backgroundColor: '#5D4037'   // fallback color (ciemny brąz)
-      // }}
     >
       {/* Kontener ograniczający szerokość (100% mobile, 70% tablet+) */}
       <div className="w-full h-full max-h-screen flex flex-col items-center justify-center gap-2 px-6 py-4 relative z-10">

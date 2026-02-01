@@ -12,7 +12,7 @@ export interface IGuiButtonProps {
 }
 
 export const GuiButton = ({onClick, classes, label = '', image, variant = 'icon', svgIcon}: IGuiButtonProps) => {
-  const size = variant !== 'text' ? 'w-8 h-8' : 'h-12 w-36 p-2';
+  const size = variant !== 'text' ? 'w-10 h-10' : 'h-12 w-36 p-2';
 
   return (
     <button
