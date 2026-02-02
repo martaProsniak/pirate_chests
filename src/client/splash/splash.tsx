@@ -4,13 +4,14 @@ import { createRoot } from 'react-dom/client';
 import { Layout } from '../UI/Layout';
 import { Menu } from './Menu';
 import { usePirateChestAPI } from '../hooks/usePirateChestApi';
-import { requestExpandedMode } from '@devvit/web/client';
+import { context, requestExpandedMode } from '@devvit/web/client';
 
 export const Splash = () => {
   const { getDailyChallenge } = usePirateChestAPI();
+  const { username } = context;
 
   const [menuData, setMenuData] = useState({
-    username: 'Cpt. Stranger',
+    username: username ?? 'Matey',
     score: 0,
     mode: 'practice' as 'daily' | 'practice'
   });
@@ -21,7 +22,7 @@ export const Splash = () => {
         const data = await getDailyChallenge();
 
         if (data) {
-          const determinedMode = data.attempts === 0 ? 'daily' : 'practice';
+          const determinedMode = data.hasPlayed ? 'daily' : 'practice';
 
           console.log(determinedMode);
           setMenuData({

@@ -3,7 +3,7 @@ import { ReactNode } from 'react';
 export type GuiBtnVariant = 'icon' | 'text' | 'svg';
 
 export interface IGuiButtonProps {
-  onClick: () => void;
+  onClick: (() => void )| ((e: any) => void);
   image: string;
   label: string;
   classes?: string | ReactNode;

@@ -7,7 +7,7 @@ export interface MenuProps {
   score?: number;
   username?: string;
   mode?: 'daily' | 'practice',
-  handleStart?: (e: MouseEvent) => void;
+  handleStart: (e: MouseEvent) => void;
 }
 
 export const Menu = ({score = 0, username = 'Anonymus', mode = 'practice', handleStart}: MenuProps) => {
@@ -18,7 +18,7 @@ export const Menu = ({score = 0, username = 'Anonymus', mode = 'practice', handl
       </div>
       <Guides />
       <div className="flex flex-col items-center justify-center w-full gap-2 grow">
-        <GuiButton image="menu_btn" label={mode === 'daily' ? 'Daily Adventure' : 'Casual Adventure'} variant="text" onClick={(e) => handleStart && handleStart(e)} />
+        <GuiButton image="menu_btn" label={mode === 'daily' ? 'Daily Adventure' : 'Casual Adventure'} variant="text" onClick={(e) => handleStart(e)} />
         <div className="flex flex-row items-center">
           <GuiButton image="leadership_btn" label="Leaders" variant="icon" onClick={() => console.log("Leaders")} />
         </div>

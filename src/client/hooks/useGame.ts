@@ -120,7 +120,6 @@ export const useGame = ({ mode }: UseGameProps) => {
         score: finalScore,
         moves: finalMoves,
         findings: finalFindings,
-        attempt: 1
       });
     } catch (e) {
       console.error("Failed to submit score", e);

@@ -23,7 +23,7 @@ export type DailyChallengeResponse = {
   matrix: MatrixItem[][];
   gameConfig: GameConfigItem;
   date: string;
-  attempts: number;
+  hasPlayed: boolean;
   stats: UserStats;
   username: string;
   mode: 'practice' | 'daily';
@@ -43,7 +43,6 @@ export type SubmitScoreRequest = {
   findings: FindingsMap;
   isWin: boolean;
   isDaily: boolean;
-  attempt: number;
 };
 
 export type SubmitScoreResponse = {

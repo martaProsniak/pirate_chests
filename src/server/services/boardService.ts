@@ -1,11 +1,7 @@
 import { generateBoard } from '../core/board';
 import { createSeededGenerator } from '../utils/seededRandom';
 import { MatrixItem } from '../../shared/types/game';
-
-interface SimpleRedis {
-  get(key: string): Promise<string | undefined | null>;
-  set(key: string, value: string, options?: { expiration?: Date }): Promise<unknown>;
-}
+import { SimpleRedis } from './types';
 
 const BOARD_CACHE_TTL = 1000 * 60 * 60 * 24 * 180; // 6 months
 

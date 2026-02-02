@@ -1,19 +1,20 @@
 import { Router } from 'express';
 import { redis, reddit, context } from '@devvit/web/server';
-import { getTodayKey, parseRedisInt, getUserStats } from '../utils/helpers';
+import { getUserStats } from '../utils/helpers';
 import {
   InitResponse,
   SubmitScoreRequest,
   SubmitScoreResponse,
   LeaderboardResponse,
   LeaderboardEntry,
-  UserStats, PracticeGameResponse, PostCommentResponse, PostCommentRequest,
+  UserStats, PracticeGameResponse, PostCommentResponse, PostCommentRequest, DailyChallengeResponse,
 } from '../../shared/types/api';
 import { Difficulty } from '../../shared/types/game';
 import { CONFIG } from '../core/gameConfig';
 import { generateBoard } from '../core/board';
 import { generatePirateComment } from '../utils/commentGenerator';
 import { getOrCreateDailyBoard } from '../services/boardService';
+import { updateUserGlobalStats } from '../services/statsService';
 
 const router = Router();
 
@@ -58,17 +59,17 @@ router.get('/api/daily-challenge', async (_req, res) => {
   }
 
   try {
-    const attemptsKey = `daily_attempts:${postId}:${userId}`;
+    const playedKey = `daily_played_flag:${postId}:${userId}`;
     const statsKey = `user_stats:${userId}`;
 
-    const attemptsRaw = await redis.get(attemptsKey);
-    const attempts = parseRedisInt(attemptsRaw);
+    const playedRaw = await redis.get(playedKey);
+    const hasPlayed = !!playedRaw;
 
     let matrix;
     let mode: 'daily' | 'practice';
 
-    if (attempts > 0) {
-      // User played this specific post -> Force Practice
+    if (hasPlayed) {
+      // User has already played this specific post -> Force Practice
       matrix = generateBoard('base');
       mode = 'practice';
     } else {
@@ -81,15 +82,17 @@ router.get('/api/daily-challenge', async (_req, res) => {
     const stats = getUserStats(statsRaw);
     const currUser = await reddit.getCurrentUser();
 
-    res.json({
+    const response: DailyChallengeResponse = {
       matrix,
       gameConfig: getClientGameConfig('base'),
       date: new Date().toISOString(),
-      attempts,
+      hasPlayed,
       stats,
-      username: currUser?.username ?? 'Anonymous Pirate',
+      username: currUser?.username ?? 'Matey',
       mode
-    });
+    };
+
+    res.json(response);
 
   } catch (error) {
     console.error('Daily Challenge Error:', error);
@@ -124,52 +127,40 @@ router.get('/api/practice-challenge', async (_req, res) => {
 });
 
 router.post('/api/submit-score', async (req, res) => {
-  const { userId } = context;
-  if (!userId) {
-    res.status(401).json({ error: 'Unauthorized' });
+  const { userId, postId, username } = context;
+
+  if (!userId || !postId) {
+    res.status(400).json({ error: 'Missing context (userId or postId)' });
     return;
   }
 
   const { score, findings, isWin, isDaily } = req.body as SubmitScoreRequest;
-  const today = getTodayKey();
   let confirmedIsDaily = isDaily;
 
   try {
+    const playedKey = `daily_played_flag:${postId}:${userId}`;
+    const leaderboardKey = `daily_leaderboard:${postId}`;
     const statsKey = `user_stats:${userId}`;
-    const attemptsKey = `daily_attempts:${today}:${userId}`;
-    const leaderboardKey = `daily_leaderboard:${today}`;
 
     if (isDaily) {
-      const currentAttemptsRaw = await redis.get(attemptsKey);
-      const currentAttempts = parseRedisInt(currentAttemptsRaw);
+      // Verify if user already played (security check)
+      const playedRaw = await redis.get(playedKey);
 
-      if (currentAttempts > 0) {
+      if (playedRaw) {
+        console.log(`User ${userId} already played post ${postId}. Score not added to leaderboard.`);
         confirmedIsDaily = false;
       }
     }
 
-    await redis.hIncrBy(statsKey, 'gamesPlayed', 1);
-    await redis.hIncrBy(statsKey, 'totalScore', score);
-
-    if (findings) {
-      if (findings.chest > 0) await redis.hIncrBy(statsKey, 'findings_chest', findings.chest);
-      if (findings.gold > 0) await redis.hIncrBy(statsKey, 'findings_gold', findings.gold);
-      if (findings.fish > 0) await redis.hIncrBy(statsKey, 'findings_fish', findings.fish);
-      if (findings.bomb > 0) await redis.hIncrBy(statsKey, 'findings_bomb', findings.bomb);
-    }
-
-    if (isWin) await redis.hIncrBy(statsKey, 'wins', 1);
+    await updateUserGlobalStats(redis, userId, { score, findings, isWin });
 
     if (confirmedIsDaily) {
-      await redis.incrBy(attemptsKey, 1);
-      const currUser = await reddit.getCurrentUser();
-      const username = currUser?.username ?? 'Anonymous';
+      await redis.set(playedKey, '1');
 
       await redis.zAdd(leaderboardKey, {
         member: `${username}::${userId}`,
         score: score,
       });
-
     }
 
     const updatedStatsRaw = await redis.hGetAll(statsKey);
@@ -184,9 +175,10 @@ router.post('/api/submit-score', async (req, res) => {
 });
 
 router.get('/api/leaderboard', async (_req, res) => {
+  const { postId } = context;
+
   try {
-    const today = getTodayKey();
-    const leaderboardKey = `daily_leaderboard:${today}`;
+    const leaderboardKey = `daily_leaderboard:${postId}`;
 
     const topScores = await redis.zRange(leaderboardKey, 0, 9, {
       by: 'rank',
@@ -221,11 +213,6 @@ router.post('/api/post-comment', async (req, res) => {
   const { score, isWin, wasBombed, moves, findings } = req.body as PostCommentRequest;
 
   try {
-    const lootList: string[] = [];
-    if (findings.chest > 0) lootList.push(`${findings.chest}x 📦 Chests`);
-    if (findings.gold > 0) lootList.push(`${findings.gold}x 💰 Gold`);
-    if (findings.fish > 0) lootList.push(`${findings.fish}x 🐟 Fish`);
-
     const commentText = generatePirateComment(score, isWin, wasBombed, moves, findings);
 
     const comment = await reddit.submitComment({

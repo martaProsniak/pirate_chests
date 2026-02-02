@@ -38,9 +38,6 @@ export const Guides= () => {
       <Guide image="rum" alt="rum">
         Walkin' takes Rum. Don't run dry!
       </Guide>
-      <Guide image="money" alt="money">
-        Loot and Rum sells for Gold!
-      </Guide>
     </section>
   )
 }
