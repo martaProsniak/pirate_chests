@@ -3,7 +3,6 @@ import { redis, reddit, context } from '@devvit/web/server';
 import { getTodayKey, parseRedisInt, getUserStats } from '../utils/helpers';
 import {
   InitResponse,
-  DailyChallengeResponse,
   SubmitScoreRequest,
   SubmitScoreResponse,
   LeaderboardResponse,
@@ -11,9 +10,10 @@ import {
   UserStats, PracticeGameResponse, PostCommentResponse, PostCommentRequest,
 } from '../../shared/types/api';
 import { Difficulty } from '../../shared/types/game';
-import { CONFIG } from '../core/game-config';
+import { CONFIG } from '../core/gameConfig';
 import { generateBoard } from '../core/board';
 import { generatePirateComment } from '../utils/commentGenerator';
+import { getOrCreateDailyBoard } from '../services/boardService';
 
 const router = Router();
 
@@ -49,56 +49,48 @@ router.get('/api/init', async (_req, res) => {
 });
 
 router.get('/api/daily-challenge', async (_req, res) => {
-  const { userId } = context;
+  const { userId, postId } = context;
 
-  if (!userId) {
-    res.status(401).json({ error: 'Unauthorized' });
+  if (!userId || !postId) {
+    console.error('Missing context:', { userId, postId });
+    res.status(400).json({ error: 'Context missing' });
     return;
   }
 
   try {
-    const today = getTodayKey();
-    const boardKey = `daily_board:${today}`;
-    const attemptsKey = `daily_attempts:${today}:${userId}`;
+    const attemptsKey = `daily_attempts:${postId}:${userId}`;
     const statsKey = `user_stats:${userId}`;
 
     const attemptsRaw = await redis.get(attemptsKey);
     const attempts = parseRedisInt(attemptsRaw);
+
     let matrix;
-    let mode: 'practice' | 'daily' = 'daily';
+    let mode: 'daily' | 'practice';
 
     if (attempts > 0) {
-      console.log(`User ${userId} already played daily. Generating random map.`);
+      // User played this specific post -> Force Practice
       matrix = generateBoard('base');
       mode = 'practice';
     } else {
-      let matrixJson = await redis.get(boardKey);
-
-      if (!matrixJson) {
-        console.log(`Generating new Daily Board for ${today}`);
-        const newMatrix = generateBoard('base');
-        matrixJson = JSON.stringify(newMatrix);
-        await redis.set(boardKey, matrixJson, { expiration: new Date(Date.now() + (1000 * 60 * 60 * 24 * 30)) });
-      }
-
-      matrix = JSON.parse(matrixJson);
+      // New game for this post -> Get deterministic board
+      mode = 'daily';
+      matrix = await getOrCreateDailyBoard(redis, postId);
     }
 
     const statsRaw = await redis.hGetAll(statsKey);
-    const stats: UserStats = getUserStats(statsRaw);
+    const stats = getUserStats(statsRaw);
     const currUser = await reddit.getCurrentUser();
 
-    const response: DailyChallengeResponse = {
-      matrix: matrix,
+    res.json({
+      matrix,
       gameConfig: getClientGameConfig('base'),
-      date: today!,
-      attempts: attempts,
-      stats: stats,
+      date: new Date().toISOString(),
+      attempts,
+      stats,
       username: currUser?.username ?? 'Anonymous Pirate',
-      mode: mode
-    };
+      mode
+    });
 
-    res.json(response);
   } catch (error) {
     console.error('Daily Challenge Error:', error);
     res.status(500).json({ status: 'error', message: 'Internal server error' });

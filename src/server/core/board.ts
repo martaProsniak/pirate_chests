@@ -1,5 +1,5 @@
 import { Difficulty, MatrixItem } from '../../shared/types/game';
-import { CONFIG } from './game-config';
+import { CONFIG } from './gameConfig';
 import {
   generateShuffledTreasures,
   findNearestTreasure,
