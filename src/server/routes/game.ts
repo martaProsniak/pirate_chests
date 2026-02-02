@@ -13,6 +13,7 @@ import {
 import { Difficulty } from '../../shared/types/game';
 import { CONFIG } from '../core/game-config';
 import { generateBoard } from '../core/board';
+import { generatePirateComment } from '../utils/commentGenerator';
 
 const router = Router();
 
@@ -217,6 +218,10 @@ router.get('/api/leaderboard', async (_req, res) => {
   }
 });
 
+const getRandomTemplate = (templates: string[]) => {
+  return templates[Math.floor(Math.random() * templates.length)];
+};
+
 router.post('/api/post-comment', async (req, res) => {
   const { userId, postId } = context;
 
@@ -233,32 +238,7 @@ router.post('/api/post-comment', async (req, res) => {
     if (findings.gold > 0) lootList.push(`${findings.gold}x 💰 Gold`);
     if (findings.fish > 0) lootList.push(`${findings.fish}x 🐟 Fish`);
 
-    const lootString = lootList.length > 0 ? lootList.join(', ') : 'Seaweed and salt';
-
-    let commentText = '';
-
-    if (isWin) {
-      commentText = `**VICTORY!** 🏴‍☠️\n\n` +
-        `I looted the entire island!\n` +
-        `💰 **Score:** ${score}\n` +
-        `🍺 **Rum left:** ${moves}\n` +
-        `💎 **Loot:** ${lootString}\n\n` +
-        `Can ye beat my score, scallywags?`;
-    } else if (wasBombed) {
-      commentText = `**BOOM!** 💣💥\n\n` +
-        `Stepped on a bomb and lost me leg!\n` +
-        `☠️ **Final Score:** ${score}\n` +
-        `🎒 **Loot before disaster:** ${lootString}\n\n` +
-        `Watch yer step!`;
-    } else {
-      commentText = `**OUT OF RUM!** 🦜\n\n` +
-        `Thirsty crew refused to move.\n` +
-        `📉 **Score:** ${score}\n` +
-        `🎒 **Loot found:** ${lootString}\n\n` +
-        `Better luck next tide!`;
-    }
-
-    commentText += `\n\n*Play the Daily Challenge to test yer luck!*`;
+    const commentText = generatePirateComment(score, isWin, wasBombed, moves, findings);
 
     const comment = await reddit.submitComment({
       id: postId,

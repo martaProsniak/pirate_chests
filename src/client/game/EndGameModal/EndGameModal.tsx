@@ -230,7 +230,7 @@ export const EndGameModal = ({
             variant="text"
             onClick={onRestart}
             image="menu_btn_arrow"
-            label="New Adventure"
+            label="One more Adventure"
           />
         </div>
       </div>
