@@ -10,6 +10,12 @@
       },
       "game": {
         "entry": "game.html"
+      },
+      "leaderboard": {
+        "entry": "leaderboard.html"
+      },
+      "guidelines": {
+        "entry": "guidelines.html"
       }
     }
   },
@@ -17,14 +23,25 @@
     "dir": "dist/server",
     "entry": "index.cjs"
   },
+  "permissions": {
+    "reddit": true
+  },
   "media": {
     "dir": "assets"
+  },
+  "scheduler": {
+    "tasks": {
+      "daily_challenge_post": {
+        "endpoint": "/internal/cron/daily-challenge",
+        "cron": "0 8 * * *"
+      }
+    }
   },
   "menu": {
     "items": [
       {
-        "label": "Create a new post",
-        "description": "pirate-chest",
+        "label": "Post New Daily Challenge",
+        "description": "Manually create the daily challenge post",
         "location": "subreddit",
         "forUserType": "moderator",
         "endpoint": "/internal/menu/post-create"

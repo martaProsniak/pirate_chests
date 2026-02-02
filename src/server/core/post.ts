@@ -1,7 +1,10 @@
 import { reddit } from '@devvit/web/server';
 
-export const createPost = async () => {
+export const createDailyPost = async (subredditName: string) => {
+  const title = '🏴‍☠️ Uncharted Isle Spotted! - Daily Pirate Chest Challenge'
+
   return await reddit.submitCustomPost({
-    title: 'pirate-chest',
+    subredditName: subredditName,
+    title: title,
   });
 };

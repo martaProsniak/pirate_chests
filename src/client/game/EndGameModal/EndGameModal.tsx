@@ -198,7 +198,7 @@ export const EndGameModal = ({
               </div>
             )}
 
-            {mode === 'daily' && (
+            {mode === 'daily' || mode === 'practice' && (
               <div className="flex flex-col gap-2 items-center justify-center pt-2 border-t border-white/10">
                 {!hasPosted ? (
                   <>
@@ -206,7 +206,7 @@ export const EndGameModal = ({
                     <GuiButton
                       variant="text"
                       onClick={handleShareComment}
-                      image="menu_btn"
+                      image="menu_btn_emerald"
                       label={isPosting ? 'Scribbling...' : 'Brag in the Log'}
                       disabled={isPosting}
                     />
