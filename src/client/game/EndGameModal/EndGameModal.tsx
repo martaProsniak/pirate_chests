@@ -34,6 +34,7 @@ export const EndGameModal = ({
 
   const [isPosting, setIsPosting] = useState(false);
   const [hasPosted, setHasPosted] = useState(false);
+  let postedComment = false;
 
   useEffect(() => {
     if (isOpen) {
@@ -75,6 +76,7 @@ export const EndGameModal = ({
         findings
       });
       setHasPosted(true);
+      postedComment = true;
     } catch (e) {
       console.error("Failed to share result", e);
     } finally {
@@ -198,9 +200,9 @@ export const EndGameModal = ({
               </div>
             )}
 
-            {mode === 'daily' || mode === 'practice' && (
+            {mode === 'daily' && (
               <div className="flex flex-col gap-2 items-center justify-center pt-2 border-t border-white/10">
-                {!hasPosted ? (
+                {(!hasPosted && !postedComment) ? (
                   <>
                     <p className="text-stone-300 text-xs italic">Show off yer loot to the crew!</p>
                     <GuiButton

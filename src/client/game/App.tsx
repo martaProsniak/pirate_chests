@@ -39,6 +39,7 @@ export const App = () => {
   };
 
   const handleRestart = () => {
+    setIsModalOpen(false);
     startGame();
   };
 
@@ -80,6 +81,8 @@ export const App = () => {
         <Actions
           onRestart={startGame}
           mode={checkedMode}
+          showModalBtn={(isEnd && !isModalOpen)}
+          onShowModal={() => setIsModalOpen(true)}
         />
       </div>
     </Layout>
