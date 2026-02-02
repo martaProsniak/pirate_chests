@@ -1,6 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import { MatrixItem } from '../game/types';
-import { FindingsMap, GameConfigItem } from '../../shared/types/game';
+import { FindingsMap, GameConfigItem, MatrixItem, Mode } from '../../shared/types/game';
 import { usePirateChestAPI } from './usePirateChestApi';
 import { DailyChallengeResponse, PracticeGameResponse } from '../../shared/types/api';
 
@@ -22,8 +21,10 @@ const RUM_POINTS = 10;
 const FALLBACK_GRID_SIZE = 6;
 
 interface UseGameProps {
-  mode: 'daily' | 'practice';
+  mode: Mode;
 }
+
+export type ChallengeResponseData = DailyChallengeResponse | PracticeGameResponse | null;
 
 export const useGame = ({ mode }: UseGameProps) => {
   const {
@@ -44,6 +45,7 @@ export const useGame = ({ mode }: UseGameProps) => {
   const [treasuresFound, setTreasuresFound] = useState<number>(0);
   const [isWin, setIsWin] = useState(false);
   const [points, setPoints] = useState(0);
+  const [checkedMode, setCheckedMode] = useState<Mode>(mode);
   const [wasBombed, setWasBombed] = useState(false);
   const [gameLoading, setGameLoading] = useState(false);
   const [findings, setFindings] = useState<FindingsMap>({
@@ -53,12 +55,13 @@ export const useGame = ({ mode }: UseGameProps) => {
     bomb: 0, chest: 0, gold: 0, fish: 0, totalTreasures: 0
   });
 
-  const loadGameData = useCallback((dataMatrix: MatrixItem[][], dataConfig: GameConfigItem) => {
+  const loadGameData = useCallback((dataMatrix: MatrixItem[][], dataConfig: GameConfigItem, dataMode: Mode) => {
     setMatrix(dataMatrix);
     setGridSize({
       rows: dataConfig.rowsCount,
       cols: dataConfig.colsCount
     });
+    setCheckedMode(dataMode);
     resetState(dataConfig);
   }, []);
 
@@ -83,7 +86,7 @@ export const useGame = ({ mode }: UseGameProps) => {
     setGameLoading(true);
 
     try {
-      let data: DailyChallengeResponse | PracticeGameResponse | null = null;
+      let data: ChallengeResponseData = null;
 
       if (mode === 'daily') {
         data = await getDailyChallenge();
@@ -92,7 +95,7 @@ export const useGame = ({ mode }: UseGameProps) => {
       }
 
       if (data) {
-        loadGameData(data.matrix, data.gameConfig);
+        loadGameData(data.matrix, data.gameConfig, data.mode);
       }
     } catch (e) {
       console.error("Failed to start game", e);
@@ -220,5 +223,6 @@ export const useGame = ({ mode }: UseGameProps) => {
     mapInfo,
     loading: gameLoading || apiLoading,
     findings,
+    checkedMode
   };
 };

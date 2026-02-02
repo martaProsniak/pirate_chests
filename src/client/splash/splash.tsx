@@ -2,7 +2,7 @@ import '../index.css';
 import { StrictMode, useEffect, useState, MouseEvent } from 'react';
 import { createRoot } from 'react-dom/client';
 import { Layout } from '../UI/Layout';
-import { NewMenu } from './NewMenu';
+import { Menu } from './Menu';
 import { usePirateChestAPI } from '../hooks/usePirateChestApi';
 import { requestExpandedMode } from '@devvit/web/client';
 
@@ -44,7 +44,7 @@ export const Splash = () => {
 
   return (
     <Layout className="overflow-y-auto">
-      <NewMenu handleStart={handleStart} mode={menuData.mode} username={menuData.username} score={menuData.score} />
+      <Menu handleStart={handleStart} mode={menuData.mode} username={menuData.username} score={menuData.score} />
     </Layout>
   );
 };

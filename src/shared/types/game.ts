@@ -1,5 +1,7 @@
 export type TreasureKind = 'chest' | 'gold' | 'fish' | 'bomb';
 
+export type Mode = 'daily' | 'practice'
+
 export type FindingsMap = {
   [key in TreasureKind]: number;
 };

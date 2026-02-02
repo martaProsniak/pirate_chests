@@ -64,10 +64,12 @@ router.get('/api/daily-challenge', async (_req, res) => {
     const attemptsRaw = await redis.get(attemptsKey);
     const attempts = parseRedisInt(attemptsRaw);
     let matrix;
+    let mode: 'practice' | 'daily' = 'daily';
 
     if (attempts > 0) {
       console.log(`User ${userId} already played daily. Generating random map.`);
       matrix = generateBoard('base');
+      mode = 'practice';
     } else {
       let matrixJson = await redis.get(boardKey);
 
@@ -92,6 +94,7 @@ router.get('/api/daily-challenge', async (_req, res) => {
       attempts: attempts,
       stats: stats,
       username: currUser?.username ?? 'Anonymous Pirate',
+      mode: mode
     };
 
     res.json(response);
@@ -117,6 +120,7 @@ router.get('/api/practice-challenge', async (_req, res) => {
       gameConfig: getClientGameConfig('base'),
       stats: stats,
       username: currUser?.username ?? 'Anonymous Pirate',
+      mode: 'practice',
     };
 
     res.json(response);

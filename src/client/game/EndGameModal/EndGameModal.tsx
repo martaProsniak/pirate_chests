@@ -18,16 +18,16 @@ interface EndGameModalProps {
 }
 
 export const EndGameModal = ({
-                               isOpen,
-                               onClose,
-                               onRestart,
-                               mode,
-                               isWin,
-                               wasBombed,
-                               points,
-                               findings,
-                               moves,
-                             }: EndGameModalProps) => {
+     isOpen,
+     onClose,
+     onRestart,
+     mode,
+     isWin,
+     wasBombed,
+     points,
+     findings,
+     moves,
+   }: EndGameModalProps) => {
   const { getLeaderboard, postComment } = usePirateChestAPI();
   const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>([]);
   const [loadingLB, setLoadingLB] = useState(false);
@@ -35,7 +35,6 @@ export const EndGameModal = ({
   const [isPosting, setIsPosting] = useState(false);
   const [hasPosted, setHasPosted] = useState(false);
 
-  // Reset stanu po otwarciu
   useEffect(() => {
     if (isOpen) {
       setHasPosted(false);
@@ -43,7 +42,6 @@ export const EndGameModal = ({
     }
   }, [isOpen]);
 
-  // Pobieranie leaderboardu (Tylko dla Daily)
   useEffect(() => {
     const fetchLeaderboard = async () => {
       if (isOpen && mode === 'daily') {
@@ -122,7 +120,7 @@ export const EndGameModal = ({
                 {isWin && "Ye found all the treasures! The crew is rich!"}
                 {wasBombed && "Blimey! A bomb blew up right in yer face!"}
                 {(!isWin && !wasBombed) && (
-                  "Arrr! Out of rum! The lazy crew refused to move!"
+                  "Arrr! Out of rum! Yer mates refused to move!"
                 )}
               </p>
             </div>
@@ -157,7 +155,7 @@ export const EndGameModal = ({
               </div>
             </div>
 
-            {(mode === 'daily') && (
+            {mode === 'daily' && (
               <div className="bg-black/20 rounded-lg p-3 border border-white/10">
                 <h4 className="text-amber-200 font-pirate text-xl mb-2 border-b border-white/10 pb-1">
                   Captains Table
@@ -218,7 +216,6 @@ export const EndGameModal = ({
             label="New Adventure"
           />
         </div>
-
       </div>
     </div>
   );

@@ -26,6 +26,7 @@ export type DailyChallengeResponse = {
   attempts: number;
   stats: UserStats;
   username: string;
+  mode: 'practice' | 'daily';
 };
 
 export type PracticeGameResponse = {
@@ -33,6 +34,7 @@ export type PracticeGameResponse = {
   gameConfig: GameConfigItem;
   stats: UserStats;
   username: string;
+  mode: 'practice';
 };
 
 export type SubmitScoreRequest = {

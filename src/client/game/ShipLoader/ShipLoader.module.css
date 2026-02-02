@@ -4,6 +4,6 @@
   100% { transform: rotate(-5deg) translateY(0); }
 }
 
-.animate-rock {
+.animateRock {
   animation: rock-ship 3s ease-in-out infinite;
 }
