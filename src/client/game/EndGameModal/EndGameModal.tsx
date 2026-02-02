@@ -84,6 +84,27 @@ export const EndGameModal = ({
 
   if (!isOpen) return null;
 
+  const getHeaderText = () => {
+    if (isWin) {
+      return {
+        header: 'Yo Ho Ho!',
+        paragraph: 'Ye found all the booty! The crew is rich!'
+      }
+    }
+    if (wasBombed) {
+      return {
+        header: 'Blast it all!',
+        paragraph: 'A bomb blew up right in yer face! All rum exploded!'
+      }
+    }
+    return {
+      header: 'Why is the Rum Gone?!',
+      paragraph: 'The Cask is Empty! Yer mates refused to move!'
+    }
+  }
+
+  const text = getHeaderText();
+
   return (
     <div
       className="fixed inset-0 z-50 flex items-center justify-center px-4"
@@ -113,15 +134,11 @@ export const EndGameModal = ({
 
             <div>
               <h3 className={`font-pirate text-4xl mb-2 drop-shadow-sm ${isWin ? 'text-emerald-300' : 'text-red-300'}`}>
-                {isWin ? "Victory!" : "Game Over!"}
+                {text.header}
               </h3>
 
               <p className="text-stone-200 text-sm sm:text-base px-2 font-indie font-bold">
-                {isWin && "Ye found all the treasures! The crew is rich!"}
-                {wasBombed && "Blimey! A bomb blew up right in yer face!"}
-                {(!isWin && !wasBombed) && (
-                  "Arrr! Out of rum! Yer mates refused to move!"
-                )}
+                {text.paragraph}
               </p>
             </div>
 
@@ -190,13 +207,13 @@ export const EndGameModal = ({
                       variant="text"
                       onClick={handleShareComment}
                       image="menu_btn"
-                      label={isPosting ? 'Scribbling...' : 'Share results!'}
+                      label={isPosting ? 'Scribbling...' : 'Brag in the Log'}
                       disabled={isPosting}
                     />
                   </>
                 ) : (
                   <p className="text-emerald-400 text-sm font-bold flex items-center gap-1 bg-emerald-900/30 px-3 py-1 rounded-full border border-emerald-500/30 shadow-md">
-                    <span>✅</span> Posted to comments!
+                    <span>✅</span> Scribbled in the Log!
                   </p>
                 )}
               </div>

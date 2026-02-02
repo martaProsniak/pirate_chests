@@ -1,4 +1,4 @@
-import { MatrixItem } from './types';
+import { MatrixItem } from '../../shared/types/game';
 import { Treasure } from './Treasure';
 import { Clue } from './Clue';
 
