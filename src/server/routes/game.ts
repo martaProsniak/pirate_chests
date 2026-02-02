@@ -218,10 +218,6 @@ router.get('/api/leaderboard', async (_req, res) => {
   }
 });
 
-const getRandomTemplate = (templates: string[]) => {
-  return templates[Math.floor(Math.random() * templates.length)];
-};
-
 router.post('/api/post-comment', async (req, res) => {
   const { userId, postId } = context;
 
