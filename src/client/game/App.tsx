@@ -83,6 +83,7 @@ export const App = () => {
           mode={checkedMode}
           showModalBtn={(isEnd && !isModalOpen)}
           onShowModal={() => setIsModalOpen(true)}
+          isEnd={isEnd}
         />
       </div>
     </Layout>

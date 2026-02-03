@@ -22,7 +22,7 @@ export const Splash = () => {
         const data = await getDailyChallenge();
 
         if (data) {
-          const determinedMode = data.hasPlayed ? 'daily' : 'practice';
+          const determinedMode = data.hasPlayed ? 'practice' : 'daily';
 
           console.log(determinedMode);
           setMenuData({

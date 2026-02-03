@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { usePirateChestAPI } from '../../hooks/usePirateChestApi';
-import { LeaderboardEntry } from '../../../shared/types/api';
+import { LeaderboardEntry, PostCommentResponse } from '../../../shared/types/api';
 import { FindingsMap } from '../../../shared/types/game';
 import { GuiButton } from '../../UI/GUIButton';
 import styles from './EndGameModal.module.css';
@@ -34,7 +34,7 @@ export const EndGameModal = ({
 
   const [isPosting, setIsPosting] = useState(false);
   const [hasPosted, setHasPosted] = useState(false);
-  let postedComment = false;
+  const [commentId, setCommentId] = useState<string>('');
 
   useEffect(() => {
     if (isOpen) {
@@ -68,7 +68,7 @@ export const EndGameModal = ({
 
     setIsPosting(true);
     try {
-      await postComment({
+      const comment: PostCommentResponse | null = await postComment({
         score: points,
         isWin,
         wasBombed,
@@ -76,7 +76,7 @@ export const EndGameModal = ({
         findings
       });
       setHasPosted(true);
-      postedComment = true;
+      setCommentId(comment?.commentId || '');
     } catch (e) {
       console.error("Failed to share result", e);
     } finally {
@@ -112,7 +112,7 @@ export const EndGameModal = ({
       className="fixed inset-0 z-50 flex items-center justify-center px-4"
       onClick={onClose}
     >
-      <div className="absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity" />
+      <div className="absolute inset-0 bg-black/60 transition-opacity" />
       <div
         onClick={(e) => e.stopPropagation()}
         className={`
@@ -200,9 +200,9 @@ export const EndGameModal = ({
               </div>
             )}
 
-            {mode === 'daily' && (
+            {(mode === 'daily' && !commentId) && (
               <div className="flex flex-col gap-2 items-center justify-center pt-2 border-t border-white/10">
-                {(!hasPosted && !postedComment) ? (
+                {(!hasPosted) ? (
                   <>
                     <p className="text-stone-300 text-xs italic">Show off yer loot to the crew!</p>
                     <GuiButton
