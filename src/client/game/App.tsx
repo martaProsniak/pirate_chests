@@ -20,9 +20,9 @@ export const App = () => {
     wasBombed,
     mapInfo,
     points,
-    loading,
     findings,
-    checkedMode
+    checkedMode,
+    gameLoading
   } = useGame({mode: 'daily'});
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -47,11 +47,11 @@ export const App = () => {
     <Layout className="overflow-hidden" image="water">
       <div className="relative overflow-hidden">
 
-        {loading && (
+        {gameLoading && (
           <ShipLoader />
         )}
 
-        {!loading && (matrix && matrix.length > 0) ? (
+        {!gameLoading && (matrix && matrix.length > 0) ? (
           <div className="min-w-fit flex flex-col items-center gap-4 py-1 px-2">
             <div className="relative z-10 flex w-full items-center justify-center gap-x-1 px-4">
               <GameProgress

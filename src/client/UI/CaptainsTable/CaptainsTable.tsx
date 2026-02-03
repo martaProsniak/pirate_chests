@@ -6,9 +6,10 @@ import { context } from '@devvit/web/client';
 interface CaptainsTableProps {
   limit?: number;
   className?: string;
+  variant?: 'default' | 'endgame';
 }
 
-export const CaptainsTable = ({ limit = 5, className = '' }: CaptainsTableProps) => {
+export const CaptainsTable = ({ limit = 5, className = '', variant = 'default' }: CaptainsTableProps) => {
   const { getLeaderboard } = usePirateChestAPI();
   const { username } = context;
 
@@ -41,19 +42,18 @@ export const CaptainsTable = ({ limit = 5, className = '' }: CaptainsTableProps)
     };
   }, [getLeaderboard, limit]);
 
-  const isUserInTop = userEntry && entries.some(e => e.rank === userEntry.rank);
+  const renderContent = () => {
+    if (loading) {
+      return (
+        <div className="text-stone-400 text-xs py-2 animate-pulse italic">
+          Scouting results...
+        </div>
+      );
+    }
 
-  return (
-    <div className={`bg-black/20 rounded-lg p-3 border border-white/10 ${className}`}>
-      <h4 className="text-amber-200 font-pirate text-xl mb-2 border-b border-white/10 pb-1 flex justify-between items-end">
-        <span>Captains Table</span>
-      </h4>
-
-      {loading ? (
-        <div className="text-stone-400 text-xs py-2 animate-pulse italic">Scouting results...</div>
-      ) : entries.length > 0 ? (
+    if (entries.length > 0) {
+      return (
         <div className="flex flex-col gap-1">
-
           {entries.map((entry) => (
             <LeaderboardRow
               key={entry.rank}
@@ -71,11 +71,33 @@ export const CaptainsTable = ({ limit = 5, className = '' }: CaptainsTableProps)
               />
             </>
           )}
-
         </div>
-      ) : (
-        <div className="text-stone-300 text-xs py-2 italic">Be the first captain today!</div>
-      )}
+      );
+    }
+
+    if (variant === 'endgame') {
+      return (
+        <div className="text-emerald-400 text-xs py-2 italic text-center font-bold">
+          Ye set the bar! First captain on these lands!
+        </div>
+      );
+    }
+
+    return (
+      <div className="text-stone-300 text-xs py-2 italic">
+        Be the first to find today's loot!
+      </div>
+    );
+  };
+
+  const isUserInTop = userEntry && entries.some(e => e.rank === userEntry.rank);
+
+  return (
+    <div className={`bg-black/20 rounded-lg p-3 border border-white/10 ${className}`}>
+      <h4 className="text-amber-200 font-pirate text-xl mb-2 border-b border-white/10 pb-1 flex justify-between items-end">
+        <span>Captains Table</span>
+      </h4>
+      {renderContent()}
     </div>
   );
 };

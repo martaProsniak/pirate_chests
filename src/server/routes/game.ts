@@ -15,7 +15,11 @@ import { generateBoard } from '../core/board';
 import { generatePirateComment } from '../utils/commentGenerator';
 import { getOrCreateDailyBoard } from '../services/boardService';
 import { updateUserGlobalStats } from '../services/statsService';
-import { MODE_UPDATE_MSG, STATS_UPDATE_MSG, userDataChannel } from '../../shared/types/channels';
+import {
+  MODE_UPDATE_MSG,
+  STATS_UPDATE_MSG,
+  userDataChannel,
+} from '../../shared/types/channels';
 
 const router = Router();
 

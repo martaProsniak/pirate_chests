@@ -220,8 +220,9 @@ export const useGame = ({ mode }: UseGameProps) => {
     points,
     wasBombed,
     mapInfo,
-    loading: gameLoading || apiLoading,
+    apiLoading,
     findings,
-    checkedMode
+    checkedMode,
+    gameLoading,
   };
 };
