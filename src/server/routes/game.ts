@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { redis, reddit, context } from '@devvit/web/server';
+import { redis, reddit, context, realtime } from '@devvit/web/server';
 import { getUserStats } from '../utils/helpers';
 import {
   InitResponse,
@@ -15,6 +15,7 @@ import { generateBoard } from '../core/board';
 import { generatePirateComment } from '../utils/commentGenerator';
 import { getOrCreateDailyBoard } from '../services/boardService';
 import { updateUserGlobalStats } from '../services/statsService';
+import { MODE_UPDATE_MSG, STATS_UPDATE_MSG, userDataChannel } from '../../shared/types/channels';
 
 const router = Router();
 
@@ -129,8 +130,8 @@ router.get('/api/practice-challenge', async (_req, res) => {
 router.post('/api/submit-score', async (req, res) => {
   const { userId, postId, username } = context;
 
-  if (!userId || !postId) {
-    res.status(400).json({ error: 'Missing context (userId or postId)' });
+  if (!userId || !postId || !username) {
+    res.status(400).json({ error: 'Missing context (userId, username or postId)' });
     return;
   }
 
@@ -167,6 +168,23 @@ router.post('/api/submit-score', async (req, res) => {
     const newStats: UserStats = getUserStats(updatedStatsRaw);
 
     res.json({ success: true, newStats } as SubmitScoreResponse);
+    await realtime.send(userDataChannel(userId), {
+      type: STATS_UPDATE_MSG,
+      userId: userId,
+      payload: {
+        stats: newStats,
+      },
+    });
+    if (confirmedIsDaily) {
+      await realtime.send(userDataChannel(userId), {
+        type: MODE_UPDATE_MSG,
+        userId: userId,
+        payload: {
+          postId: postId,
+          mode: 'practice',
+        }
+      });
+    }
 
   } catch (error) {
     console.error('Submit Score Error:', error);

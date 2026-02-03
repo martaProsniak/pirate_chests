@@ -18,7 +18,8 @@
     "entry": "index.cjs"
   },
   "permissions": {
-    "reddit": true
+    "reddit": true,
+    "realtime": true
   },
   "media": {
     "dir": "assets"

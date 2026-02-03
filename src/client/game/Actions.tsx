@@ -6,14 +6,13 @@ export interface ActionsProps {
   mode?: Mode;
   showModalBtn?: boolean;
   onShowModal?: () => void;
-  isEnd: boolean;
+  isEnd?: boolean;
 }
 
-export const Actions = ({ onRestart, mode = 'practice', showModalBtn = false, onShowModal, isEnd }: ActionsProps) => {
-
+export const Actions = ({ onRestart, mode = 'practice', showModalBtn = false, onShowModal }: ActionsProps) => {
   return (
     <div className="fixed bottom-2 right-4 flex md:flex-col items-end gap-2 z-20">
-      {mode === 'practice' || (mode === 'daily' && isEnd) && (
+      {(mode === 'practice') && (
         <GuiButton onClick={onRestart} label="Restart Game" image="replay_btn" />
       )}
       {showModalBtn && (
