@@ -175,7 +175,12 @@ router.post('/api/submit-score', async (req, res) => {
 });
 
 router.get('/api/leaderboard', async (_req, res) => {
-  const { postId } = context;
+  const { postId, username, userId } = context;
+
+  if (!postId) {
+    res.status(400).json({ entries: [] });
+    return;
+  }
 
   try {
     const leaderboardKey = `daily_leaderboard:${postId}`;
@@ -194,8 +199,35 @@ router.get('/api/leaderboard', async (_req, res) => {
       };
     });
 
-    res.json({ entries } as LeaderboardResponse);
+    let userEntry: LeaderboardEntry | null = null;
 
+    if (userId) {
+      const userInTopIndex = topScores.findIndex(s => s.member.endsWith(`::${userId}`));
+
+      if (userInTopIndex !== -1) {
+        userEntry = entries[userInTopIndex] as LeaderboardEntry;
+      } else {
+        const memberKey = `${username}::${userId}`;
+
+        const [rankAsc, totalCount, score] = await Promise.all([
+          redis.zRank(leaderboardKey, memberKey),
+          redis.zCard(leaderboardKey),
+          redis.zScore(leaderboardKey, memberKey)
+        ]);
+
+        if (rankAsc !== undefined && totalCount !== undefined && score !== undefined) {
+          const realRank = totalCount - rankAsc;
+
+          userEntry = {
+            username: username ?? 'Matey',
+            score: score,
+            rank: realRank
+          };
+
+        }
+      }
+      res.json({ entries, userEntry } as LeaderboardResponse);
+    }
   } catch (error) {
     console.error('Leaderboard Error:', error);
     res.status(500).json({ entries: [] });
