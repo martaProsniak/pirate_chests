@@ -45,23 +45,23 @@ export const App = () => {
 
   return (
     <Layout className="overflow-hidden" image="water">
-      <div className="relative overflow-hidden">
+      <div className="relative overflow-hidden w-full">
 
         {gameLoading && (
           <ShipLoader />
         )}
 
         {!gameLoading && (matrix && matrix.length > 0) ? (
-          <div className="min-w-fit flex flex-col items-center gap-4 py-1 px-2">
-            <div className="relative z-10 flex w-full items-center justify-center gap-x-1 px-4">
-              <GameProgress
-                moves={moves}
-                treasuresFound={treasuresFound}
-                totalTreasures={totalTreasures}
-                bombs={mapInfo.bomb}
-                points={points}
-              />
-            </div>
+          <div className="w-full flex flex-col items-center gap-4 py-1 px-2">
+            {/*<div className="relative z-10 flex w-fit items-center justify-center gap-x-1 px-4">*/}
+            {/*  <GameProgress*/}
+            {/*    moves={moves}*/}
+            {/*    treasuresFound={treasuresFound}*/}
+            {/*    totalTreasures={totalTreasures}*/}
+            {/*    bombs={mapInfo.bomb}*/}
+            {/*    points={points}*/}
+            {/*  />*/}
+            {/*</div>*/}
 
             <Board matrix={matrix} onClick={handleCellClick}  />
           </div>

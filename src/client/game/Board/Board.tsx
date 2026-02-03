@@ -8,16 +8,20 @@ export interface BoardProps {
 
 export const Board = ({matrix, onClick}: BoardProps) => {
   return (
-    <div className="relative z-10 p-10">
-      <img
-        src="/images/board.png"
-        alt="Island map"
-        className="absolute inset-0 w-full h-full object-contain pointer-events-none z-0"
-      />
-
-      <div className="relative flex flex-col gap-1">
+    <div
+      className="relative z-10 flex flex-col gap-1 shrink-0"
+      style={{
+        borderImageSource: 'url("/images/island.png")',
+        borderImageSlice: '240 fill',
+        borderWidth: '60px',
+        borderStyle: 'solid',
+        background: 'none',
+        padding: '36px',
+      }}
+    >
+      <div className="w-full">
         {matrix.map((row, rowIndex) => (
-          <div key={rowIndex} className="flex gap-1">
+          <div key={rowIndex} className="flex gap-0.5">
             {row.map((cell, colIndex) => (
               <Tile
                 key={`${rowIndex}-${colIndex}`}
@@ -29,5 +33,5 @@ export const Board = ({matrix, onClick}: BoardProps) => {
         ))}
       </div>
     </div>
-  )
+  );
 }
