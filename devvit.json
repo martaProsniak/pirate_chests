@@ -10,12 +10,6 @@
       },
       "game": {
         "entry": "game.html"
-      },
-      "leaderboard": {
-        "entry": "leaderboard.html"
-      },
-      "guidelines": {
-        "entry": "guidelines.html"
       }
     }
   },

@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
 import { usePirateChestAPI } from '../../hooks/usePirateChestApi';
-import { LeaderboardEntry, PostCommentResponse } from '../../../shared/types/api';
+import { PostCommentResponse } from '../../../shared/types/api';
 import { FindingsMap } from '../../../shared/types/game';
 import { GuiButton } from '../../UI/GUIButton';
 import styles from './EndGameModal.module.css';
+import { CaptainsTable } from '../../UI/CaptainsTable/CaptainsTable';
 
 interface EndGameModalProps {
   isOpen: boolean;
@@ -28,9 +29,7 @@ export const EndGameModal = ({
      findings,
      moves,
    }: EndGameModalProps) => {
-  const { getLeaderboard, postComment } = usePirateChestAPI();
-  const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>([]);
-  const [loadingLB, setLoadingLB] = useState(false);
+  const { postComment } = usePirateChestAPI();
 
   const [isPosting, setIsPosting] = useState(false);
   const [hasPosted, setHasPosted] = useState(false);
@@ -42,26 +41,6 @@ export const EndGameModal = ({
       setIsPosting(false);
     }
   }, [isOpen]);
-
-  useEffect(() => {
-    const fetchLeaderboard = async () => {
-      if (isOpen && mode === 'daily') {
-        setLoadingLB(true);
-        try {
-          const data = await getLeaderboard();
-          if (data && data.entries) {
-            setLeaderboard(data.entries.slice(0, 5));
-          }
-        } catch (e) {
-          console.error("Failed to load leaderboard", e);
-        } finally {
-          setLoadingLB(false);
-        }
-      }
-    };
-
-    fetchLeaderboard();
-  }, [isOpen, mode, getLeaderboard]);
 
   const handleShareComment = async () => {
     if (isPosting || hasPosted) return;
@@ -175,29 +154,7 @@ export const EndGameModal = ({
             </div>
 
             {mode === 'daily' && (
-              <div className="bg-black/20 rounded-lg p-3 border border-white/10">
-                <h4 className="text-amber-200 font-pirate text-xl mb-2 border-b border-white/10 pb-1">
-                  Captains Table
-                </h4>
-
-                {loadingLB ? (
-                  <div className="text-stone-400 text-xs py-2 animate-pulse italic">Scouting results...</div>
-                ) : leaderboard.length > 0 ? (
-                  <div className="flex flex-col gap-1">
-                    {leaderboard.map((entry, index) => (
-                      <div key={`${entry.username}-${index}`} className="flex justify-between items-center text-xs sm:text-sm px-2 py-1 odd:bg-white/5 rounded">
-                        <div className="flex gap-2 items-center">
-                          <span className="text-amber-500 font-bold w-4 text-right">{index + 1}.</span>
-                          <span className="text-stone-300 font-bold truncate max-w-[120px]">{entry.username}</span>
-                        </div>
-                        <span className="text-amber-400 font-mono font-bold">{entry.score}</span>
-                      </div>
-                    ))}
-                  </div>
-                ) : (
-                  <div className="text-stone-300 text-xs py-2 italic">Be the first captain today!</div>
-                )}
-              </div>
+              <CaptainsTable />
             )}
 
             {(mode === 'daily' && !commentId) && (
