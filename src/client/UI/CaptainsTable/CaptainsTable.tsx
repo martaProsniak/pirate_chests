@@ -9,7 +9,11 @@ interface CaptainsTableProps {
   variant?: 'default' | 'endgame';
 }
 
-export const CaptainsTable = ({ limit = 5, className = '', variant = 'default' }: CaptainsTableProps) => {
+export const CaptainsTable = ({
+                                limit = 5,
+                                className = '',
+                                variant = 'default'
+                              }: CaptainsTableProps) => {
   const { getLeaderboard } = usePirateChestAPI();
   const { username } = context;
 
@@ -42,10 +46,12 @@ export const CaptainsTable = ({ limit = 5, className = '', variant = 'default' }
     };
   }, [getLeaderboard, limit]);
 
+  const isUserInTop = userEntry && entries.some(e => e.rank === userEntry.rank);
+
   const renderContent = () => {
     if (loading) {
       return (
-        <div className="text-stone-400 text-xs py-2 animate-pulse italic">
+        <div className="text-sky-600 text-xs py-2 animate-pulse italic">
           Scouting results...
         </div>
       );
@@ -64,7 +70,7 @@ export const CaptainsTable = ({ limit = 5, className = '', variant = 'default' }
 
           {userEntry && !isUserInTop && (
             <>
-              <div className="text-center text-white/20 text-xs leading-[0.5rem] mt-1 mb-1">...</div>
+              <div className="text-center text-stone-400 text-xs leading-[0.5rem] mt-1 mb-1">...</div>
               <LeaderboardRow
                 entry={userEntry}
                 isHighlighted={true}
@@ -77,24 +83,22 @@ export const CaptainsTable = ({ limit = 5, className = '', variant = 'default' }
 
     if (variant === 'endgame') {
       return (
-        <div className="text-emerald-400 text-xs py-2 italic text-center font-bold">
+        <div className="text-emerald-600 text-xs py-2 italic text-center font-bold">
           Ye set the bar! First captain on these lands!
         </div>
       );
     }
 
     return (
-      <div className="text-stone-300 text-xs py-2 italic">
+      <div className="text-stone-500 text-xs py-2 italic">
         Be the first to find today's loot!
       </div>
     );
   };
 
-  const isUserInTop = userEntry && entries.some(e => e.rank === userEntry.rank);
-
   return (
-    <div className={`bg-black/20 rounded-lg p-3 border border-white/10 ${className}`}>
-      <h4 className="text-amber-200 font-pirate text-xl mb-2 border-b border-white/10 pb-1 flex justify-between items-end">
+    <div className={`bg-white/20 rounded-lg p-3 border border-sky-100/50 ${className}`}>
+      <h4 className="text-sky-800 font-pirate text-xl mb-2 border-b border-sky-200 pb-1 flex justify-between items-end">
         <span>Captains Table</span>
       </h4>
       {renderContent()}
@@ -104,20 +108,20 @@ export const CaptainsTable = ({ limit = 5, className = '', variant = 'default' }
 
 const LeaderboardRow = ({ entry, isHighlighted }: { entry: LeaderboardEntry; isHighlighted: boolean }) => {
   return (
-    <div className={`flex justify-between items-center text-xs sm:text-sm px-2 py-1 w-full h-full rounded ${
+    <div className={`flex justify-between items-center text-xs sm:text-sm px-2 py-1 w-full h-full rounded transition-colors ${
       isHighlighted
-        ? 'bg-amber-900/40 border border-amber-500/30'
-        : 'odd:bg-white/5 border border-transparent'
+        ? 'bg-sky-200/60 border border-sky-400/50 shadow-sm'
+        : 'odd:bg-sky-50/40 border border-transparent'
     }`}>
       <div className="flex gap-2 items-center">
-        <span className={`font-bold w-6 text-right ${isHighlighted ? 'text-amber-300' : 'text-amber-500'}`}>
+        <span className={`font-bold w-6 text-right ${isHighlighted ? 'text-sky-800' : 'text-sky-600'}`}>
           {entry.rank}.
         </span>
-        <span className={`font-bold truncate max-w-[200px] ${isHighlighted ? 'text-amber-100' : 'text-stone-300'}`}>
+        <span className={`font-bold truncate max-w-[200px] ${isHighlighted ? 'text-sky-900' : 'text-stone-700'}`}>
           {entry.username}
         </span>
       </div>
-      <span className={`font-mono font-bold ${isHighlighted ? 'text-amber-300' : 'text-amber-400'}`}>
+      <span className={`font-mono font-bold ${isHighlighted ? 'text-sky-800' : 'text-sky-700'}`}>
         {entry.score}
       </span>
     </div>

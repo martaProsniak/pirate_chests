@@ -48,7 +48,7 @@ export const App = () => {
       <div className="relative overflow-hidden w-full flex justify-center h-full">
 
         {!gameLoading && matrix && matrix.length > 0 && (
-          <div className="absolute z-30 w-max pointer-events-none top-2 left-1/2 -translate-x-1/2 md:top-4 md:right-4 md:left-auto md:translate-x-0">
+          <div className="absolute z-30 w-max pointer-events-none top-2 left-1/2 -translate-x-1/2">
             <div className="pointer-events-auto">
               <GameProgress
                 moves={moves}
