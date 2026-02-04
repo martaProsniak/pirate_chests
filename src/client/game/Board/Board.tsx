@@ -11,12 +11,11 @@ export const Board = ({matrix, onClick}: BoardProps) => {
     <div
       className="relative z-10 flex flex-col gap-1 shrink-0"
       style={{
-        borderImageSource: 'url("/images/island.png")',
-        borderImageSlice: '240 fill',
-        borderWidth: '60px',
+        borderImageSource: 'url("/images/board.png")',
+        borderImageSlice: '200 fill',
+        borderWidth: '36px',
         borderStyle: 'solid',
         background: 'none',
-        padding: '36px',
       }}
     >
       <div className="w-full">

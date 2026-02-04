@@ -1,5 +1,4 @@
 import { ReactNode } from 'react';
-import styles from './GameProgress.module.css';
 
 interface ProgressSectionProps {
   label: string;
@@ -35,7 +34,7 @@ interface GameProgressProps {
 
 export const GameProgress = ({ moves, treasuresFound, totalTreasures, bombs, points }: GameProgressProps) => {
   return (
-    <div className={`flex items-center justify-center gap-4 select-none font-bree p-3 ${styles.glassPanel}`}>
+    <div className={`flex items-center justify-center gap-4 select-none font-bree p-3 glassPanel`}>
 
       {/* RUM SECTION */}
       <ProgressSection
