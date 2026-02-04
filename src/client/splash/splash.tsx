@@ -52,15 +52,28 @@ export const Splash = () => {
         className="h-screen w-full bg-cover bg-center bg-no-repeat overflow-hidden relative"
         style={{ backgroundImage: 'url("/images/splash_bg.jpg")' }}
       >
-        <div className="grid grid-cols-12 grid-rows-[1fr_auto] h-full pb-24 pt-6">
+        <div className="grid grid-cols-12 grid-rows-[auto_1fr_auto] h-full py-6 gap-y-4">
 
-          <div className="col-start-2 col-span-10 md:col-start-3 md:col-span-8 flex items-center justify-center h-full overflow-hidden text-stone-800">
+          {/* ROW 1: Logo Area */}
+          <div className="col-start-2 col-span-10 md:col-start-3 md:col-span-8 flex justify-center items-center z-20">
+            <img
+              src="/images/logo.png"
+              alt="Pirate Chest"
+              className="max-h-12 md:max-h-16 object-contain drop-shadow-2xl animate-fade-in"
+            />
+          </div>
+
+          {/* ROW 2: Main Content Area */}
+          <div className="col-start-2 col-span-10 md:col-start-3 md:col-span-8 flex items-center justify-center h-full overflow-hidden text-stone-800 relative z-10">
             <div className="glassPanel w-full max-h-full overflow-y-auto custom-scrollbar p-6 flex flex-col items-center justify-center">
               {renderContent()}
             </div>
           </div>
 
-          <Navigation currentView={currentView} onViewChange={setCurrentView} />
+          {/* ROW 3: Navigation */}
+          <div className="col-span-12 flex justify-center items-center z-50">
+            <Navigation currentView={currentView} onViewChange={setCurrentView} />
+          </div>
 
         </div>
       </div>

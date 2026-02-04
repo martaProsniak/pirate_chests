@@ -33,7 +33,7 @@ export const NextChallengeTimer = () => {
 
   return (
     <span>
-      Next adventure in: {timeLeft}
+      Next Island Raid: {timeLeft}
     </span>
   );
 };

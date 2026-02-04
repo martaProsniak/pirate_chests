@@ -13,10 +13,10 @@ export const HomeView = ({ username, mode, onStart }: HomeViewProps) => {
 
       {/* Greetings Block */}
       <div className="flex flex-col gap-2 font-pirate">
-        <h1 className="text-xl md:text-2xl text-stone-700 font-bold drop-shadow-sm">
-          Ahoy, <span className="text-sky-500">{username}</span>!
+        <h1 className="text-xl md:text-2xl text-sky-800 font-bold drop-shadow-sm">
+          Ahoy, <span>{username}</span>!
         </h1>
-        <div className="text-lg md:text-xl text-stone-600 font-bold">
+        <div className="text-lg md:text-xl text-sky-700 font-bold font-indie">
           {mode === 'daily' ? (
             'New land on a horizon!'
           ) : (
@@ -30,7 +30,7 @@ export const HomeView = ({ username, mode, onStart }: HomeViewProps) => {
         onClick={onStart}
         className={`
           cursor-pointer relative group
-          font-bree text-white text-xl tracking-wider
+          font-pirate text-white text-xl tracking-wider
           px-10 py-4 rounded-2xl
           bg-gradient-to-b from-cyan-400 to-cyan-600
           border-b-[6px] border-cyan-800

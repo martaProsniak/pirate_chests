@@ -7,7 +7,7 @@ interface NavigationProps {
 
 export const Navigation = ({ currentView, onViewChange }: NavigationProps) => {
   return (
-    <div className="fixed bottom-6 left-0 right-0 flex justify-center z-50">
+    <div className="w-full flex justify-center z-50">
       <div className="grid grid-cols-5 w-11/12 max-w-2xl bg-stone-900/95 backdrop-blur-xl rounded-2xl border border-sky-900/50 shadow-2xl overflow-hidden ring-1 ring-sky-500/20">
         <NavButton
           active={currentView === 'home'}
@@ -58,7 +58,7 @@ const NavButton = ({ active, onClick, label, icon }: NavButtonProps) => (
       font-bree flex flex-col items-center justify-center py-3 px-1 transition-all duration-300 relative overflow-hidden group cursor-pointer
       ${active
       ? 'text-sky-300 bg-sky-800/60'
-      : 'text-sky-500/70 hover:text-sky-200 hover:bg-sky-800/20'
+      : 'text-sky-400/70 hover:text-sky-200 hover:bg-sky-800/20'
     }
     `}
   >

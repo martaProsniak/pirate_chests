@@ -41,7 +41,7 @@ export const GameProgress = ({ moves, treasuresFound, totalTreasures, bombs, poi
         label="Rum"
         iconSrc="/images/rum.png"
         value={moves}
-        classes={moves <= 3 ? `text-pink-600 ${moves > 0 && 'animate-pulse'}` : 'text-stone-600'}
+        classes={moves <= 3 ? `text-pink-600 ${moves > 0 && 'animate-pulse'}` : 'text-sky-800'}
       />
 
       {/* TREASURES SECTION */}
@@ -53,7 +53,7 @@ export const GameProgress = ({ moves, treasuresFound, totalTreasures, bombs, poi
             {treasuresFound}/{totalTreasures}
           </span>
         }
-        classes="text-stone-600"
+        classes="text-sky-800"
       />
 
       {bombs ? (
@@ -61,7 +61,7 @@ export const GameProgress = ({ moves, treasuresFound, totalTreasures, bombs, poi
           label="Bombs"
           iconSrc="/images/bomb.png"
           value={bombs}
-          classes="text-stone-600"
+          classes="text-sky-800"
         />
       ) : null}
 
@@ -73,7 +73,7 @@ export const GameProgress = ({ moves, treasuresFound, totalTreasures, bombs, poi
             {points}
           </>
         }
-        classes="text-stone-600"
+        classes="text-sky-800"
       />
     </div>
   );
