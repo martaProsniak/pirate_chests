@@ -51,7 +51,7 @@ export const CaptainsTable = ({
   const renderContent = () => {
     if (loading) {
       return (
-        <div className="text-sky-600 text-xs py-2 animate-pulse italic">
+        <div className="text-orange-600 text-xs py-2 animate-pulse italic">
           Scouting results...
         </div>
       );
@@ -97,8 +97,8 @@ export const CaptainsTable = ({
   };
 
   return (
-    <div className={`bg-white/20 rounded-lg p-3 border border-sky-100/50 ${className}`}>
-      <h4 className="text-sky-800 font-pirate text-xl mb-2 border-b border-sky-200 pb-1 flex justify-between items-end">
+    <div className={`bg-white/20 rounded-lg p-3 border border-orange-100/50 ${className}`}>
+      <h4 className="text-orange-800 font-pirate text-xl mb-2 border-b border-orange-200 pb-1 flex justify-between items-end">
         <span>Captains Table</span>
       </h4>
       {renderContent()}
@@ -110,18 +110,18 @@ const LeaderboardRow = ({ entry, isHighlighted }: { entry: LeaderboardEntry; isH
   return (
     <div className={`flex justify-between items-center text-xs sm:text-sm px-2 py-1 w-full h-full rounded transition-colors ${
       isHighlighted
-        ? 'bg-sky-200/60 border border-sky-400/50 shadow-sm'
-        : 'odd:bg-sky-50/40 border border-transparent'
+        ? 'bg-orange-200/60 border border-orange-400/50 shadow-sm'
+        : 'odd:bg-orange-50/40 border border-transparent'
     }`}>
       <div className="flex gap-2 items-center">
-        <span className={`font-bold w-6 text-right ${isHighlighted ? 'text-sky-800' : 'text-sky-600'}`}>
+        <span className={`font-bold w-6 text-right ${isHighlighted ? 'text-orange-800' : 'text-orange-600'}`}>
           {entry.rank}.
         </span>
-        <span className={`font-bold truncate max-w-[200px] ${isHighlighted ? 'text-sky-900' : 'text-stone-700'}`}>
+        <span className={`font-bold truncate max-w-[200px] ${isHighlighted ? 'text-orange-900' : 'text-stone-700'}`}>
           {entry.username}
         </span>
       </div>
-      <span className={`font-mono font-bold ${isHighlighted ? 'text-sky-800' : 'text-sky-700'}`}>
+      <span className={`font-mono font-bold ${isHighlighted ? 'text-orange-800' : 'text-orange-700'}`}>
         {entry.score}
       </span>
     </div>

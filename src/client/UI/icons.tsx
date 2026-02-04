@@ -1,34 +1,31 @@
-export const TrophyIcon = ({ className }: { className?: string }) => (
+import { SVGProps } from 'react';
+
+interface IconProps extends SVGProps<SVGSVGElement> {
+  className?: string;
+}
+
+export const ReplayIcon = (props: IconProps) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 24 24"
+    width="1em"
+    height="1em"
     fill="currentColor"
-    className={className}
+    {...props}
   >
-    <path fillRule="evenodd" d="M5.166 2.621v.858c-1.035.148-2.059.33-3.071.543a.75.75 0 00-.584.859 6.753 6.753 0 006.138 5.6 6.751 6.751 0 002.723-.548l2.113 5.92a9 9 0 00-6.787 7.849.75.75 0 00.75.75h11.104a.75.75 0 00.75-.75 9 9 0 00-6.787-7.849l2.113-5.92a6.751 6.751 0 002.723.548 6.753 6.753 0 006.138-5.6.75.75 0 00-.584-.859 9.353 9.353 0 00-3.071-.543v-.858a.75.75 0 00-.75-.75h-12.25a.75.75 0 00-.75.75z" clipRule="evenodd" />
+    <path d="M12 4V1L7 6l5 5V7c3.31 0 6 2.69 6 6 0 1.01-.25 1.97-.7 2.8l2.48 2.48C20.55 16.89 21 15.26 21 13c0-4.97-4.03-9-9-9zM6 13c0-1.66.67-3.15 1.76-4.24L6.34 7.34C4.9 8.79 4 10.79 4 13c0 4.08 3.05 7.44 7 7.93v-2.02c-2.83-.48-5-2.94-5-5.91z" strokeWidth="1" />
   </svg>
 );
 
-export const ScrollIcon = ({ className }: { className?: string }) => (
+export const ReopenModalIcon = (props: IconProps) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 24 24"
+    width="1em"
+    height="1em"
     fill="currentColor"
-    className={className}
+    {...props}
   >
-    <path fillRule="evenodd" d="M5.625 1.5H9a3.75 3.75 0 013.75 3.75v1.875c0 1.036.84 1.875 1.875 1.875H20.25a2.25 2.25 0 012.25 2.25V16.5c0 1.035-.84 1.875-1.875 1.875h-2.969l-1.406 4.219c-.317.951-1.464 1.483-2.348 1.055L6.675 20.25h-.75a2.25 2.25 0 01-2.25-2.25v-13.5a2.25 2.25 0 012.25-2.25h.3zm12.375 15h-1.688c-1.167 0-2.217.536-2.93 1.409l-1.503 1.838 5.234 1.603a.375.375 0 00.487-.219l1.406-4.218a.375.375 0 00-1.006-.413zM6 16.5v.75c0 .414.336.75.75.75h9.75c.414 0 .75-.336.75-.75v-.75a.75.75 0 00-.75-.75H6.75a.75.75 0 00-.75.75z" clipRule="evenodd" />
-  </svg>
-);
-
-export const StepsIcon = ({ className }: { className?: string }) => (
-  <svg
-    viewBox="0 0 24 24"
-    fill="currentColor"
-    className={className}
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <path d="M15.5,2 C13.567,2 12,3.567 12,5.5 V10 C12,12.761 13.567,15 15.5,15 C17.433,15 19,12.761 19,10 V5.5 C19,3.567 17.433,2 15.5,2 Z" />
-
-    <path d="M8.5,9 C6.567,9 5,10.567 5,12.5 V17 C5,19.761 6.567,22 8.5,22 C10.433,22 12,19.761 12,17 V12.5 C12,10.567 10.433,9 8.5,9 Z" />
+    <path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z" strokeWidth="1" />
   </svg>
 );

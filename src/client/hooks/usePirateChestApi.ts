@@ -4,7 +4,7 @@ import {
   DailyChallengeResponse,
   SubmitScoreRequest,
   SubmitScoreResponse,
-  LeaderboardResponse, PracticeGameResponse, PostCommentResponse, PostCommentRequest,
+  LeaderboardResponse, PracticeGameResponse, PostCommentResponse, PostCommentRequest, StatsResponse,
 } from '../../shared/types/api';
 
 export const usePirateChestAPI = () => {
@@ -68,6 +68,10 @@ export const usePirateChestAPI = () => {
     return await request<LeaderboardResponse>('/api/leaderboard');
   }, [request]);
 
+  const getUserStats = useCallback(async () => {
+    return await request<StatsResponse>('/api/user-stats');
+  }, [request]);
+
   return {
     loading,
     error,
@@ -77,5 +81,6 @@ export const usePirateChestAPI = () => {
     submitScore,
     getLeaderboard,
     postComment,
+    getUserStats
   };
 };

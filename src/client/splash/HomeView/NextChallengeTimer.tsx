@@ -32,7 +32,7 @@ export const NextChallengeTimer = () => {
   }, []);
 
   return (
-    <span>
+    <span className="text-inherit">
       Next Island Raid: {timeLeft}
     </span>
   );

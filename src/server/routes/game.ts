@@ -9,7 +9,7 @@ import {
   LeaderboardEntry,
   UserStats, PracticeGameResponse, PostCommentResponse, PostCommentRequest, DailyChallengeResponse,
 } from '../../shared/types/api';
-import { Difficulty } from '../../shared/types/game';
+import { Difficulty, FindingsMap, TreasureKind } from '../../shared/types/game';
 import { CONFIG } from '../core/gameConfig';
 import { generateBoard } from '../core/board';
 import { generatePirateComment } from '../utils/commentGenerator';
@@ -279,6 +279,60 @@ router.post('/api/post-comment', async (req, res) => {
   } catch (error) {
     console.error('Post Comment Error:', error);
     res.status(500).json({ status: 'error', message: 'Failed to post comment' });
+  }
+});
+
+router.get('/api/user-stats', async (_req, res) => {
+  const { userId } = context;
+
+  if (!userId) {
+    res.status(401).json({ success: false, message: 'Unauthorized' });
+    return;
+  }
+
+  try {
+    const statsKey = `user_stats:${userId}`;
+    const rawStats = await redis.hGetAll(statsKey);
+
+    const emptyFindings: FindingsMap = {
+      chest: 0,
+      gold: 0,
+      fish: 0,
+      bomb: 0
+    };
+
+    if (!rawStats) {
+      res.json({
+        success: true,
+        stats: { score: 0, gamesPlayed: 0, wins: 0, findings: emptyFindings }
+      });
+      return;
+    }
+
+    const findings: FindingsMap = { ...emptyFindings };
+
+    Object.keys(rawStats).forEach(key => {
+      if (key.startsWith('findings_')) {
+        const itemType = key.replace('findings_', '') as TreasureKind;
+
+        if (itemType in findings) {
+          findings[itemType] = parseInt(rawStats[key] || '0', 10);
+        }
+      }
+    });
+
+    const stats: UserStats = {
+      score: parseInt(rawStats.totalScore || '0', 10),
+      gamesPlayed: parseInt(rawStats.gamesPlayed || '0', 10),
+      wins: parseInt(rawStats.wins || '0', 10),
+      findings
+    };
+
+    res.json({ success: true, stats });
+
+  } catch (error) {
+    console.error('Error fetching user stats:', error);
+    res.status(500).json({ success: false, message: 'Internal Server Error' });
   }
 });
 

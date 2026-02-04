@@ -20,7 +20,7 @@ export const Board = ({matrix, onClick}: BoardProps) => {
     >
       <div className="w-full">
         {matrix.map((row, rowIndex) => (
-          <div key={rowIndex} className="flex gap-0.5">
+          <div key={rowIndex} className="flex gap-1">
             {row.map((cell, colIndex) => (
               <Tile
                 key={`${rowIndex}-${colIndex}`}

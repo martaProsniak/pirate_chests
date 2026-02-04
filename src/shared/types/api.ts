@@ -67,3 +67,9 @@ export type PostCommentResponse = {
   success: boolean;
   commentId?: string;
 };
+
+export interface StatsResponse {
+  success: boolean;
+  stats?: UserStats;
+  message?: string;
+}

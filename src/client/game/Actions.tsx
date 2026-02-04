@@ -1,5 +1,6 @@
-import { GuiButton } from '../UI/GUIButton';
 import { Mode } from '../../shared/types/game';
+import { GameButton } from '../UI/GameButton';
+import { ReopenModalIcon, ReplayIcon } from '../UI/icons';
 
 export interface ActionsProps {
   onRestart: () => void;
@@ -9,14 +10,30 @@ export interface ActionsProps {
   isEnd?: boolean;
 }
 
-export const Actions = ({ onRestart, mode = 'practice', showModalBtn = false, onShowModal }: ActionsProps) => {
+export const Actions = ({ onRestart, mode = 'practice', showModalBtn = false, onShowModal, isEnd = false }: ActionsProps) => {
   return (
     <div className="fixed bottom-2 right-4 flex md:flex-col items-end gap-2 z-20">
-      {(mode === 'practice') && (
-        <GuiButton onClick={onRestart} label="Restart Game" image="replay_btn" />
+      {(mode === 'practice' || (mode === 'daily' && isEnd)) && (
+        <GameButton
+          onClick={onRestart}
+          color="teal"
+          variant="light"
+          aria-label="Replay Level"
+          className="w-[50px] h-[50px] !p-0 flex items-center justify-center rounded-none"
+        >
+          <ReplayIcon className="text-2xl" />
+        </GameButton>
       )}
       {showModalBtn && (
-        <GuiButton onClick={onShowModal!} label="Show Modal" image="fullscreen_btn" />
+        <GameButton
+          onClick={onShowModal}
+          color="teal"
+          variant="light"
+          aria-label="Open Modal"
+          className="w-[50px] h-[50px] !p-0 flex items-center justify-center rounded-none"
+        >
+          <ReopenModalIcon className="text-2xl" />
+        </GameButton>
       )}
     </div>
   );

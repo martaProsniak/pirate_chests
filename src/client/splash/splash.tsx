@@ -7,6 +7,7 @@ import { useRealtimeUserData } from '../hooks/useRealtimeUserData';
 import { CaptainsTable } from '../UI/CaptainsTable/CaptainsTable';
 import { Navigation, ViewState } from './Navigation/Navigation';
 import { HomeView } from './HomeView/HomeView';
+import { StatsView } from './StatsView/StatsView';
 
 export const Splash = () => {
   const { username, mode } = useRealtimeUserData();
@@ -31,12 +32,17 @@ export const Splash = () => {
         );
 
       case 'stats':
+        return (
+          <div className="w-full flex flex-col animate-fade-in">
+            <StatsView />
+          </div>
+        );
       case 'guides':
       case 'settings':
         return (
           <div className="flex flex-col items-center justify-center w-full animate-fade-in py-10">
-            <div className="p-8 border-2 border-dashed border-sky-500/30 rounded-xl">
-              <p className="text-sky-200/60 italic text-xl font-pirate">Work in progress, Matey!</p>
+            <div className="p-8 border-2 border-dashed border-orange-500/30 rounded-xl">
+              <p className="text-orange-700 italic text-xl font-pirate">Work in progress, Matey!</p>
             </div>
           </div>
         );
@@ -50,29 +56,26 @@ export const Splash = () => {
     <Layout>
       <div
         className="h-screen w-full bg-cover bg-center bg-no-repeat overflow-hidden relative"
-        style={{ backgroundImage: 'url("/images/splash_bg.jpg")' }}
+        style={{ backgroundImage: 'url("/images/pirate-land.jpg")' }}
       >
-        <div className="grid grid-cols-12 grid-rows-[auto_1fr_auto] h-full py-6 gap-y-4">
+        <div className="grid grid-cols-12 grid-rows-[auto_1fr_auto] h-full pt-4 pb-0 gap-y-4">
 
-          {/* ROW 1: Logo Area */}
           <div className="col-start-2 col-span-10 md:col-start-3 md:col-span-8 flex justify-center items-center z-20">
             <img
               src="/images/logo.png"
               alt="Pirate Chest"
-              className="max-h-12 md:max-h-16 object-contain drop-shadow-2xl animate-fade-in"
+              className="max-h-20 object-contain drop-shadow-2xl animate-fade-in"
             />
           </div>
 
-          {/* ROW 2: Main Content Area */}
           <div className="col-start-2 col-span-10 md:col-start-3 md:col-span-8 flex items-center justify-center h-full overflow-hidden text-stone-800 relative z-10">
-            <div className="glassPanel w-full max-h-full overflow-y-auto custom-scrollbar p-6 flex flex-col items-center justify-center">
+            <div className="glassPanel w-full max-h-full overflow-y-auto overflow-x-hidden custom-scrollbar p-4 flex flex-col items-center">
               {renderContent()}
             </div>
           </div>
 
-          {/* ROW 3: Navigation */}
           <div className="col-span-12 flex justify-center items-center z-50">
-            <Navigation currentView={currentView} onViewChange={setCurrentView} />
+            <Navigation currentView={currentView} onViewChange={setCurrentView}/>
           </div>
 
         </div>
