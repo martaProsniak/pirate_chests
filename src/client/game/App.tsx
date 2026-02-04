@@ -3,7 +3,7 @@ import { Layout } from '../UI/Layout';
 import { useGame } from '../hooks/useGame';
 import { useEffect, useState } from 'react';
 import { ShipLoader } from './ShipLoader/ShipLoader';
-import { GameProgress } from './GameProgress';
+import { GameProgress } from './GameProgress/GameProgress';
 import { EndGameModal } from './EndGameModal/EndGameModal';
 import { Actions } from './Actions';
 
@@ -45,24 +45,30 @@ export const App = () => {
 
   return (
     <Layout className="overflow-hidden" image="water">
-      <div className="relative overflow-hidden w-full">
+      <div className="relative overflow-hidden w-full flex justify-center h-full">
+
+        {!gameLoading && matrix && matrix.length > 0 && (
+          <div className="absolute z-30 w-max pointer-events-none top-2 left-1/2 -translate-x-1/2 md:top-4 md:right-4 md:left-auto md:translate-x-0">
+            <div className="pointer-events-auto">
+              <GameProgress
+                moves={moves}
+                treasuresFound={treasuresFound}
+                totalTreasures={totalTreasures}
+                bombs={mapInfo.bomb}
+                points={points}
+              />
+            </div>
+          </div>
+        )}
 
         {gameLoading && (
-          <ShipLoader />
+          <div className="absolute inset-0 flex items-center justify-center z-50">
+            <ShipLoader />
+          </div>
         )}
 
         {!gameLoading && (matrix && matrix.length > 0) ? (
-          <div className="w-full flex flex-col items-center gap-4 py-1 px-2">
-            {/*<div className="relative z-10 flex w-fit items-center justify-center gap-x-1 px-4">*/}
-            {/*  <GameProgress*/}
-            {/*    moves={moves}*/}
-            {/*    treasuresFound={treasuresFound}*/}
-            {/*    totalTreasures={totalTreasures}*/}
-            {/*    bombs={mapInfo.bomb}*/}
-            {/*    points={points}*/}
-            {/*  />*/}
-            {/*</div>*/}
-
+          <div className="w-full flex flex-col items-center justify-center gap-4 py-1 px-2 max-w-[1000px]">
             <Board matrix={matrix} onClick={handleCellClick}  />
           </div>
         ) : null}
@@ -78,6 +84,7 @@ export const App = () => {
           findings={findings}
           moves={moves}
         />
+
         <Actions
           onRestart={startGame}
           mode={checkedMode}

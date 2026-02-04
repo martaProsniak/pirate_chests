@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-
+import styles from './GameProgress.module.css';
 
 interface ProgressSectionProps {
   label: string;
@@ -17,7 +17,7 @@ const ProgressSection = ({ label, value, iconSrc, classes = '', imgClasses = '' 
         alt={label}
         className={`object-contain h-6 select-none ${imgClasses}`}
       />
-      <div className={`text-xl leading-5 font-pirate font-bold drop-shadow-sm ${classes}`}>
+      <div className={`text-xl leading-5 font-bold drop-shadow-sm ${classes}`}>
         {value}
       </div>
     </div>
@@ -35,22 +35,14 @@ interface GameProgressProps {
 
 export const GameProgress = ({ moves, treasuresFound, totalTreasures, bombs, points }: GameProgressProps) => {
   return (
-    <div className="flex w-full items-center justify-evenly gap-4 select-none"
-         style={{
-           borderImageSource: 'url("/images/banner_hud.png")',
-           borderImageSlice: '96 fill',
-           borderWidth: '16px',
-           borderStyle: 'solid',
-           background: 'none'
-         }}
-    >
+    <div className={`flex items-center justify-center gap-4 select-none font-bree p-3 ${styles.glassPanel}`}>
 
       {/* RUM SECTION */}
       <ProgressSection
         label="Rum"
         iconSrc="/images/rum.png"
         value={moves}
-        classes={moves <= 3 ? `text-red-500 ${moves > 0 && 'animate-pulse'}` : 'text-stone-600'}
+        classes={moves <= 3 ? `text-pink-600 ${moves > 0 && 'animate-pulse'}` : 'text-stone-600'}
       />
 
       {/* TREASURES SECTION */}
