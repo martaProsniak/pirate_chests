@@ -8,6 +8,7 @@ import { CaptainsTable } from '../UI/CaptainsTable/CaptainsTable';
 import { Navigation, ViewState } from './Navigation/Navigation';
 import { HomeView } from './HomeView/HomeView';
 import { StatsView } from './StatsView/StatsView';
+import { Guides } from './Guides';
 
 export const Splash = () => {
   const { username, mode } = useRealtimeUserData();
@@ -38,15 +39,11 @@ export const Splash = () => {
           </div>
         );
       case 'guides':
-      case 'settings':
         return (
-          <div className="flex flex-col items-center justify-center w-full animate-fade-in py-10">
-            <div className="p-8 border-2 border-dashed border-orange-500/30 rounded-xl">
-              <p className="text-orange-700 italic text-xl font-pirate">Work in progress, Matey!</p>
-            </div>
+          <div className="w-full flex flex-col animate-fade-in">
+            <Guides />
           </div>
         );
-
       default:
         return null;
     }
@@ -69,7 +66,7 @@ export const Splash = () => {
           </div>
 
           <div className="col-start-2 col-span-10 md:col-start-3 md:col-span-8 flex items-center justify-center h-full overflow-hidden text-stone-800 relative z-10">
-            <div className="glassPanel w-full max-h-full overflow-y-auto overflow-x-hidden custom-scrollbar p-4 flex flex-col items-center">
+            <div className="glassPanel bg-orange-50/40 w-full max-h-full overflow-y-auto overflow-x-hidden custom-scrollbar p-4 flex flex-col items-center">
               {renderContent()}
             </div>
           </div>

@@ -45,7 +45,7 @@
 
 .scrollbar-pirate {
   scrollbar-width: thin;
-  scrollbar-color: #0ea5e9 #f5f5f4;
+  scrollbar-color: #e9830e #f5f5f4;
 }
 
 .scrollbar-pirate::-webkit-scrollbar {
@@ -59,10 +59,10 @@
 }
 
 .scrollbar-pirate::-webkit-scrollbar-thumb {
-  background-color: #0ea5e9;
+  background-color: #e98a0e;
   border-radius: 10px;
 }
 
 .scrollbar-pirate::-webkit-scrollbar-thumb:hover {
-  background-color: #0284c7;
+  background-color: #c75b02;
 }

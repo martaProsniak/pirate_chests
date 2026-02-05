@@ -1,4 +1,4 @@
-export type ViewState = 'home' | 'stats' | 'leaderboard' | 'guides' | 'settings';
+export type ViewState = 'home' | 'stats' | 'leaderboard' | 'guides';
 
 interface NavigationProps {
   currentView: ViewState;
@@ -11,7 +11,7 @@ export const Navigation = ({
  }: NavigationProps) => {
   return (
     <div className="w-full flex justify-center z-50 px-0">
-      <div className={`grid grid-cols-5 w-full glassPanel border-t border-x border-white/10 overflow-hidden bg-orange-200/90 transition-colors duration-500`}>
+      <div className={`grid grid-cols-4 w-full glassPanel border-t border-x border-white/10 overflow-hidden bg-orange-200/90 transition-colors duration-500`}>
         <NavButton
           active={currentView === 'home'}
           onClick={() => onViewChange('home')}
@@ -35,12 +35,6 @@ export const Navigation = ({
           onClick={() => onViewChange('guides')}
           label="Guide"
           icon="/images/map.png"
-        />
-        <NavButton
-          active={currentView === 'settings'}
-          onClick={() => onViewChange('settings')}
-          label="Gear"
-          icon="/images/hat.png"
         />
       </div>
     </div>

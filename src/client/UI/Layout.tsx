@@ -13,7 +13,7 @@ export const Layout = ({ children, className = '', image }: LayoutProps) => {
     backgroundSize: image === 'wood' ? '512px auto' : '128px auto',
   } : {};
 
-  const backgroundClass = image ? '' : 'bg-sky-500';
+  const backgroundClass = image ? '' : 'bg-orange-200';
 
   return (
     <div

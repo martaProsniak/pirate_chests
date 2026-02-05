@@ -51,7 +51,7 @@ export const CaptainsTable = ({
   const renderContent = () => {
     if (loading) {
       return (
-        <div className="text-orange-600 text-xs py-2 animate-pulse italic">
+        <div className="text-orange-700 text-xs py-2 animate-pulse italic">
           Scouting results...
         </div>
       );
@@ -70,7 +70,7 @@ export const CaptainsTable = ({
 
           {userEntry && !isUserInTop && (
             <>
-              <div className="text-center text-stone-400 text-xs leading-[0.5rem] mt-1 mb-1">...</div>
+              <div className="text-center text-stone-500 text-xs leading-[0.5rem] mt-1 mb-1">...</div>
               <LeaderboardRow
                 entry={userEntry}
                 isHighlighted={true}
@@ -83,21 +83,21 @@ export const CaptainsTable = ({
 
     if (variant === 'endgame') {
       return (
-        <div className="text-emerald-600 text-xs py-2 italic text-center font-bold">
+        <div className="text-lime-700 text-xs py-2 italic text-center font-bold">
           Ye set the bar! First captain on these lands!
         </div>
       );
     }
 
     return (
-      <div className="text-stone-500 text-xs py-2 italic">
+      <div className="text-stone-700 text-xs py-2 italic">
         Be the first to find today's loot!
       </div>
     );
   };
 
   return (
-    <div className={`bg-white/20 rounded-lg p-3 border border-orange-100/50 ${className}`}>
+    <div className={`rounded-lg p-4 ${className}`}>
       <h4 className="text-orange-800 font-pirate text-xl mb-2 border-b border-orange-200 pb-1 flex justify-between items-end">
         <span>Captains Table</span>
       </h4>
