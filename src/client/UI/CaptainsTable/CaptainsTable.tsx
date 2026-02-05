@@ -51,7 +51,7 @@ export const CaptainsTable = ({
   const renderContent = () => {
     if (loading) {
       return (
-        <div className="text-orange-700 text-xs py-2 animate-pulse italic">
+        <div className="text-xs py-2 animate-pulse italic">
           Scouting results...
         </div>
       );
@@ -70,7 +70,7 @@ export const CaptainsTable = ({
 
           {userEntry && !isUserInTop && (
             <>
-              <div className="text-center text-stone-500 text-xs leading-[0.5rem] mt-1 mb-1">...</div>
+              <div className="text-center text-xs leading-[0.5rem] mt-1 mb-1">...</div>
               <LeaderboardRow
                 entry={userEntry}
                 isHighlighted={true}
@@ -83,14 +83,14 @@ export const CaptainsTable = ({
 
     if (variant === 'endgame') {
       return (
-        <div className="text-amber-700/90 font-bree text-xs py-2 italic text-center font-bold">
+        <div className="font-bree text-xs py-2 italic text-center font-bold">
           Ye set the bar! First captain on these lands!
         </div>
       );
     }
 
     return (
-      <div className="text-stone-700 text-xs py-2 italic font-bree">
+      <div className="text-xs py-2 italic font-bree">
         Be the first to find today's loot!
       </div>
     );
@@ -98,7 +98,8 @@ export const CaptainsTable = ({
 
   return (
     <div className={`rounded-lg p-4 ${className}`}>
-      <h4 className="text-orange-800 font-pirate text-xl mb-2 border-b border-orange-200 pb-1 flex justify-between items-end">
+      {/* Usunięto text-orange-800 i border-orange-200 */}
+      <h4 className="font-pirate text-xl mb-2 border-b pb-1 flex justify-between items-end">
         <span>Captains Table</span>
       </h4>
       {renderContent()}
@@ -110,18 +111,18 @@ const LeaderboardRow = ({ entry, isHighlighted }: { entry: LeaderboardEntry; isH
   return (
     <div className={`font-bree flex justify-between items-center text-xs sm:text-sm px-2 py-1 w-full h-full rounded transition-colors ${
       isHighlighted
-        ? 'bg-orange-200/60 border border-orange-400/50 shadow-sm'
-        : 'odd:bg-orange-50/40 border border-transparent'
+        ? 'border shadow-sm'
+        : 'border border-transparent'
     }`}>
       <div className="flex gap-2 items-center">
-        <span className={`font-bold w-6 text-right ${isHighlighted ? 'text-orange-800' : 'text-orange-600'}`}>
+        <span className={`font-bold w-6 text-right`}>
           {entry.rank}.
         </span>
-        <span className={`font-bold truncate max-w-[200px] ${isHighlighted ? 'text-orange-900' : 'text-stone-700'}`}>
+        <span className={`font-bold truncate max-w-[200px]`}>
           {entry.username}
         </span>
       </div>
-      <span className={`font-mono font-bold ${isHighlighted ? 'text-orange-800' : 'text-orange-700'}`}>
+      <span className={`font-mono font-bold`}>
         {entry.score}
       </span>
     </div>

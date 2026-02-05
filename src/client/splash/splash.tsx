@@ -65,8 +65,10 @@ export const Splash = () => {
             />
           </div>
 
-          <div className="col-start-2 col-span-10 md:col-start-3 md:col-span-8 flex items-center justify-center h-full overflow-hidden text-stone-800 relative z-10">
-            <div className="glassPanel bg-orange-50/40 w-full max-h-full overflow-y-auto overflow-x-hidden custom-scrollbar p-4 flex flex-col items-center">
+          {/* Removed text-stone-800 */}
+          <div className="col-start-2 col-span-10 md:col-start-3 md:col-span-8 flex items-center justify-center h-full overflow-hidden relative z-10">
+            {/* Removed bg-orange-50/40 */}
+            <div className="glassPanel w-full max-h-full overflow-y-auto overflow-x-hidden custom-scrollbar p-4 flex flex-col items-center">
               {renderContent()}
             </div>
           </div>

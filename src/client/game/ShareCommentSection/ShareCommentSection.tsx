@@ -12,12 +12,12 @@ interface ShareCommentSectionProps {
 }
 
 export const ShareCommentSection = ({
-    score,
-    isWin,
-    wasBombed,
-    moves,
-    findings
-}: ShareCommentSectionProps) => {
+                                      score,
+                                      isWin,
+                                      wasBombed,
+                                      moves,
+                                      findings
+                                    }: ShareCommentSectionProps) => {
   const { postComment } = usePirateChestAPI();
   const [isPosting, setIsPosting] = useState(false);
   const [hasPosted, setHasPosted] = useState(false);
@@ -50,7 +50,7 @@ export const ShareCommentSection = ({
   if (hasPosted) {
     return (
       <div className="flex justify-center pt-2 border-t border-white/10">
-        <p className="text-lime-400 text-sm font-bold flex items-center gap-1 bg-lime-900/30 px-3 py-1 rounded-full border border-lime-400/30 shadow-md">
+        <p className="text-sm font-bold flex items-center gap-1 px-3 py-1 rounded-full border shadow-md">
           <span>✅</span> Scribbled in the Log!
         </p>
       </div>
@@ -59,8 +59,8 @@ export const ShareCommentSection = ({
 
   return (
     <div className="flex flex-col gap-2 items-center justify-center pt-2 border-t border-white/10">
-      <p className="text-stone-200 text-xs italic">Show off yer loot to the crew!</p>
-      <GuiButton onClick={handleShare} label={'Comment'} disabled={isPosting} classes="py-1 px-4 !bg-transparent text-emerald-600 font-pirate tracking-wide text-base font-bold">
+      <p className="text-xs italic">Show off yer loot to the crew!</p>
+      <GuiButton onClick={handleShare} label={'Comment'} disabled={isPosting} classes="py-1 px-4 !bg-transparent font-pirate tracking-wide text-base font-bold">
         <span className="">{getButtonLabel()}</span>
       </GuiButton>
     </div>

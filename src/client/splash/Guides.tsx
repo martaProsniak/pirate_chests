@@ -12,7 +12,8 @@ const Guide = ({image, alt, children}: GuideProps) => {
       <div className="size-7">
         <img src={`/images/${image}.png`} alt={alt} className="w-full h-full object-contain" />
       </div>
-      <p className="text-base leading-4 text-amber-950 font-bree font-normal">{children}</p>
+      {/* Usunięto text-amber-950 */}
+      <p className="text-base leading-4 font-bree font-normal">{children}</p>
     </article>
   );
 }
@@ -20,12 +21,15 @@ const Guide = ({image, alt, children}: GuideProps) => {
 export const Guides= () => {
   return (
     <section
-      className="flex flex-col items-center justify-center gap-4 w-full px-3 py-1 text-orange-900/70"
+      // Usunięto text-orange-900/70
+      className="flex flex-col items-center justify-center gap-4 w-full px-3 py-1"
     >
-      <h2 className="text-orange-900/70 font-pirate text-2xl drop-shadow-sm mb-0">
+      {/* Usunięto text-orange-900/70 */}
+      <h2 className="font-pirate text-2xl drop-shadow-sm mb-0">
         Pirate Code
       </h2>
-      <div className={'rounded-lg py-2 px-3 bg-white/50 border border-orange-200/60'}>
+      {/* Usunięto bg-white/50, border-orange-200/60 */}
+      <div className={'rounded-lg py-2 px-3 border'}>
         <Guide image="steps" alt="steps">
           Count steps to find the Booty!
         </Guide>

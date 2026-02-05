@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { UserStats } from '../../../shared/types/api';
 import { TreasureKind } from '../../../shared/types/game';
-import { usePirateChestAPI } from '../../hooks/usePirateChestApi'; // Import typu
+import { usePirateChestAPI } from '../../hooks/usePirateChestApi';
 
 const formatScore = (num: number): string => {
   return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
@@ -40,7 +40,7 @@ export const StatsView = () => {
   if (loading) {
     return (
       <div className="rounded-lg p-4 w-full min-h-[200px] flex items-center justify-center shadow-lg">
-        <div className="text-orange-800 text-base animate-pulse italic font-bold">
+        <div className="text-base animate-pulse italic font-bold">
           Counting yer booty...
         </div>
       </div>
@@ -50,7 +50,7 @@ export const StatsView = () => {
   if (!stats) {
     return (
       <div className="rounded-lg p-4 w-full text-center shadow-lg">
-        <div className="text-orange-900 font-pirate text-xl">
+        <div className="font-pirate text-xl">
           No records found in the captains log!
         </div>
       </div>
@@ -61,23 +61,23 @@ export const StatsView = () => {
 
   return (
     <div className="rounded-xl p-4 w-full max-w-2xl mx-auto shadow-xl flex flex-col gap-4 animate-fade-in">
-      <div className="flex flex-col items-center justify-center py-2 border-b border-orange-200/50">
-        <h2 className="text-orange-900/70 font-pirate text-2xl drop-shadow-sm mb-0">
+      <div className="flex flex-col items-center justify-center py-2 border-b">
+        <h2 className="font-pirate text-2xl drop-shadow-sm mb-0">
           Yer Total Loot
         </h2>
-        <span className="text-orange-800 font-bree text-xl leading-tight drop-shadow-md tracking-wide">
-        {formatScore(stats.score)}
-      </span>
-
-        <div className="mt-2 bg-orange-200/40 px-3 py-1 rounded-full border border-orange-300/40">
-        <span className="text-orange-900 text-xs font-bold font-bree uppercase tracking-widest">
-          Voyages Sailed: {stats.gamesPlayed}
+        <span className="font-bree text-xl leading-tight drop-shadow-md tracking-wide">
+          {formatScore(stats.score)}
         </span>
+
+        <div className="mt-2 px-3 py-1 rounded-full border">
+          <span className="text-xs font-bold font-bree uppercase tracking-widest">
+            Voyages Sailed: {stats.gamesPlayed}
+          </span>
         </div>
       </div>
 
       <div>
-        <h4 className="text-orange-800 font-pirate text-lg mb-3 text-center opacity-90">
+        <h4 className="font-pirate text-lg mb-3 text-center opacity-90">
           Plundered Items
         </h4>
 
@@ -85,7 +85,8 @@ export const StatsView = () => {
           {treasureOrder.map((kind) => (
             <div
               key={kind}
-              className="flex items-center justify-between px-4 py-3 rounded-lg bg-white/50 border border-orange-200/60 shadow-sm hover:scale-[1.02] transition-transform duration-200"
+              // Usunięto bg-white, border-orange
+              className="flex items-center justify-between px-4 py-3 rounded-lg border shadow-sm hover:scale-[1.02] transition-transform duration-200"
             >
               <div className="w-10 h-10 flex items-center justify-center">
                 <img
@@ -94,9 +95,9 @@ export const StatsView = () => {
                   className="w-full h-full object-contain drop-shadow-sm"
                 />
               </div>
-              <span className="text-orange-900 font-bree text-xl">
-              x{formatScore(stats.findings[kind])}
-            </span>
+              <span className="font-bree text-xl">
+                x{formatScore(stats.findings[kind])}
+              </span>
             </div>
           ))}
         </div>
