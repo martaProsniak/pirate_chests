@@ -20,7 +20,7 @@ const Guide = ({image, alt, children}: GuideProps) => {
 export const Guides= () => {
   return (
     <section
-      className="flex flex-col items-center justify-center gap-2 w-full p-4 text-orange-900/70"
+      className="flex flex-col items-center justify-center gap-4 w-full px-3 py-1 text-orange-900/70"
     >
       <h2 className="text-orange-900/70 font-pirate text-2xl drop-shadow-sm mb-0">
         Pirate Code

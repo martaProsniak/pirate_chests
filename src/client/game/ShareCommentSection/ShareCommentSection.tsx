@@ -60,8 +60,8 @@ export const ShareCommentSection = ({
   return (
     <div className="flex flex-col gap-2 items-center justify-center pt-2 border-t border-white/10">
       <p className="text-stone-300 text-xs italic">Show off yer loot to the crew!</p>
-      <GameButton variant="light" color={'amber'} onClick={handleShare} disabled={isPosting}>
-        <span className="py-0 px-4">{getButtonLabel()}</span>
+      <GameButton variant="light" color={'teal'} onClick={handleShare} disabled={isPosting}>
+        <span className="py-1 px-5">{getButtonLabel()}</span>
       </GameButton>
     </div>
   );

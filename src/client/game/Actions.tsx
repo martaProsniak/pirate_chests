@@ -30,7 +30,7 @@ export const Actions = ({ onRestart, mode = 'practice', showModalBtn = false, on
           color="cyan"
           variant="light"
           aria-label="Open Modal"
-          className="w-[50px] h-[50px] flex items-center justify-center rounded-md shadow-md"
+          className="p-2 w-[50px] h-[50px] flex items-center justify-center rounded-md shadow-md"
         >
           <ReopenModalIcon className="text-2xl rotate-y-180" />
         </GameButton>

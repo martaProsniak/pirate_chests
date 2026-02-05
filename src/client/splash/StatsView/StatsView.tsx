@@ -70,7 +70,7 @@ export const StatsView = () => {
       </span>
 
         <div className="mt-2 bg-orange-200/40 px-3 py-1 rounded-full border border-orange-300/40">
-        <span className="text-orange-900 text-xs font-bold uppercase tracking-widest">
+        <span className="text-orange-900 text-xs font-bold font-bree uppercase tracking-widest">
           Voyages Sailed: {stats.gamesPlayed}
         </span>
         </div>

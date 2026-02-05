@@ -71,7 +71,7 @@ export const EndGameModal = ({
           <div className="flex flex-col gap-5 text-center">
 
             <div>
-              <h3 className={`font-pirate text-2xl mb-2 ${isWin ? 'text-green-700/90' : 'text-pink-700/90'}`}>
+              <h3 className={`font-pirate text-2xl mb-2 ${isWin ? 'text-emerald-600/90' : 'text-red-600/90'}`}>
                 {text.header}
               </h3>
 
@@ -80,10 +80,10 @@ export const EndGameModal = ({
               </p>
             </div>
 
-            <div className="bg-white/40 rounded-lg border border-orange-200 overflow-hidden shadow-sm">
+            <div className="bg-white/40 rounded-lg border border-sky-200 overflow-hidden shadow-sm">
 
-              <div className="bg-orange-100/50 p-3 border-b border-orange-200">
-                <span className="text-orange-500 font-bree font-bold text-2xl block tracking-wider drop-shadow-xs">
+              <div className="bg-sky-100/50 p-3 border-b border-sky-200">
+                <span className="text-sky-500 font-bree font-bold text-2xl block tracking-wider drop-shadow-xs">
                   {points}
                 </span>
                 <span className="text-xs uppercase text-stone-500 font-pirate font-bold">
@@ -130,8 +130,8 @@ export const EndGameModal = ({
           </div>
         </div>
 
-        <div className="p-2 border-t border-orange-200/50 bg-white/20 flex justify-center items-center gap-4 shrink-0 backdrop-blur-sm shadow-[0_-5px_15px_rgba(0,0,0,0.05)]">
-          <GameButton onClick={onRestart} color={'orange'}>
+        <div className="p-2 border-t border-sky-200/50 bg-white/20 flex justify-center items-center gap-4 shrink-0 backdrop-blur-sm shadow-[0_-5px_15px_rgba(0,0,0,0.05)]">
+          <GameButton onClick={onRestart} color={'sky'}>
             <span className={'px-6 py-1'}>Search for more</span>
           </GameButton>
         </div>

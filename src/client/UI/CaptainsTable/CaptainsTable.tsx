@@ -83,14 +83,14 @@ export const CaptainsTable = ({
 
     if (variant === 'endgame') {
       return (
-        <div className="text-lime-700 text-xs py-2 italic text-center font-bold">
+        <div className="text-amber-700/90 font-bree text-xs py-2 italic text-center font-bold">
           Ye set the bar! First captain on these lands!
         </div>
       );
     }
 
     return (
-      <div className="text-stone-700 text-xs py-2 italic">
+      <div className="text-stone-700 text-xs py-2 italic font-bree">
         Be the first to find today's loot!
       </div>
     );
@@ -108,7 +108,7 @@ export const CaptainsTable = ({
 
 const LeaderboardRow = ({ entry, isHighlighted }: { entry: LeaderboardEntry; isHighlighted: boolean }) => {
   return (
-    <div className={`flex justify-between items-center text-xs sm:text-sm px-2 py-1 w-full h-full rounded transition-colors ${
+    <div className={`font-bree flex justify-between items-center text-xs sm:text-sm px-2 py-1 w-full h-full rounded transition-colors ${
       isHighlighted
         ? 'bg-orange-200/60 border border-orange-400/50 shadow-sm'
         : 'odd:bg-orange-50/40 border border-transparent'
