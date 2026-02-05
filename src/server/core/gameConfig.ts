@@ -4,7 +4,7 @@ export const CONFIG: GameConfig = {
   base: {
     rowsCount: 6,
     colsCount: 6,
-    maxMoves: 7,
+    maxMoves: 9,
     treasures: {
       chest: 1,
       gold: 3,
