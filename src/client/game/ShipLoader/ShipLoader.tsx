@@ -12,8 +12,8 @@ export const ShipLoader = () => {
         <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-24 h-4 bg-black/20 blur-md rounded-[100%]"></div>
       </div>
       <span className="font-pirate text-stone-100 text-lg tracking-widest animate-pulse drop-shadow-sm">
-            Navigating to Treasure Island
-          </span>
+        Navigating to Treasure Island
+      </span>
     </div>
-  )
-}
+  );
+};

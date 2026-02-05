@@ -1,4 +1,4 @@
-import {FindingsMap} from '../../shared/types/game'
+import { FindingsMap } from '../../shared/types/game';
 import { RedisClient } from '@devvit/web/server';
 
 export const updateUserGlobalStats = async (
@@ -19,10 +19,14 @@ export const updateUserGlobalStats = async (
   }
 
   if (data.findings) {
-    if (data.findings.chest > 0) promises.push(redis.hIncrBy(statsKey, 'findings_chest', data.findings.chest));
-    if (data.findings.gold > 0) promises.push(redis.hIncrBy(statsKey, 'findings_gold', data.findings.gold));
-    if (data.findings.fish > 0) promises.push(redis.hIncrBy(statsKey, 'findings_fish', data.findings.fish));
-    if (data.findings.bomb > 0) promises.push(redis.hIncrBy(statsKey, 'findings_bomb', data.findings.bomb));
+    if (data.findings.chest > 0)
+      promises.push(redis.hIncrBy(statsKey, 'findings_chest', data.findings.chest));
+    if (data.findings.gold > 0)
+      promises.push(redis.hIncrBy(statsKey, 'findings_gold', data.findings.gold));
+    if (data.findings.fish > 0)
+      promises.push(redis.hIncrBy(statsKey, 'findings_fish', data.findings.fish));
+    if (data.findings.bomb > 0)
+      promises.push(redis.hIncrBy(statsKey, 'findings_bomb', data.findings.bomb));
   }
 
   await Promise.all(promises);

@@ -7,15 +7,15 @@ const pointsMap: FindingsMap = {
   chest: 200,
   gold: 50,
   fish: 1,
-  bomb: 0
-}
+  bomb: 0,
+};
 
 const movesMap: FindingsMap = {
   chest: 3,
   gold: 1,
   fish: 0,
-  bomb: 0
-}
+  bomb: 0,
+};
 
 const RUM_POINTS = 10;
 const FALLBACK_GRID_SIZE = 6;
@@ -31,7 +31,7 @@ export const useGame = ({ mode }: UseGameProps) => {
     getDailyChallenge,
     getPracticeChallenge,
     submitScore,
-    loading: apiLoading
+    loading: apiLoading,
   } = usePirateChestAPI();
 
   const [gridSize, setGridSize] = useState({
@@ -49,40 +49,49 @@ export const useGame = ({ mode }: UseGameProps) => {
   const [wasBombed, setWasBombed] = useState(false);
   const [gameLoading, setGameLoading] = useState(false);
   const [findings, setFindings] = useState<FindingsMap>({
-    chest: 0, gold: 0, fish: 0, bomb: 0
+    chest: 0,
+    gold: 0,
+    fish: 0,
+    bomb: 0,
   });
   const [mapInfo, setMapInfo] = useState({
-    bomb: 0, chest: 0, gold: 0, fish: 0, totalTreasures: 0
+    bomb: 0,
+    chest: 0,
+    gold: 0,
+    fish: 0,
+    totalTreasures: 0,
   });
 
-  const loadGameData = useCallback((dataMatrix: MatrixItem[][], dataConfig: GameConfigItem, dataMode: Mode) => {
-    setMatrix(dataMatrix);
-    setGridSize({
-      rows: dataConfig.rowsCount,
-      cols: dataConfig.colsCount
-    });
-    setCheckedMode(dataMode);
-    resetState(dataConfig);
-  }, []);
+  const loadGameData = useCallback(
+    (dataMatrix: MatrixItem[][], dataConfig: GameConfigItem, dataMode: Mode) => {
+      setMatrix(dataMatrix);
+      setGridSize({
+        rows: dataConfig.rowsCount,
+        cols: dataConfig.colsCount,
+      });
+      setCheckedMode(dataMode);
+      resetState(dataConfig);
+    },
+    []
+  );
 
   const countTreasures = (treasures: FindingsMap) => {
     return treasures.gold + treasures.chest + treasures.fish;
-  }
+  };
 
   const resetState = (config: GameConfigItem) => {
-    setIsEnd(false);
-    setIsWin(false);
+    setIsEnd(true);
+    setIsWin(true);
     setMoves(config.maxMoves);
     setTreasuresFound(0);
     setPoints(0);
     setWasBombed(false);
     setFindings({ chest: 0, gold: 0, fish: 0, bomb: 0 });
-    const newMapInfo = {...config.treasures, totalTreasures: countTreasures(config.treasures)}
+    const newMapInfo = { ...config.treasures, totalTreasures: countTreasures(config.treasures) };
     setMapInfo(newMapInfo);
   };
 
   const startGame = useCallback(async () => {
-
     setGameLoading(true);
 
     try {
@@ -98,7 +107,7 @@ export const useGame = ({ mode }: UseGameProps) => {
         loadGameData(data.matrix, data.gameConfig, data.mode);
       }
     } catch (e) {
-      console.error("Failed to start game", e);
+      console.error('Failed to start game', e);
     } finally {
       setGameLoading(false);
     }
@@ -122,7 +131,7 @@ export const useGame = ({ mode }: UseGameProps) => {
         findings: finalFindings,
       });
     } catch (e) {
-      console.error("Failed to submit score", e);
+      console.error('Failed to submit score', e);
     }
   };
 
@@ -168,8 +177,8 @@ export const useGame = ({ mode }: UseGameProps) => {
       bonusMoves = movesMap[kind] || 0;
 
       if (updatedFound === mapInfo.totalTreasures) {
-        const movesLeft = moves - 1 + bonusMoves
-        newPoints = newPoints + (movesLeft * RUM_POINTS);
+        const movesLeft = moves - 1 + bonusMoves;
+        newPoints = newPoints + movesLeft * RUM_POINTS;
         setPoints(newPoints);
         setMoves(movesLeft);
         finishGame(true, newPoints, newFindings, movesLeft);
@@ -179,7 +188,7 @@ export const useGame = ({ mode }: UseGameProps) => {
       setPoints(newPoints);
     }
 
-    const leftMoves = (moves - 1) + bonusMoves;
+    const leftMoves = moves - 1 + bonusMoves;
 
     if (leftMoves === 0) {
       revealTreasures();
@@ -189,19 +198,19 @@ export const useGame = ({ mode }: UseGameProps) => {
     setMoves(leftMoves);
   };
 
-  const revealTreasures = () =>{
+  const revealTreasures = () => {
     const newMatrix = matrix.map((row) => {
       return row.map((cell) => {
         if (cell.isTreasure) {
           const highlighted = !(cell.isRevealed || cell.value === 'bomb');
-          return {...cell, isRevealed: true, isHighlighted: highlighted };
+          return { ...cell, isRevealed: true, isHighlighted: highlighted };
         }
         return cell;
-      })
+      });
     });
 
     setMatrix(newMatrix);
-  }
+  };
 
   useEffect(() => {
     startGame();

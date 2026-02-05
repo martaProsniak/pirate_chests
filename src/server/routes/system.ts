@@ -34,13 +34,13 @@ router.post('/internal/menu/post-create', async (_req, res) => {
 
     res.json({
       navigateTo: `https://reddit.com/r/${context.subredditName}/comments/${post.id}`,
-      showToast: { text: 'Daily Challenge Created! 🏴‍☠️', appearance: 'success' }
+      showToast: { text: 'Daily Challenge Created! 🏴‍☠️', appearance: 'success' },
     });
   } catch (error) {
     console.error('Menu Action Error:', error);
     res.status(500).json({
       status: 'error',
-      showToast: { text: 'Failed to create post', appearance: 'neutral' }
+      showToast: { text: 'Failed to create post', appearance: 'neutral' },
     });
   }
 });

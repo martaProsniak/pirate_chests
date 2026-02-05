@@ -5,14 +5,12 @@ interface NavigationProps {
   onViewChange: (view: ViewState) => void;
 }
 
-export const Navigation = ({
-                             currentView,
-                             onViewChange,
-                           }: NavigationProps) => {
+export const Navigation = ({ currentView, onViewChange }: NavigationProps) => {
   return (
     <div className="w-full flex justify-center z-50 px-0">
-      {/* Usunięto bg-orange-200/90 */}
-      <div className={`grid grid-cols-4 w-full glassPanel border-t border-x border-white/10 overflow-hidden transition-colors duration-500`}>
+      <div
+        className={`grid grid-cols-4 w-full glassPanel border-t border-x border-white/10 overflow-hidden transition-colors duration-500`}
+      >
         <NavButton
           active={currentView === 'home'}
           onClick={() => onViewChange('home')}
@@ -55,10 +53,11 @@ const NavButton = ({ active, onClick, label, icon }: NavButtonProps) => {
       onClick={onClick}
       className={`
         font-bree flex flex-col items-center justify-center py-3 px-1 transition-all duration-300 relative group cursor-pointer border-t-2
-        ${active
-        ? `border-opacity-100`
-        : 'border-transparent bg-transparent'
-      }
+        ${
+          active
+            ? `border-opacity-100 border-rose-400 bg-rose-800/20`
+            : 'border-transparent bg-transparent'
+        }
       `}
     >
       <img
@@ -66,10 +65,7 @@ const NavButton = ({ active, onClick, label, icon }: NavButtonProps) => {
         alt={label}
         className={`
           h-6 w-6 object-contain mb-1 transition-transform duration-300
-          ${active
-          ? 'scale-110'
-          : 'opacity-80 group-hover:opacity-100 group-hover:scale-105'
-        }
+          ${active ? 'scale-110' : 'opacity-80 group-hover:opacity-100 group-hover:scale-105'}
         `}
       />
 

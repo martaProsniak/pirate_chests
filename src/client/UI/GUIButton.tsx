@@ -1,17 +1,20 @@
 import { ReactNode } from 'react';
 
-
 export interface IGuiButtonProps {
-  onClick: (() => void )| ((e: any) => void);
+  onClick: (() => void) | ((e: any) => void);
   label: string;
   classes?: string | ReactNode;
   disabled?: boolean;
   children?: ReactNode;
 }
 
-export const GuiButton = ({onClick, classes, label = '', disabled = false, children}: IGuiButtonProps) => {
-
-
+export const GuiButton = ({
+  onClick,
+  classes,
+  label = '',
+  disabled = false,
+  children,
+}: IGuiButtonProps) => {
   return (
     <button
       onClick={onClick}
@@ -21,5 +24,5 @@ export const GuiButton = ({onClick, classes, label = '', disabled = false, child
     >
       {children}
     </button>
-  )
-}
+  );
+};

@@ -19,7 +19,7 @@ export interface UserData {
 }
 
 export interface StatsUpdatePayload {
-  stats: UserStats
+  stats: UserStats;
 }
 
 export interface ModeUpdatePayload {

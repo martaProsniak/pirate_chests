@@ -20,4 +20,4 @@ export const createDailyPost = async (subredditName: string) => {
     subredditName: subredditName,
     title: title,
   });
-}
+};

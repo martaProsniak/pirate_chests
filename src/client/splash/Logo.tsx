@@ -1,3 +1,1 @@
-export const Logo = () => {
-  
-}
+export const Logo = () => {};

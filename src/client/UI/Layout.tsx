@@ -7,11 +7,13 @@ interface LayoutProps {
 }
 
 export const Layout = ({ children, className = '', image }: LayoutProps) => {
-  const backgroundStyles: CSSProperties = image ? {
-    backgroundImage: `url("/images/${image}.png")`,
-    backgroundRepeat: 'repeat',
-    backgroundSize: image === 'wood' ? '512px auto' : '128px auto',
-  } : {};
+  const backgroundStyles: CSSProperties = image
+    ? {
+        backgroundImage: `url("/images/${image}.png")`,
+        backgroundRepeat: 'repeat',
+        backgroundSize: image === 'wood' ? '512px auto' : '128px auto',
+      }
+    : {};
 
   const backgroundClass = image ? '' : 'bg-orange-200';
 

@@ -19,13 +19,12 @@ interface GameButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 export const GameButton = ({
-   children,
-   color = 'amber',
-   variant = 'light',
-   className = '',
-   ...props
- }: GameButtonProps) => {
-
+  children,
+  color = 'amber',
+  variant = 'light',
+  className = '',
+  ...props
+}: GameButtonProps) => {
   const lightColors: Record<GameButtonColor, string> = {
     amber: 'from-amber-300 to-amber-500 border-amber-100 text-amber-900',
     cyan: 'from-cyan-300 to-cyan-500 border-cyan-100 text-cyan-900',
@@ -67,9 +66,7 @@ export const GameButton = ({
       `}
       {...props}
     >
-      <div className="relative z-10 flex justify-center items-center">
-        {children}
-      </div>
+      <div className="relative z-10 flex justify-center items-center">{children}</div>
 
       <div className="absolute inset-0 rounded-full ring-1 ring-inset ring-white/20 pointer-events-none" />
       <div className="absolute top-0 left-0 right-0 h-1/2 bg-gradient-to-b from-white/20 to-transparent rounded-t-full pointer-events-none" />

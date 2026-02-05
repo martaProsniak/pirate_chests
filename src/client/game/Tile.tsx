@@ -10,7 +10,8 @@ interface TileProps {
 export const Tile = ({ item, onClick }: TileProps) => {
   const { isRevealed, value, isTreasure, isHighlighted, bombs } = item;
 
-  const baseClasses = "w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center font-bold rounded-md select-none transition-all duration-75 border-dashed";
+  const baseClasses =
+    'w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center font-bold rounded-md select-none transition-all duration-75 border-dashed';
 
   const hiddenClasses = `
     text-transparent
@@ -19,9 +20,13 @@ export const Tile = ({ item, onClick }: TileProps) => {
     active:border-b-2 active:translate-y-[2px]
   `;
 
-  const regularRevealedClasses = !isTreasure ? 'bg-stone-300 border-stone-800' : value !== 'bomb' ? 'border-yellow-600 bg-yellow-300' : 'bg-stone-300 border-stone-800';
+  const regularRevealedClasses = !isTreasure
+    ? 'bg-stone-300 border-stone-800'
+    : value !== 'bomb'
+      ? 'border-yellow-600 bg-yellow-300'
+      : 'bg-stone-300 border-stone-800';
 
-  const revealedClasses = `shadow-inner border-1 ${isHighlighted ? 'border-red-600 bg-red-300' : regularRevealedClasses }`;
+  const revealedClasses = `shadow-inner border-1 ${isHighlighted ? 'border-red-600 bg-red-300' : regularRevealedClasses}`;
 
   return (
     <div
@@ -37,9 +42,7 @@ export const Tile = ({ item, onClick }: TileProps) => {
       {isRevealed && (
         <>
           {isTreasure && <Treasure kind={value} />}
-          {!isTreasure && (
-            <Clue value={value} bombs={bombs}/>
-          )}
+          {!isTreasure && <Clue value={value} bombs={bombs} />}
         </>
       )}
     </div>

@@ -9,7 +9,7 @@ export const CONFIG: GameConfig = {
       chest: 1,
       gold: 3,
       bomb: 1,
-      fish: 1
-    }
-  }
-}
+      fish: 1,
+    },
+  },
+};

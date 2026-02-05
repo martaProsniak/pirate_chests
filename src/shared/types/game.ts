@@ -1,6 +1,6 @@
 export type TreasureKind = 'chest' | 'gold' | 'fish' | 'bomb';
 
-export type Mode = 'daily' | 'practice'
+export type Mode = 'daily' | 'practice';
 
 export type FindingsMap = {
   [key in TreasureKind]: number;
@@ -34,11 +34,10 @@ export type MatrixItem = {
   isRevealed: boolean;
 } & (MatrixClue | MatrixTreasure);
 
-
 /**
  * CONFIG
  */
-export type Difficulty = 'base'
+export type Difficulty = 'base';
 
 export type GameConfigItem = {
   rowsCount: number;
@@ -47,7 +46,7 @@ export type GameConfigItem = {
   treasures: {
     [key in TreasureKind]: number;
   };
-}
+};
 
 export type GameConfig = {
   [key in Difficulty]: GameConfigItem;

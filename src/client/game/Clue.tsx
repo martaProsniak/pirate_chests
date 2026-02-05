@@ -1,9 +1,9 @@
 export interface ClueProps {
   value: string;
-  bombs: number
+  bombs: number;
 }
 
-export const Clue = ({value, bombs} : ClueProps) => {
+export const Clue = ({ value, bombs }: ClueProps) => {
   const hasBombs = bombs > 0;
 
   return (
@@ -18,10 +18,7 @@ export const Clue = ({value, bombs} : ClueProps) => {
             backgroundPosition: 'center',
           }}
         />
-        <span className="relative z-10 text-xl font-bold text-stone-800">
-          {value}
-        </span>
-
+        <span className="relative z-10 text-xl font-bold text-stone-800">{value}</span>
       </div>
 
       {hasBombs && (
@@ -38,12 +35,9 @@ export const Clue = ({value, bombs} : ClueProps) => {
             backgroundPosition: 'center',
           }}
         >
-          <span className="text-xs leading-2 font-bold text-slate-100">
-            {bombs}
-          </span>
+          <span className="text-xs leading-2 font-bold text-slate-100">{bombs}</span>
         </div>
       )}
-
     </div>
-  )
-}
+  );
+};

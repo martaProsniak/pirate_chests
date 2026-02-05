@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
 
 export interface ButtonProps {
-  onClick: (() => void )| ((e: any) => void);
+  onClick: (() => void) | ((e: any) => void);
   label: string;
   classes?: string | ReactNode;
   disabled?: boolean;
@@ -9,11 +9,18 @@ export interface ButtonProps {
   image?: string;
 }
 
-export const Button = ({onClick, classes, label = '', disabled = false, children, image = 'yellow'}: ButtonProps) => {
+export const Button = ({
+  onClick,
+  classes,
+  label = '',
+  disabled = false,
+  children,
+  image = 'yellow',
+}: ButtonProps) => {
   return (
     <button
       onClick={onClick}
-      className={`cursor-pointer flex items-center justify-center ${classes}`}
+      className={`cursor-pointer flex items-center justify-center hover:translate-y-1 hover:scale-95 active:brightness-105 transition-all ${classes}`}
       aria-label={label}
       disabled={disabled}
       style={{
@@ -21,10 +28,10 @@ export const Button = ({onClick, classes, label = '', disabled = false, children
         borderImageSlice: '18 fill',
         borderWidth: '4px',
         borderStyle: 'solid',
-        background: 'none'
+        background: 'none',
       }}
     >
       {children}
     </button>
-  )
-}
+  );
+};

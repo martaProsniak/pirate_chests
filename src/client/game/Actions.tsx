@@ -9,7 +9,13 @@ export interface ActionsProps {
   isEnd?: boolean;
 }
 
-export const Actions = ({ onRestart, mode = 'practice', showModalBtn = false, onShowModal, isEnd = false }: ActionsProps) => {
+export const Actions = ({
+  onRestart,
+  mode = 'practice',
+  showModalBtn = false,
+  onShowModal,
+  isEnd = false,
+}: ActionsProps) => {
   return (
     <div className="fixed bottom-2 right-4 flex md:flex-col items-end gap-2 z-20">
       {(mode === 'practice' || (mode === 'daily' && isEnd)) && (

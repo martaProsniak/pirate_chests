@@ -31,9 +31,5 @@ export const NextChallengeTimer = () => {
     return () => clearInterval(timer);
   }, []);
 
-  return (
-    <span className="text-inherit">
-      Next Island Raid: {timeLeft}
-    </span>
-  );
+  return <span className="text-inherit">Next Island Raid: {timeLeft}</span>;
 };

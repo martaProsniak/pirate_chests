@@ -4,39 +4,46 @@ import {
   DailyChallengeResponse,
   SubmitScoreRequest,
   SubmitScoreResponse,
-  LeaderboardResponse, PracticeGameResponse, PostCommentResponse, PostCommentRequest, StatsResponse,
+  LeaderboardResponse,
+  PracticeGameResponse,
+  PostCommentResponse,
+  PostCommentRequest,
+  StatsResponse,
 } from '../../shared/types/api';
 
 export const usePirateChestAPI = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const request = useCallback(async <T>(endpoint: string, options?: RequestInit): Promise<T | null> => {
-    setLoading(true);
-    setError(null);
-    try {
-      const res = await fetch(endpoint, {
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-        },
-        ...options,
-      });
+  const request = useCallback(
+    async <T>(endpoint: string, options?: RequestInit): Promise<T | null> => {
+      setLoading(true);
+      setError(null);
+      try {
+        const res = await fetch(endpoint, {
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+          },
+          ...options,
+        });
 
-      if (!res.ok) {
-        throw new Error(`API Error: ${res.status} ${res.statusText}`);
+        if (!res.ok) {
+          throw new Error(`API Error: ${res.status} ${res.statusText}`);
+        }
+
+        const data = await res.json();
+        return data as T;
+      } catch (err) {
+        console.error(`Error fetching ${endpoint}:`, err);
+        setError(err instanceof Error ? err.message : 'Unknown error');
+        return null;
+      } finally {
+        setLoading(false);
       }
-
-      const data = await res.json();
-      return data as T;
-    } catch (err) {
-      console.error(`Error fetching ${endpoint}:`, err);
-      setError(err instanceof Error ? err.message : 'Unknown error');
-      return null;
-    } finally {
-      setLoading(false);
-    }
-  }, []);
+    },
+    []
+  );
 
   const initApp = useCallback(async () => {
     return await request<InitResponse>('/api/init');
@@ -50,19 +57,25 @@ export const usePirateChestAPI = () => {
     return await request<PracticeGameResponse>('/api/practice-challenge');
   }, [request]);
 
-  const submitScore = useCallback(async (data: SubmitScoreRequest) => {
-    return await request<SubmitScoreResponse>('/api/submit-score', {
-      method: 'POST',
-      body: JSON.stringify(data),
-    });
-  }, [request]);
+  const submitScore = useCallback(
+    async (data: SubmitScoreRequest) => {
+      return await request<SubmitScoreResponse>('/api/submit-score', {
+        method: 'POST',
+        body: JSON.stringify(data),
+      });
+    },
+    [request]
+  );
 
-  const postComment = useCallback(async (data: PostCommentRequest) => {
-    return await request<PostCommentResponse>('/api/post-comment', {
-      method: 'POST',
-      body: JSON.stringify(data),
-    });
-  }, [request]);
+  const postComment = useCallback(
+    async (data: PostCommentRequest) => {
+      return await request<PostCommentResponse>('/api/post-comment', {
+        method: 'POST',
+        body: JSON.stringify(data),
+      });
+    },
+    [request]
+  );
 
   const getLeaderboard = useCallback(async () => {
     return await request<LeaderboardResponse>('/api/leaderboard');
@@ -81,6 +94,6 @@ export const usePirateChestAPI = () => {
     submitScore,
     getLeaderboard,
     postComment,
-    getUserStats
+    getUserStats,
   };
 };

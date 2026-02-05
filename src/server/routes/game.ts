@@ -7,7 +7,11 @@ import {
   SubmitScoreResponse,
   LeaderboardResponse,
   LeaderboardEntry,
-  UserStats, PracticeGameResponse, PostCommentResponse, PostCommentRequest, DailyChallengeResponse,
+  UserStats,
+  PracticeGameResponse,
+  PostCommentResponse,
+  PostCommentRequest,
+  DailyChallengeResponse,
 } from '../../shared/types/api';
 import { Difficulty, FindingsMap, TreasureKind } from '../../shared/types/game';
 import { CONFIG } from '../core/gameConfig';
@@ -15,18 +19,14 @@ import { generateBoard } from '../core/board';
 import { generatePirateComment } from '../utils/commentGenerator';
 import { getOrCreateDailyBoard } from '../services/boardService';
 import { updateUserGlobalStats } from '../services/statsService';
-import {
-  MODE_UPDATE_MSG,
-  STATS_UPDATE_MSG,
-  userDataChannel,
-} from '../../shared/types/channels';
+import { MODE_UPDATE_MSG, STATS_UPDATE_MSG, userDataChannel } from '../../shared/types/channels';
 
 const router = Router();
 
 const getClientGameConfig = (difficulty: Difficulty = 'base') => {
   const currentConfig = CONFIG[difficulty];
 
-  return {...currentConfig};
+  return { ...currentConfig };
 };
 
 router.get('/api/init', async (_req, res) => {
@@ -94,11 +94,10 @@ router.get('/api/daily-challenge', async (_req, res) => {
       hasPlayed,
       stats,
       username: currUser?.username ?? 'Matey',
-      mode
+      mode,
     };
 
     res.json(response);
-
   } catch (error) {
     console.error('Daily Challenge Error:', error);
     res.status(500).json({ status: 'error', message: 'Internal server error' });
@@ -152,7 +151,9 @@ router.post('/api/submit-score', async (req, res) => {
       const playedRaw = await redis.get(playedKey);
 
       if (playedRaw) {
-        console.log(`User ${userId} already played post ${postId}. Score not added to leaderboard.`);
+        console.log(
+          `User ${userId} already played post ${postId}. Score not added to leaderboard.`
+        );
         confirmedIsDaily = false;
       }
     }
@@ -186,10 +187,9 @@ router.post('/api/submit-score', async (req, res) => {
         payload: {
           postId: postId,
           mode: 'practice',
-        }
+        },
       });
     }
-
   } catch (error) {
     console.error('Submit Score Error:', error);
     res.status(500).json({ status: 'error', message: 'Failed to submit score' });
@@ -209,7 +209,7 @@ router.get('/api/leaderboard', async (_req, res) => {
 
     const topScores = await redis.zRange(leaderboardKey, 0, 9, {
       by: 'rank',
-      reverse: true
+      reverse: true,
     });
 
     const entries: LeaderboardEntry[] = topScores.map((entry, index) => {
@@ -217,14 +217,14 @@ router.get('/api/leaderboard', async (_req, res) => {
       return {
         username: username ?? 'Stranger',
         score: entry.score,
-        rank: index + 1
+        rank: index + 1,
       };
     });
 
     let userEntry: LeaderboardEntry | null = null;
 
     if (userId) {
-      const userInTopIndex = topScores.findIndex(s => s.member.endsWith(`::${userId}`));
+      const userInTopIndex = topScores.findIndex((s) => s.member.endsWith(`::${userId}`));
 
       if (userInTopIndex !== -1) {
         userEntry = entries[userInTopIndex] as LeaderboardEntry;
@@ -234,7 +234,7 @@ router.get('/api/leaderboard', async (_req, res) => {
         const [rankAsc, totalCount, score] = await Promise.all([
           redis.zRank(leaderboardKey, memberKey),
           redis.zCard(leaderboardKey),
-          redis.zScore(leaderboardKey, memberKey)
+          redis.zScore(leaderboardKey, memberKey),
         ]);
 
         if (rankAsc !== undefined && totalCount !== undefined && score !== undefined) {
@@ -243,9 +243,8 @@ router.get('/api/leaderboard', async (_req, res) => {
           userEntry = {
             username: username ?? 'Matey',
             score: score,
-            rank: realRank
+            rank: realRank,
           };
-
         }
       }
       res.json({ entries, userEntry } as LeaderboardResponse);
@@ -275,7 +274,6 @@ router.post('/api/post-comment', async (req, res) => {
     });
 
     res.json({ success: true, commentId: comment.id } as PostCommentResponse);
-
   } catch (error) {
     console.error('Post Comment Error:', error);
     res.status(500).json({ status: 'error', message: 'Failed to post comment' });
@@ -298,20 +296,20 @@ router.get('/api/user-stats', async (_req, res) => {
       chest: 0,
       gold: 0,
       fish: 0,
-      bomb: 0
+      bomb: 0,
     };
 
     if (!rawStats) {
       res.json({
         success: true,
-        stats: { score: 0, gamesPlayed: 0, wins: 0, findings: emptyFindings }
+        stats: { score: 0, gamesPlayed: 0, wins: 0, findings: emptyFindings },
       });
       return;
     }
 
     const findings: FindingsMap = { ...emptyFindings };
 
-    Object.keys(rawStats).forEach(key => {
+    Object.keys(rawStats).forEach((key) => {
       if (key.startsWith('findings_')) {
         const itemType = key.replace('findings_', '') as TreasureKind;
 
@@ -325,11 +323,10 @@ router.get('/api/user-stats', async (_req, res) => {
       score: parseInt(rawStats.totalScore || '0', 10),
       gamesPlayed: parseInt(rawStats.gamesPlayed || '0', 10),
       wins: parseInt(rawStats.wins || '0', 10),
-      findings
+      findings,
     };
 
     res.json({ success: true, stats });
-
   } catch (error) {
     console.error('Error fetching user stats:', error);
     res.status(500).json({ success: false, message: 'Internal Server Error' });

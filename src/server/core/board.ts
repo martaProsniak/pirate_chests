@@ -4,10 +4,13 @@ import {
   generateShuffledTreasures,
   findNearestTreasure,
   countBombsNearby,
-  RandomGenerator
+  RandomGenerator,
 } from '../utils/boardGenerator';
 
-export const generateBoard = (difficulty: Difficulty = 'base', random: RandomGenerator = Math.random): MatrixItem[][] => {
+export const generateBoard = (
+  difficulty: Difficulty = 'base',
+  random: RandomGenerator = Math.random
+): MatrixItem[][] => {
   const { rowsCount, colsCount, treasures } = CONFIG[difficulty];
 
   const shuffledTreasures = generateShuffledTreasures(rowsCount, colsCount, treasures, random);
@@ -28,11 +31,16 @@ export const generateBoard = (difficulty: Difficulty = 'base', random: RandomGen
           isTreasure: true,
           value: treasure.kind,
           isRevealed: false,
-          bombs: 0
+          bombs: 0,
         };
       }
 
-      const fieldInfo = findNearestTreasure(rowIndex, colIndex, shuffledTreasures, rowsCount + colsCount);
+      const fieldInfo = findNearestTreasure(
+        rowIndex,
+        colIndex,
+        shuffledTreasures,
+        rowsCount + colsCount
+      );
       const bombs = countBombsNearby(rowIndex, colIndex, shuffledTreasures);
 
       if (fieldInfo.minDistance >= maxDistance && bombs === 0) {

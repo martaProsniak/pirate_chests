@@ -2,11 +2,11 @@ import { Tile } from '../Tile';
 import { MatrixItem } from '../../../shared/types/game';
 
 export interface BoardProps {
-  matrix: MatrixItem[][],
-  onClick: (row: number, col: number) => void,
+  matrix: MatrixItem[][];
+  onClick: (row: number, col: number) => void;
 }
 
-export const Board = ({matrix, onClick}: BoardProps) => {
+export const Board = ({ matrix, onClick }: BoardProps) => {
   return (
     <div
       className="relative z-10 flex flex-col gap-1 shrink-0"
@@ -33,4 +33,4 @@ export const Board = ({matrix, onClick}: BoardProps) => {
       </div>
     </div>
   );
-}
+};

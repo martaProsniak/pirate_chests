@@ -1,4 +1,4 @@
-import {Board} from './Board/Board';
+import { Board } from './Board/Board';
 import { Layout } from '../UI/Layout';
 import { useGame } from '../hooks/useGame';
 import { useEffect, useState } from 'react';
@@ -22,8 +22,8 @@ export const App = () => {
     points,
     findings,
     checkedMode,
-    gameLoading
-  } = useGame({mode: 'daily'});
+    gameLoading,
+  } = useGame({ mode: 'daily' });
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
@@ -46,7 +46,6 @@ export const App = () => {
   return (
     <Layout className="overflow-hidden" image="water">
       <div className="relative overflow-hidden w-full flex justify-center h-full">
-
         {!gameLoading && matrix && matrix.length > 0 && (
           <div className="absolute z-30 w-max pointer-events-none top-2 left-1/2 -translate-x-1/2">
             <div className="pointer-events-auto">
@@ -67,9 +66,9 @@ export const App = () => {
           </div>
         )}
 
-        {!gameLoading && (matrix && matrix.length > 0) ? (
+        {!gameLoading && matrix && matrix.length > 0 ? (
           <div className="w-full flex flex-col items-center justify-center gap-4 py-1 px-2 max-w-[1000px]">
-            <Board matrix={matrix} onClick={handleCellClick}  />
+            <Board matrix={matrix} onClick={handleCellClick} />
           </div>
         ) : null}
 
@@ -88,7 +87,7 @@ export const App = () => {
         <Actions
           onRestart={startGame}
           mode={checkedMode}
-          showModalBtn={(isEnd && !isModalOpen)}
+          showModalBtn={isEnd && !isModalOpen}
           onShowModal={() => setIsModalOpen(true)}
           isEnd={isEnd}
         />

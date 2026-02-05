@@ -8,21 +8,20 @@ interface ProgressSectionProps {
   imgClasses?: string;
 }
 
-const ProgressSection = ({ label, value, iconSrc, classes = '', imgClasses = '' }: ProgressSectionProps) => {
+const ProgressSection = ({
+  label,
+  value,
+  iconSrc,
+  classes = '',
+  imgClasses = '',
+}: ProgressSectionProps) => {
   return (
     <div className="flex gap-x-1 items-center justify-center w-full">
-      <img
-        src={iconSrc}
-        alt={label}
-        className={`object-contain h-6 select-none ${imgClasses}`}
-      />
-      <div className={`text-xl leading-5 font-bold drop-shadow-sm ${classes}`}>
-        {value}
-      </div>
+      <img src={iconSrc} alt={label} className={`object-contain h-6 select-none ${imgClasses}`} />
+      <div className={`text-xl leading-5 font-bold drop-shadow-sm ${classes}`}>{value}</div>
     </div>
   );
 };
-
 
 interface GameProgressProps {
   moves: number;
@@ -32,10 +31,17 @@ interface GameProgressProps {
   points: number;
 }
 
-export const GameProgress = ({ moves, treasuresFound, totalTreasures, bombs, points }: GameProgressProps) => {
+export const GameProgress = ({
+  moves,
+  treasuresFound,
+  totalTreasures,
+  bombs,
+  points,
+}: GameProgressProps) => {
   return (
-    <div className={`flex items-center justify-center gap-4 select-none font-bree py-3 px-5 glassPanel`}>
-
+    <div
+      className={`flex items-center justify-center gap-4 select-none font-bree py-3 px-5 glassPanel`}
+    >
       {/* RUM SECTION */}
       <ProgressSection
         label="Rum"
@@ -68,11 +74,7 @@ export const GameProgress = ({ moves, treasuresFound, totalTreasures, bombs, poi
       <ProgressSection
         label="Gold"
         iconSrc="/images/money.png"
-        value={
-          <>
-            {points}
-          </>
-        }
+        value={<>{points}</>}
         classes="text-sky-800"
       />
     </div>

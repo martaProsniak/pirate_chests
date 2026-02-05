@@ -7,7 +7,12 @@ interface NearestTreasure {
   treasure: TreasureKind | null;
 }
 
-export const findNearestTreasure = (row: number, col: number, currentTreasures: Treasure[], initialDistance: number): NearestTreasure => {
+export const findNearestTreasure = (
+  row: number,
+  col: number,
+  currentTreasures: Treasure[],
+  initialDistance: number
+): NearestTreasure => {
   return currentTreasures.reduce<NearestTreasure>(
     (acc, curr) => {
       if (curr.kind === 'bomb') {
@@ -25,16 +30,22 @@ export const findNearestTreasure = (row: number, col: number, currentTreasures: 
   );
 };
 
-export const countBombsNearby = (row: number, col: number, currentTreasures: Treasure[]): number => {
-  return currentTreasures.filter(({ kind }) => kind === 'bomb').reduce((acc, curr) => {
-    const isAdjacent =
-      (curr.row === row + 1 && curr.col === col) ||
-      (curr.row === row - 1 && curr.col === col) ||
-      (curr.col === col + 1 && curr.row === row) ||
-      (curr.col === col - 1 && curr.row === row);
+export const countBombsNearby = (
+  row: number,
+  col: number,
+  currentTreasures: Treasure[]
+): number => {
+  return currentTreasures
+    .filter(({ kind }) => kind === 'bomb')
+    .reduce((acc, curr) => {
+      const isAdjacent =
+        (curr.row === row + 1 && curr.col === col) ||
+        (curr.row === row - 1 && curr.col === col) ||
+        (curr.col === col + 1 && curr.row === row) ||
+        (curr.col === col - 1 && curr.row === row);
 
-    return isAdjacent ? acc + 1 : acc;
-  }, 0);
+      return isAdjacent ? acc + 1 : acc;
+    }, 0);
 };
 
 export const shuffleArray = (array: number[], random: RandomGenerator): number[] => {
@@ -59,17 +70,20 @@ export const generateShuffledTreasures = (
 
   const shuffledIndices = shuffleArray(allIndices, random);
 
-  const treasuresArray = (Object.keys(treasuresConfig) as TreasureKind[]).reduce((acc: TreasureKind[], key: TreasureKind) => {
-    const temp = Array.from({ length: treasuresConfig[key] }).fill(key) as TreasureKind[];
-    return acc.concat(temp);
-  }, []);
+  const treasuresArray = (Object.keys(treasuresConfig) as TreasureKind[]).reduce(
+    (acc: TreasureKind[], key: TreasureKind) => {
+      const temp = Array.from({ length: treasuresConfig[key] }).fill(key) as TreasureKind[];
+      return acc.concat(temp);
+    },
+    []
+  );
 
   return treasuresArray.map((kind, index) => {
     const gridIndex = shuffledIndices[index]!;
     return {
       row: Math.floor(gridIndex / colsCount),
       col: gridIndex % colsCount,
-      kind: kind
+      kind: kind,
     };
   });
 };

@@ -4,7 +4,7 @@ export const STATS_UPDATE_MSG = 'stats-update';
 export const MODE_UPDATE_MSG = 'mode-update';
 
 export type ChannelMessage = {
-  userId: string,
-  type: 'stats-update' | 'mode-update',
-  payload: any
-}
+  userId: string;
+  type: 'stats-update' | 'mode-update';
+  payload: any;
+};
