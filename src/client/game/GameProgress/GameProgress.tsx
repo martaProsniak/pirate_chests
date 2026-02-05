@@ -41,7 +41,7 @@ export const GameProgress = ({ moves, treasuresFound, totalTreasures, bombs, poi
         label="Rum"
         iconSrc="/images/rum.png"
         value={moves}
-        classes={moves <= 3 ? `text-pink-600 ${moves > 0 && 'animate-pulse'}` : 'text-sky-800'}
+        classes={moves <= 3 ? `text-pink-700 ${moves > 0 && 'animate-pulse'}` : 'text-sky-800'}
       />
 
       {/* TREASURES SECTION */}

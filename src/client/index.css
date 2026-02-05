@@ -1,6 +1,16 @@
 @import url('https://fonts.googleapis.com/css2?family=Pirata+One&family=Bree+Serif&family=Indie+Flower&display=swap');
 @import 'tailwindcss';
 
+:root {
+  --scrollbar-color: #e9830e;
+  --scrollbar-color-hover: #c75b02;
+}
+
+.endModal {
+  --scrollbar-color: #0eb6e9;
+  --scrollbar-color-hover: #027bc7;
+}
+
 .font-pirate {
   font-family: 'Pirata One', cursive;
   letter-spacing: 0.05em;
@@ -45,24 +55,25 @@
 
 .scrollbar-pirate {
   scrollbar-width: thin;
-  scrollbar-color: #e9830e #f5f5f4;
+  scrollbar-color: var(--scrollbar-color) #f5f5f4;
 }
 
 .scrollbar-pirate::-webkit-scrollbar {
-  width: 4px;
-  height: 4px;
+  width: 2px;
+  height: 2px;
 }
 
 .scrollbar-pirate::-webkit-scrollbar-track {
   background: #f5f5f4;
-  border-radius: 2px;
+  border-radius: 1px;
 }
 
 .scrollbar-pirate::-webkit-scrollbar-thumb {
-  background-color: #e98a0e;
+  background-color: var(--scrollbar-color);
   border-radius: 10px;
 }
 
 .scrollbar-pirate::-webkit-scrollbar-thumb:hover {
-  background-color: #c75b02;
+  background-color: var(--scrollbar-color-hover);
 }
+

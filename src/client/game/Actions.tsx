@@ -1,6 +1,5 @@
 import { Mode } from '../../shared/types/game';
-import { GameButton } from '../UI/GameButton';
-import { ReopenModalIcon, ReplayIcon } from '../UI/icons';
+import { GuiButton } from '../UI/GUIButton';
 
 export interface ActionsProps {
   onRestart: () => void;
@@ -14,26 +13,22 @@ export const Actions = ({ onRestart, mode = 'practice', showModalBtn = false, on
   return (
     <div className="fixed bottom-2 right-4 flex md:flex-col items-end gap-2 z-20">
       {(mode === 'practice' || (mode === 'daily' && isEnd)) && (
-        <GameButton
+        <GuiButton
           onClick={onRestart}
-          color="cyan"
-          variant="light"
-          aria-label="Replay Level"
-          className="p-2 flex items-center justify-center rounded-md shadow-md"
+          label="Replay Level"
+          classes="py-1 px-3 text-sky-800 font-pirate font-bold tracking-wide w-32 bg-white/20"
         >
-          <ReplayIcon className="text-2xl fot-bold" />
-        </GameButton>
+          <span className="text-base">{!isEnd ? 'Reload!' : 'One more!'}</span>
+        </GuiButton>
       )}
       {showModalBtn && (
-        <GameButton
-          onClick={onShowModal}
-          color="cyan"
-          variant="light"
-          aria-label="Open Modal"
-          className="p-2 w-[50px] h-[50px] flex items-center justify-center rounded-md shadow-md"
+        <GuiButton
+          onClick={onShowModal!}
+          label="Open Modal"
+          classes="py-1 px-3 text-sky-800 font-pirate font-bold tracking-wide w-32 bg-white/20"
         >
-          <ReopenModalIcon className="text-2xl rotate-y-180" />
-        </GameButton>
+          <span className="text-base">Captains Log</span>
+        </GuiButton>
       )}
     </div>
   );

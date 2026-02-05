@@ -2,7 +2,7 @@ import { FindingsMap } from '../../../shared/types/game';
 import styles from './EndGameModal.module.css';
 import { CaptainsTable } from '../../UI/CaptainsTable/CaptainsTable';
 import { ShareCommentSection } from '../ShareCommentSection/ShareCommentSection';
-import { GameButton } from '../../UI/GameButton';
+import { GuiButton } from '../../UI/GUIButton';
 
 interface EndGameModalProps {
   isOpen: boolean;
@@ -59,7 +59,7 @@ export const EndGameModal = ({
         onClick={(e) => e.stopPropagation()}
         className={`
           glassPanel
-          relative w-10/12 max-w-md 
+          relative w-10/12 sm:w-9/12 md: w-8/12 max-w-md 
           flex flex-col
           max-h-[85vh] h-auto
           text-stone-800
@@ -67,22 +67,22 @@ export const EndGameModal = ({
           ${isOpen ? styles.slideDownAnimation : ''}
         `}
       >
-        <div className="flex-1 overflow-y-auto p-5 custom-scrollbar">
+        <div className="endModal flex-1 overflow-y-auto p-5 bg-white/40 scrollbar-pirate">
           <div className="flex flex-col gap-5 text-center">
 
             <div>
-              <h3 className={`font-pirate text-2xl mb-2 ${isWin ? 'text-emerald-600/90' : 'text-red-600/90'}`}>
+              <h3 className={`font-pirate text-xl mb-2 ${isWin ? 'text-lime-500' : 'text-rose-500'}`}>
                 {text.header}
               </h3>
 
-              <p className="text-stone-800/90 textbase px-2 font-bree font-bold">
+              <p className="text-stone-700 text-base px-2 font-bree">
                 {text.paragraph}
               </p>
             </div>
 
-            <div className="bg-white/40 rounded-lg border border-sky-200 overflow-hidden shadow-sm">
+            <div className=" rounded-lg border border-sky-500 overflow-hidden shadow-sm">
 
-              <div className="bg-sky-100/50 p-3 border-b border-sky-200">
+              <div className="bg-sky-100/50 p-3 border-b border-sky-500">
                 <span className="text-sky-500 font-bree font-bold text-2xl block tracking-wider drop-shadow-xs">
                   {points}
                 </span>
@@ -110,7 +110,7 @@ export const EndGameModal = ({
               </div>
             </div>
 
-            {mode === 'daily' && (
+            {mode === 'practice' && (
               <ShareCommentSection
                 score={points}
                 isWin={isWin}
@@ -131,9 +131,9 @@ export const EndGameModal = ({
         </div>
 
         <div className="p-2 border-t border-sky-200/50 bg-white/20 flex justify-center items-center gap-4 shrink-0 backdrop-blur-sm shadow-[0_-5px_15px_rgba(0,0,0,0.05)]">
-          <GameButton onClick={onRestart} color={'sky'}>
-            <span className={'px-6 py-1'}>Search for more</span>
-          </GameButton>
+          <GuiButton label={'Replay'} onClick={onRestart} classes="py-2 px-12 text-sky-700 font-pirate tracking-wide text-xl font-bold">
+            <span className={''}>Casual Raid</span>
+          </GuiButton>
         </div>
       </div>
     </div>

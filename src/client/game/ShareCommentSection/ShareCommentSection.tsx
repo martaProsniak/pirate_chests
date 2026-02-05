@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { usePirateChestAPI } from '../../hooks/usePirateChestApi';
 import { FindingsMap } from '../../../shared/types/game';
-import { GameButton } from '../../UI/GameButton';
+import { GuiButton } from '../../UI/GUIButton';
 
 interface ShareCommentSectionProps {
   score: number;
@@ -50,7 +50,7 @@ export const ShareCommentSection = ({
   if (hasPosted) {
     return (
       <div className="flex justify-center pt-2 border-t border-white/10">
-        <p className="text-emerald-400 text-sm font-bold flex items-center gap-1 bg-emerald-900/30 px-3 py-1 rounded-full border border-emerald-500/30 shadow-md">
+        <p className="text-lime-400 text-sm font-bold flex items-center gap-1 bg-lime-900/30 px-3 py-1 rounded-full border border-lime-400/30 shadow-md">
           <span>✅</span> Scribbled in the Log!
         </p>
       </div>
@@ -59,10 +59,10 @@ export const ShareCommentSection = ({
 
   return (
     <div className="flex flex-col gap-2 items-center justify-center pt-2 border-t border-white/10">
-      <p className="text-stone-300 text-xs italic">Show off yer loot to the crew!</p>
-      <GameButton variant="light" color={'teal'} onClick={handleShare} disabled={isPosting}>
-        <span className="py-1 px-5">{getButtonLabel()}</span>
-      </GameButton>
+      <p className="text-stone-200 text-xs italic">Show off yer loot to the crew!</p>
+      <GuiButton onClick={handleShare} label={'Comment'} disabled={isPosting} classes="py-1 px-4 !bg-transparent text-emerald-600 font-pirate tracking-wide text-base font-bold">
+        <span className="">{getButtonLabel()}</span>
+      </GuiButton>
     </div>
   );
 };
