@@ -1,8 +1,8 @@
 import { FindingsMap } from '../../../shared/types/game';
-import { GuiButton } from '../../UI/GUIButton';
 import styles from './EndGameModal.module.css';
 import { CaptainsTable } from '../../UI/CaptainsTable/CaptainsTable';
 import { ShareCommentSection } from '../ShareCommentSection/ShareCommentSection';
+import { GameButton } from '../../UI/GameButton';
 
 interface EndGameModalProps {
   isOpen: boolean;
@@ -17,17 +17,16 @@ interface EndGameModalProps {
 }
 
 export const EndGameModal = ({
-                               isOpen,
-                               onClose,
-                               onRestart,
-                               mode,
-                               isWin,
-                               wasBombed,
-                               points,
-                               findings,
-                               moves,
-                             }: EndGameModalProps) => {
-
+   isOpen,
+   onClose,
+   onRestart,
+   mode,
+   isWin,
+   wasBombed,
+   points,
+   findings,
+   moves,
+ }: EndGameModalProps) => {
   const getHeaderText = () => {
     if (isWin) {
       return {
@@ -72,19 +71,19 @@ export const EndGameModal = ({
           <div className="flex flex-col gap-5 text-center">
 
             <div>
-              <h3 className={`font-pirate text-2xl mb-2 ${isWin ? '' : ''}`}>
+              <h3 className={`font-pirate text-2xl mb-2 ${isWin ? 'text-green-700/90' : 'text-pink-700/90'}`}>
                 {text.header}
               </h3>
 
-              <p className="text-stone-600 text-sm sm:text-base px-2 font-indie font-bold">
+              <p className="text-stone-800/90 textbase px-2 font-bree font-bold">
                 {text.paragraph}
               </p>
             </div>
 
-            <div className="bg-white/40 rounded-lg border border-sky-200 overflow-hidden shadow-sm">
+            <div className="bg-white/40 rounded-lg border border-orange-200 overflow-hidden shadow-sm">
 
-              <div className="bg-sky-100/50 p-3 border-b border-sky-200">
-                <span className="text-sky-500 font-bree font-bold text-xl block tracking-wider drop-shadow-xs">
+              <div className="bg-orange-100/50 p-3 border-b border-orange-200">
+                <span className="text-orange-500 font-bree font-bold text-2xl block tracking-wider drop-shadow-xs">
                   {points}
                 </span>
                 <span className="text-xs uppercase text-stone-500 font-pirate font-bold">
@@ -131,13 +130,10 @@ export const EndGameModal = ({
           </div>
         </div>
 
-        <div className="p-2 border-t border-sky-200/50 bg-white/20 flex justify-center items-center gap-4 shrink-0 backdrop-blur-sm shadow-[0_-5px_15px_rgba(0,0,0,0.05)]">
-          <GuiButton
-            variant="text"
-            onClick={onRestart}
-            image="menu_btn"
-            label="One more Adventure"
-          />
+        <div className="p-2 border-t border-orange-200/50 bg-white/20 flex justify-center items-center gap-4 shrink-0 backdrop-blur-sm shadow-[0_-5px_15px_rgba(0,0,0,0.05)]">
+          <GameButton onClick={onRestart} color={'orange'}>
+            <span className={'px-6 py-1'}>Search for more</span>
+          </GameButton>
         </div>
       </div>
     </div>

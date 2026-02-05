@@ -6,9 +6,10 @@ interface HomeViewProps {
   username: string;
   mode: 'daily' | 'practice';
   onStart: (e: MouseEvent) => void;
+  loading?: boolean;
 }
 
-export const HomeView = ({ username, mode, onStart }: HomeViewProps) => {
+export const HomeView = ({ username, mode, onStart, loading }: HomeViewProps) => {
   const color = mode === 'daily' ? 'amber' : 'orange';
 
   return (
@@ -19,12 +20,17 @@ export const HomeView = ({ username, mode, onStart }: HomeViewProps) => {
           Ahoy, <span>{username}</span>!
         </h1>
         <div className={`text-lg md:text-xl  font-bold font-indie text-orange-950`}>
-          {mode === 'daily' ? 'New land on a horizon!' : <NextChallengeTimer />}
+          {loading
+            ?
+            'Navigating...'
+          :
+            mode === 'daily' ? 'New land on a horizon!' : <NextChallengeTimer />
+          }
         </div>
       </div>
 
       <GameButton onClick={onStart} color={color}>
-        <span>{mode === 'daily' ? 'Daily Cruise' : 'Casual Cruise'}</span>
+        <span className={'px-6 py-1'}>{mode === 'daily' ? 'Daily Cruise' : 'Casual Cruise'}</span>
       </GameButton>
     </div>
   );

@@ -10,7 +10,7 @@ interface ProgressSectionProps {
 
 const ProgressSection = ({ label, value, iconSrc, classes = '', imgClasses = '' }: ProgressSectionProps) => {
   return (
-    <div className="flex gap-x-2 items-center justify-center w-full">
+    <div className="flex gap-x-1 items-center justify-center w-full">
       <img
         src={iconSrc}
         alt={label}
@@ -34,7 +34,7 @@ interface GameProgressProps {
 
 export const GameProgress = ({ moves, treasuresFound, totalTreasures, bombs, points }: GameProgressProps) => {
   return (
-    <div className={`flex items-center justify-center gap-4 select-none font-bree p-3 glassPanel`}>
+    <div className={`flex items-center justify-center gap-4 select-none font-bree py-3 px-5 glassPanel`}>
 
       {/* RUM SECTION */}
       <ProgressSection

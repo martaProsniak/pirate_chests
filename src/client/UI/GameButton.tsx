@@ -55,7 +55,7 @@ export const GameButton = ({
       className={`
         cursor-pointer relative group
         font-pirate text-xl tracking-wider
-        px-6 py-1 rounded-full
+        rounded-full
         bg-gradient-to-b
         border-2
         shadow-md

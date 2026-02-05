@@ -11,7 +11,7 @@ import { StatsView } from './StatsView/StatsView';
 import { Guides } from './Guides';
 
 export const Splash = () => {
-  const { username, mode } = useRealtimeUserData();
+  const { username, mode, loading } = useRealtimeUserData();
   const [currentView, setCurrentView] = useState<ViewState>('home');
 
   const handleStartGame = (e: MouseEvent) => {
@@ -22,7 +22,7 @@ export const Splash = () => {
     switch (currentView) {
       case 'home':
         return (
-          <HomeView username={username} mode={mode} onStart={handleStartGame} />
+          <HomeView username={username} loading={loading} mode={mode} onStart={handleStartGame} />
         );
 
       case 'leaderboard':

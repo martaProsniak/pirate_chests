@@ -16,23 +16,23 @@ export const Actions = ({ onRestart, mode = 'practice', showModalBtn = false, on
       {(mode === 'practice' || (mode === 'daily' && isEnd)) && (
         <GameButton
           onClick={onRestart}
-          color="teal"
+          color="cyan"
           variant="light"
           aria-label="Replay Level"
-          className="w-[50px] h-[50px] !p-0 flex items-center justify-center rounded-none"
+          className="p-2 flex items-center justify-center rounded-md shadow-md"
         >
-          <ReplayIcon className="text-2xl" />
+          <ReplayIcon className="text-2xl fot-bold" />
         </GameButton>
       )}
       {showModalBtn && (
         <GameButton
           onClick={onShowModal}
-          color="teal"
+          color="cyan"
           variant="light"
           aria-label="Open Modal"
-          className="w-[50px] h-[50px] !p-0 flex items-center justify-center rounded-none"
+          className="w-[50px] h-[50px] flex items-center justify-center rounded-md shadow-md"
         >
-          <ReopenModalIcon className="text-2xl" />
+          <ReopenModalIcon className="text-2xl rotate-y-180" />
         </GameButton>
       )}
     </div>
