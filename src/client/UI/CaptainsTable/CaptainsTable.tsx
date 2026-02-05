@@ -22,6 +22,8 @@ export const CaptainsTable = ({
   const [userEntry, setUserEntry] = useState<LeaderboardEntry | null>(null);
   const [loading, setLoading] = useState(true);
 
+
+
   useEffect(() => {
     let mounted = true;
 
@@ -83,7 +85,7 @@ export const CaptainsTable = ({
 
     if (variant === 'endgame') {
       return (
-        <div className="font-bree text-xs py-2 italic text-center font-bold text-amber-800">
+        <div className="font-bree text-xs py-2 italic text-center font-bold text-sky-800">
           Ye set the bar! First captain on these lands!
         </div>
       );

@@ -29,7 +29,7 @@ export const HomeView = ({ username, mode, loading, onStart }: HomeViewProps) =>
         </div>
         <div className="w-fit">
           <Button onClick={onStart} label={'Play'} image={'red'}>
-            <span className="px-6 py-2 text-rose-50 drop-shadow-xs drop-shadow-rose-900 font-pirate text-lg shadow-md">
+            <span className="px-6 py-2 text-rose-50 drop-shadow-xs drop-shadow-rose-900 font-pirate text-lg">
               {mode === 'daily' ? 'Daily Cruise' : 'Casual Cruise'}
             </span>
           </Button>

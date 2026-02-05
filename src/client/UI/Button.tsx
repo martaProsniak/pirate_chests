@@ -20,7 +20,7 @@ export const Button = ({
   return (
     <button
       onClick={onClick}
-      className={`cursor-pointer flex items-center justify-center hover:translate-y-1 hover:scale-95 active:brightness-105 transition-all ${classes}`}
+      className={`cursor-pointer flex items-center justify-center hover:translate-y-[2px] hover:scale-95 active:brightness-105 transition-all ${classes}`}
       aria-label={label}
       disabled={disabled}
       style={{

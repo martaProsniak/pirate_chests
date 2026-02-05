@@ -1,5 +1,5 @@
 import { Mode } from '../../shared/types/game';
-import { GuiButton } from '../UI/GUIButton';
+import { Button } from '../UI/Button';
 
 export interface ActionsProps {
   onRestart: () => void;
@@ -19,22 +19,24 @@ export const Actions = ({
   return (
     <div className="fixed bottom-2 right-4 flex md:flex-col items-end gap-2 z-20">
       {(mode === 'practice' || (mode === 'daily' && isEnd)) && (
-        <GuiButton
+        <Button
           onClick={onRestart}
+          image={'wood'}
           label="Replay Level"
-          classes="py-1 px-3 text-sky-800 font-pirate font-bold tracking-wide w-32 bg-white/20"
+          classes=""
         >
-          <span className="text-base">{!isEnd ? 'Reload!' : 'One more!'}</span>
-        </GuiButton>
+          <span className="px-4 py-1 text-amber-50 drop-shadow-xs drop-shadow-amber-900 font-pirate text-base">{!isEnd ? 'Reload!' : 'One more!'}</span>
+        </Button>
       )}
       {showModalBtn && (
-        <GuiButton
+        <Button
           onClick={onShowModal!}
           label="Open Modal"
-          classes="py-1 px-3 text-sky-800 font-pirate font-bold tracking-wide w-32 bg-white/20"
+          image={'wood'}
+          classes=""
         >
-          <span className="text-base">Captains Log</span>
-        </GuiButton>
+          <span className="px-4 py-1 text-white drop-shadow-xs drop-shadow-yellow-950 font-pirate text-base">Captains Log</span>
+        </Button>
       )}
     </div>
   );

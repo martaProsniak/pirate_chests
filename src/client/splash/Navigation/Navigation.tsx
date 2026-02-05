@@ -55,7 +55,7 @@ const NavButton = ({ active, onClick, label, icon }: NavButtonProps) => {
         font-bree flex flex-col items-center justify-center py-3 px-1 transition-all duration-300 relative group cursor-pointer border-t-2
         ${
           active
-            ? `border-opacity-100 border-rose-400 bg-rose-800/20`
+            ? `border-opacity-100 border-orange-400 bg-orange-800/20`
             : 'border-transparent bg-transparent'
         }
       `}

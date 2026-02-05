@@ -80,8 +80,8 @@ export const useGame = ({ mode }: UseGameProps) => {
   };
 
   const resetState = (config: GameConfigItem) => {
-    setIsEnd(true);
-    setIsWin(true);
+    setIsEnd(false);
+    setIsWin(false);
     setMoves(config.maxMoves);
     setTreasuresFound(0);
     setPoints(0);

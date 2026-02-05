@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { usePirateChestAPI } from '../../hooks/usePirateChestApi';
 import { FindingsMap } from '../../../shared/types/game';
-import { GuiButton } from '../../UI/GUIButton';
+import { Button } from '../../UI/Button';
 
 interface ShareCommentSectionProps {
   score: number;
@@ -58,16 +58,17 @@ export const ShareCommentSection = ({
   }
 
   return (
-    <div className="flex flex-col gap-2 items-center justify-center pt-2 border-t border-white/10">
+    <div className="flex flex-col gap-2 items-center justify-center py-2 border-t border-white/10">
       <p className="text-xs italic">Show off yer loot to the crew!</p>
-      <GuiButton
+      <Button
         onClick={handleShare}
         label={'Comment'}
         disabled={isPosting}
-        classes="py-1 px-4 !bg-transparent font-pirate tracking-wide text-base font-bold"
+        image={'green'}
+        classes=""
       >
-        <span className="">{getButtonLabel()}</span>
-      </GuiButton>
+        <span className="px-4 py-1 text-lime-50 drop-shadow-xs drop-shadow-lime-900 font-pirate text-lg">{getButtonLabel()}</span>
+      </Button>
     </div>
   );
 };
