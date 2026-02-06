@@ -84,13 +84,13 @@ export const App = () => {
           moves={moves}
         />
 
-        <Actions
+        {!gameLoading ? <Actions
           onRestart={startGame}
           mode={checkedMode}
           showModalBtn={isEnd && !isModalOpen}
           onShowModal={() => setIsModalOpen(true)}
           isEnd={isEnd}
-        />
+        /> : null}
       </div>
     </Layout>
   );

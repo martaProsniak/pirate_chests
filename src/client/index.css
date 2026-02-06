@@ -4,11 +4,11 @@
 :root {
   --scrollbar-color: #e9830e;
   --scrollbar-color-hover: #c75b02;
+  --scrollbar-bg: #f5f5f4;
 }
 
 .endModal {
-  --scrollbar-color: #0eb6e9;
-  --scrollbar-color-hover: #027bc7;
+  --scrollbar-bg: #3d1900;
 }
 
 .font-pirate {
@@ -46,7 +46,7 @@
 
 .scrollbar-pirate {
   scrollbar-width: thin;
-  scrollbar-color: var(--scrollbar-color) #f5f5f4;
+  scrollbar-color: var(--scrollbar-color) var(--scrollbar-bg);
 }
 
 .scrollbar-pirate::-webkit-scrollbar {
@@ -55,7 +55,7 @@
 }
 
 .scrollbar-pirate::-webkit-scrollbar-track {
-  background: #f5f5f4;
+  background: var(--scrollbar-bg);
   border-radius: 1px;
 }
 

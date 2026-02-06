@@ -18,7 +18,7 @@ const ProgressSection = ({
   return (
     <div className="flex gap-x-1 items-center justify-center w-full">
       <img src={iconSrc} alt={label} className={`object-contain h-6 select-none ${imgClasses}`} />
-      <div className={`text-xl leading-5 font-bold drop-shadow-sm ${classes}`}>{value}</div>
+      <div className={`text-2xl leading-5 font-bold font-bree  drop-shadow-sm ${classes}`}>{value}</div>
     </div>
   );
 };
@@ -40,14 +40,21 @@ export const GameProgress = ({
 }: GameProgressProps) => {
   return (
     <div
-      className={`flex items-center justify-center gap-4 select-none font-bree py-3 px-5 glassPanel`}
+      className="flex w-full items-center justify-evenly gap-5 select-none px-5 py-2 md:py-1"
+      style={{
+        borderImageSource: 'url("/images/banner_hud.png")',
+        borderImageSlice: '96 fill',
+        borderWidth: '16px',
+        borderStyle: 'solid',
+        background: 'none'
+      }}
     >
       {/* RUM SECTION */}
       <ProgressSection
         label="Rum"
         iconSrc="/images/rum.png"
         value={moves}
-        classes={moves <= 3 ? `text-pink-700 ${moves > 0 && 'animate-pulse'}` : 'text-sky-800'}
+        classes={moves <= 3 ? `text-rose-800 ${moves > 0 && 'animate-pulse'}` : 'text-amber-900'}
       />
 
       {/* TREASURES SECTION */}
@@ -59,7 +66,7 @@ export const GameProgress = ({
             {treasuresFound}/{totalTreasures}
           </span>
         }
-        classes="text-sky-800"
+        classes="text-amber-900"
       />
 
       {bombs ? (
@@ -67,7 +74,7 @@ export const GameProgress = ({
           label="Bombs"
           iconSrc="/images/bomb.png"
           value={bombs}
-          classes="text-sky-800"
+          classes="text-amber-900"
         />
       ) : null}
 
@@ -75,7 +82,7 @@ export const GameProgress = ({
         label="Gold"
         iconSrc="/images/money.png"
         value={<>{points}</>}
-        classes="text-sky-800"
+        classes="text-amber-900"
       />
     </div>
   );

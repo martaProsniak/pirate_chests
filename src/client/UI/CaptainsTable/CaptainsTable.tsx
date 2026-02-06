@@ -22,7 +22,14 @@ export const CaptainsTable = ({
   const [userEntry, setUserEntry] = useState<LeaderboardEntry | null>(null);
   const [loading, setLoading] = useState(true);
 
-
+  const backgroundStyle = variant === 'default' ? {} : {
+    borderImageSource: 'url("/images/banner_hud.png")',
+    borderImageSlice: '96 fill',
+    borderWidth: '20px',
+    borderStyle: 'solid',
+    background: 'none',
+    filter: 'sepia(0.2)'
+  }
 
   useEffect(() => {
     let mounted = true;
@@ -68,6 +75,7 @@ export const CaptainsTable = ({
               key={entry.rank}
               entry={entry}
               isHighlighted={entry.username === username}
+              variant={variant}
             />
           ))}
 
@@ -76,7 +84,7 @@ export const CaptainsTable = ({
               <div className="text-center text-xs leading-[0.5rem] mt-1 mb-1 text-amber-400">
                 ...
               </div>
-              <LeaderboardRow entry={userEntry} isHighlighted={true} />
+              <LeaderboardRow entry={userEntry} isHighlighted={true} variant={variant} />
             </>
           )}
         </div>
@@ -85,7 +93,7 @@ export const CaptainsTable = ({
 
     if (variant === 'endgame') {
       return (
-        <div className="font-bree text-xs py-2 italic text-center font-bold text-sky-800">
+        <div className="font-bree text-xs py-2 italic text-center font-bold text-amber-800">
           Ye set the bar! First captain on these lands!
         </div>
       );
@@ -99,8 +107,8 @@ export const CaptainsTable = ({
   };
 
   return (
-    <div className={`w-full ${className}`}>
-      <div className="border-b-2 border-amber-200 mb-2 pb-1">
+    <div className={`w-full ${className}`} style={{ ...backgroundStyle }}>
+      <div className={variant === 'default' ? 'mb-2 pb-1' : 'py-2'}>
         <Header>Captains Table</Header>
       </div>
       {renderContent()}
@@ -111,23 +119,25 @@ export const CaptainsTable = ({
 const LeaderboardRow = ({
   entry,
   isHighlighted,
+  variant = 'default',
 }: {
   entry: LeaderboardEntry;
   isHighlighted: boolean;
+  variant: 'default' | 'endgame';
 }) => {
   return (
     <div
-      className={`font-bree flex justify-between items-center text-xs sm:text-sm px-3 py-2 w-full rounded-md transition-colors ${
+      className={`flex justify-between items-center text-sm sm:text-base py-2 w-full rounded-md transition-colors ${
         isHighlighted
-          ? 'bg-rose-100 border border-rose-300 text-rose-900'
-          : 'bg-white odd:bg-amber-100 border border-amber-100 text-amber-900'
-      }`}
+          ? `${variant === 'default' ? 'bg-amber-100 border border-amber-300 text-amber-900 px-3' : 'text-lime-700 font-bold'} `
+          : `${variant === 'default' && 'bg-white odd:bg-amber-100 border border-amber-100 px-3'} text-amber-900`
+      } ${variant === 'default' ? 'font-bree' : 'font-indie'}`}
     >
       <div className="flex gap-2 items-center">
-        <span className="font-bold w-6 text-right opacity-70">{entry.rank}.</span>
-        <span className="font-bold truncate max-w-[180px]">{entry.username}</span>
+        <span className="font-bree w-6 text-right shrink-0">{entry.rank}.</span>
+        <span className="font-bold truncate grow mt-1">{entry.username}</span>
       </div>
-      <span className="font-mono font-bold text-amber-950">{entry.score}</span>
+      <span className={`font-bree font-bold  shrink-0 ${(isHighlighted && variant === 'default') && 'text-amber-900'} ${(isHighlighted && variant === 'endgame') && 'text-lime-700'}`}>{entry.score}</span>
     </div>
   );
 };

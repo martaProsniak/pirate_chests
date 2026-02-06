@@ -7,7 +7,7 @@ interface ViewWrapperProps {
 
 export const ViewWrapper = ({ children, className = '' }: ViewWrapperProps) => {
   return (
-    <div className={`flex flex-col justify-start items-center w-full gap-4 py-2 ${className}`}>
+    <div className={`flex flex-col justify-start items-center w-full gap-4 ${className}`}>
       {children}
     </div>
   );

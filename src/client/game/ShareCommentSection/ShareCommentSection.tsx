@@ -49,8 +49,8 @@ export const ShareCommentSection = ({
 
   if (hasPosted) {
     return (
-      <div className="flex justify-center pt-2 border-t border-white/10">
-        <p className="text-sm font-bold flex items-center gap-1 px-3 py-1 rounded-full border shadow-md">
+      <div className="flex justify-center pt-2">
+        <p className="text-sm font-bold text-amber-200 text-shadow-amber-950 text-shadow-xs flex items-center gap-1 px-3 py-1">
           <span>✅</span> Scribbled in the Log!
         </p>
       </div>
@@ -58,16 +58,16 @@ export const ShareCommentSection = ({
   }
 
   return (
-    <div className="flex flex-col gap-2 items-center justify-center py-2 border-t border-white/10">
-      <p className="text-xs italic">Show off yer loot to the crew!</p>
+    <div className="flex flex-col gap-2 items-center justify-center py-2">
+      <p className="text-xs italic text-amber-100 text-shadow-amber-950 text-shadow-xs">Show off yer loot to the crew!</p>
       <Button
         onClick={handleShare}
         label={'Comment'}
         disabled={isPosting}
-        image={'green'}
+        image={'royal'}
         classes=""
       >
-        <span className="px-4 py-1 text-lime-50 drop-shadow-xs drop-shadow-lime-900 font-pirate text-lg">{getButtonLabel()}</span>
+        <span className="px-7 py-3 text-yellow-200 text-shadow-md text-shadow-blue-950 font-pirate text-lg">{getButtonLabel()}</span>
       </Button>
     </div>
   );

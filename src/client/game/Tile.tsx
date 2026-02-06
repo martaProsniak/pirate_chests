@@ -11,7 +11,7 @@ export const Tile = ({ item, onClick }: TileProps) => {
   const { isRevealed, value, isTreasure, isHighlighted, bombs } = item;
 
   const baseClasses =
-    'w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center font-bold rounded-md select-none transition-all duration-75 border-dashed';
+    'w-12 h-12 flex items-center justify-center font-bold rounded-md select-none transition-all duration-75 border-dashed';
 
   const hiddenClasses = `
     text-transparent

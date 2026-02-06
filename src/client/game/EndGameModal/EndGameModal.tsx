@@ -3,6 +3,7 @@ import styles from './EndGameModal.module.css';
 import { CaptainsTable } from '../../UI/CaptainsTable/CaptainsTable';
 import { ShareCommentSection } from '../ShareCommentSection/ShareCommentSection';
 import { Button } from '../../UI/Button';
+import { Header } from '../../UI/ViewComponents';
 
 interface EndGameModalProps {
   isOpen: boolean;
@@ -53,76 +54,101 @@ export const EndGameModal = ({
       className={`fixed inset-0 z-50 items-center justify-center px-4 ${isOpen ? 'flex' : 'hidden'}`}
       onClick={onClose}
     >
-      <div className={`absolute inset-0 bg-stone-900/60 backdrop-blur-sm ${isOpen ? styles.fadeInAnimation : ''}`} />
+      <div className={`absolute inset-0 bg-stone-950/80 backdrop-blur-sm ${isOpen ? styles.fadeInAnimation : ''}`} />
 
       <div
         onClick={(e) => e.stopPropagation()}
         className={`
-          glassPanel
-          relative w-10/12 sm:w-9/12 md:w-8/12 max-w-md 
-          flex flex-col
-          max-h-[85vh] h-auto
-          text-stone-800
-          overflow-hidden
-          ${isOpen ? styles.slideDownAnimation : ''}
-        `}
+        relative w-10/12 sm:w-9/12 md:w-8/12 max-w-md 
+        flex flex-col
+        max-h-[85vh] h-auto
+        overflow-hidden
+        rounded-lg
+        border-[6px] border-[#3e2723]
+        shadow-[0_0_25px_rgba(0,0,0,0.9),inset_0_0_20px_rgba(0,0,0,0.7)]
+        ${isOpen ? styles.slideDownAnimation : ''}
+      `}
+        style={{
+          backgroundImage: `url("/images/wood.png")`,
+          backgroundRepeat: 'repeat',
+          backgroundSize: '256px auto',
+          backgroundColor: '#5d4037'
+        }}
       >
-        <div className="endModal flex-1 overflow-y-auto p-5 bg-white/40 scrollbar-pirate">
+        <div className="endModal flex-1 overflow-y-auto p-5 scrollbar-pirate">
           <div className="flex flex-col gap-5 text-center">
 
-            <div>
-              <h3 className={`font-pirate text-xl mb-2 ${isWin ? 'text-lime-500' : 'text-rose-500'}`}>
+            <div className="flex flex-col gap-3 py-2">
+              <h3
+                className={`
+                font-pirate text-4xl tracking-wider
+                ${isWin
+                  ? 'text-[#fbbf24] drop-shadow-[2px_3px_0_rgba(66,32,6,1)]'
+                  : 'text-[#ef4444] drop-shadow-[2px_3px_0_rgba(50,0,0,1)]'
+                }
+              `}
+              >
                 {text.header}
               </h3>
 
-              <p className="text-stone-700 text-base px-2 font-bree">
+              <p className="text-[#e6d5ac] text-lg px-2 font-bree leading-tight drop-shadow-[1px_1px_0_rgba(0,0,0,0.8)]">
                 {text.paragraph}
               </p>
             </div>
 
-            <div className=" rounded-lg border border-sky-500 overflow-hidden shadow-sm">
-
-              <div className="bg-sky-100/50 p-3 border-b border-sky-500">
-                <span className="text-sky-500 font-bree font-bold text-2xl block tracking-wider drop-shadow-xs">
-                  {points}
-                </span>
-                <span className="text-xs uppercase text-stone-500 font-pirate font-bold">
+            <div className="overflow-hidden drop-shadow-lg"
+                 style={{
+                   borderImageSource: 'url("/images/banner_hud.png")',
+                   borderImageSlice: '96 fill',
+                   borderWidth: '20px',
+                   borderStyle: 'solid',
+                   background: 'none',
+                   filter: 'sepia(0.2)'
+                 }}
+            >
+              <div className="py-2">
+                <Header>
                   Total Loot
-                </span>
+                </Header>
+                <div className="text-amber-600 text-shadow-amber-950 text-shadow-sm font-bree font-bold text-3xl block tracking-wider">
+                  {points}
+                </div>
               </div>
 
               <div className="p-3 flex justify-center gap-6 font-bree">
 
                 <div className="flex flex-col items-center gap-1">
-                  <img src="/images/chest.png" alt="Chest" className="w-8 h-8 object-contain drop-shadow-md" />
-                  <span className="font-bold text-stone-700 text-lg leading-none">x{findings.chest}</span>
+                  <img src="/images/chest.png" alt="Chest" className="size-12 object-contain drop-shadow-sm opacity-90" />
+                  <span className="font-bold text-[#5c3a21] text-lg leading-none">{findings.chest}</span>
                 </div>
 
                 <div className="flex flex-col items-center gap-1">
-                  <img src="/images/gold.png" alt="Gold" className="w-8 h-8 object-contain drop-shadow-md" />
-                  <span className="font-bold text-stone-700 text-lg leading-none">x{findings.gold}</span>
+                  <img src="/images/gold.png" alt="Gold" className="size-12 object-contain drop-shadow-sm opacity-90" />
+                  <span className="font-bold text-[#5c3a21] text-lg leading-none">{findings.gold}</span>
                 </div>
 
                 <div className="flex flex-col items-center gap-1">
-                  <img src="/images/fish.png" alt="Fish" className="w-8 h-8 object-contain drop-shadow-md" />
-                  <span className="font-bold text-stone-700 text-lg leading-none">x{findings.fish}</span>
+                  <img src="/images/fish.png" alt="Fish" className="size-12 object-contain drop-shadow-sm opacity-90" />
+                  <span className="font-bold text-[#5c3a21] text-lg leading-none">{findings.fish}</span>
                 </div>
               </div>
             </div>
 
             {mode === 'daily' && (
-              <ShareCommentSection
-                score={points}
-                isWin={isWin}
-                wasBombed={wasBombed}
-                moves={moves}
-                findings={findings}
-              />
+              <div className="">
+                <ShareCommentSection
+                  score={points}
+                  isWin={isWin}
+                  wasBombed={wasBombed}
+                  moves={moves}
+                  findings={findings}
+                />
+              </div>
             )}
 
             {mode === 'daily' && (
-              <div className="rounded-xl overflow-hidden border border-stone-200/50">
-                <CaptainsTable variant="endgame" className="bg-white/30 border-none !text-stone-800" />
+              <div className="overflow-hidden">
+                <CaptainsTable variant="endgame" className="" />
               </div>
             )}
 
@@ -130,15 +156,12 @@ export const EndGameModal = ({
           </div>
         </div>
 
-        <div className="p-2 border-t border-sky-200/50 bg-white/20 flex justify-center items-center gap-4 shrink-0 backdrop-blur-sm shadow-[0_-5px_15px_rgba(0,0,0,0.05)]">
-          <Button image={'water'} label={'Replay'} onClick={onRestart}>
-            <span
-              className={
-                'px-6 py-2 text-sky-50 drop-shadow-xs drop-shadow-sky-900 font-pirate text-lg'
-              }
-            >
-              Casual Raid
-            </span>
+        <div className="p-3 border-t-2 border-[#3e2723] bg-[#2a1a10]/30 flex justify-center items-center gap-4 shrink-0 shadow-[0_-4px_10px_rgba(0,0,0,0.3)]">
+          <Button image={'yellow'} label={'Replay'} onClick={onRestart}>
+          <span
+            className='px-8 py-2 text-[#422006] font-pirate text-xl font-bold tracking-wide'>
+            Casual Raid
+          </span>
           </Button>
         </div>
       </div>
