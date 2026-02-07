@@ -1,5 +1,5 @@
 import { GuiButton } from '../UI/GUIButton';
-import { Guides } from './Guides';
+import { Guides } from './GuidesView/Guides';
 import { SplashFooter } from './SplashFooter';
 import { MouseEvent, useState } from 'react';
 import { CaptainsTable } from '../UI/CaptainsTable/CaptainsTable';

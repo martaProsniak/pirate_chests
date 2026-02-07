@@ -8,7 +8,7 @@ import { CaptainsTable } from '../UI/CaptainsTable/CaptainsTable';
 import { Navigation, ViewState } from './Navigation/Navigation';
 import { HomeView } from './HomeView/HomeView';
 import { StatsView } from './StatsView/StatsView';
-import { Guides } from './Guides';
+import { Guides } from './GuidesView/Guides';
 
 export const Splash = () => {
   const { username, mode, loading } = useRealtimeUserData();
