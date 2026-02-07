@@ -149,7 +149,7 @@ export const EndGameModal = ({
 
                 <div className="flex flex-col items-center gap-1">
                   <img src="/images/fish.png" alt="Fish" className="size-12 object-contain drop-shadow-sm opacity-90" />
-                  <span className="font-bold text-[#5c3a21] text-lg leading-none">{findings.fish}</span>
+                  <span className="font-bold text-[#5c3a21] text-lg leading-none">{findings.coconut}</span>
                 </div>
               </div>
 

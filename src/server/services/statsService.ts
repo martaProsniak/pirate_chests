@@ -8,7 +8,6 @@ export const updateUserGlobalStats = async (
 ) => {
   const statsKey = `user_stats:${userId}`;
 
-  // Use Promise.all to execute independent Redis operations in parallel
   const promises = [
     redis.hIncrBy(statsKey, 'gamesPlayed', 1),
     redis.hIncrBy(statsKey, 'totalScore', data.score),
@@ -23,8 +22,8 @@ export const updateUserGlobalStats = async (
       promises.push(redis.hIncrBy(statsKey, 'findings_chest', data.findings.chest));
     if (data.findings.gold > 0)
       promises.push(redis.hIncrBy(statsKey, 'findings_gold', data.findings.gold));
-    if (data.findings.fish > 0)
-      promises.push(redis.hIncrBy(statsKey, 'findings_fish', data.findings.fish));
+    if (data.findings.coconut > 0)
+      promises.push(redis.hIncrBy(statsKey, 'findings_coconut', data.findings.coconut));
     if (data.findings.bomb > 0)
       promises.push(redis.hIncrBy(statsKey, 'findings_bomb', data.findings.bomb));
   }

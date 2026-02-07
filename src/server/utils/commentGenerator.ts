@@ -14,7 +14,7 @@ export const generatePirateComment = (
   const lootList: string[] = [];
   if (findings.chest > 0) lootList.push(`${findings.chest}x 📦 Chests`);
   if (findings.gold > 0) lootList.push(`${findings.gold}x 💰 Gold`);
-  if (findings.fish > 0) lootList.push(`${findings.fish}x 🐟 Fish`);
+  if (findings.coconut > 0) lootList.push(`${findings.coconut}x 🐟 Fish`);
 
   const lootString = lootList.length > 0 ? lootList.join(', ') : 'Seaweed and salt';
 

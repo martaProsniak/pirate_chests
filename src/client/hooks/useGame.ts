@@ -7,14 +7,14 @@ import { triggerFeedback } from '../utils/feedbackEvent';
 const pointsMap: FindingsMap = {
   chest: 250,
   gold: 50,
-  fish: 1,
+  coconut: 1,
   bomb: 0,
 };
 
 const movesMap: FindingsMap = {
   chest: 3,
   gold: 1,
-  fish: 1,
+  coconut: 1,
   bomb: 0,
 };
 
@@ -54,14 +54,14 @@ export const useGame = ({ mode }: UseGameProps) => {
   const [findings, setFindings] = useState<FindingsMap>({
     chest: 0,
     gold: 0,
-    fish: 0,
+    coconut: 0,
     bomb: 0,
   });
   const [mapInfo, setMapInfo] = useState({
     bomb: 0,
     chest: 0,
     gold: 0,
-    fish: 0,
+    coconut: 0,
     totalTreasures: 0,
   });
 
@@ -81,7 +81,7 @@ export const useGame = ({ mode }: UseGameProps) => {
   );
 
   const countTreasures = (treasures: FindingsMap) => {
-    return treasures.gold + treasures.chest + treasures.fish;
+    return treasures.gold + treasures.chest + treasures.coconut;
   };
 
   const resetState = (config: GameConfigItem) => {
@@ -92,7 +92,7 @@ export const useGame = ({ mode }: UseGameProps) => {
     setPoints(0);
     startTimeRef.current = Date.now();
     setWasBombed(false);
-    setFindings({ chest: 0, gold: 0, fish: 0, bomb: 0 });
+    setFindings({ chest: 0, gold: 0, coconut: 0, bomb: 0 });
     const newMapInfo = { ...config.treasures, totalTreasures: countTreasures(config.treasures) };
     setMapInfo(newMapInfo);
   };

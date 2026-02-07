@@ -1,4 +1,4 @@
-export type TreasureKind = 'chest' | 'gold' | 'fish' | 'bomb';
+export type TreasureKind = 'chest' | 'gold' | 'coconut' | 'bomb';
 
 export type Mode = 'daily' | 'practice';
 

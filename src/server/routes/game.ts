@@ -302,7 +302,7 @@ router.get('/api/user-stats', async (_req, res) => {
     const emptyFindings: FindingsMap = {
       chest: 0,
       gold: 0,
-      fish: 0,
+      coconut: 0,
       bomb: 0,
     };
 

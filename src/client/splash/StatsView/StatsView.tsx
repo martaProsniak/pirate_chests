@@ -61,7 +61,7 @@ export const StatsView = () => {
     );
   }
 
-  const treasureOrder: TreasureKind[] = ['chest', 'gold', 'fish', 'bomb'];
+  const treasureOrder: TreasureKind[] = ['chest', 'gold', 'coconut', 'bomb'];
 
   return (
     <ViewWrapper>
