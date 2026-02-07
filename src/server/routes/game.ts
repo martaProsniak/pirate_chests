@@ -138,7 +138,7 @@ router.post('/api/submit-score', async (req, res) => {
     return;
   }
 
-  const { score, findings, isWin, isDaily } = req.body as SubmitScoreRequest;
+  const { score, findings, isWin, isDaily, time } = req.body as SubmitScoreRequest;
   let confirmedIsDaily = isDaily;
 
   try {
@@ -163,9 +163,14 @@ router.post('/api/submit-score', async (req, res) => {
     if (confirmedIsDaily) {
       await redis.set(playedKey, '1');
 
+      const MAX_TIME_CONSTANT = 100000;
+      const timeFraction = 1 - (Math.min(time, MAX_TIME_CONSTANT) / MAX_TIME_CONSTANT);
+
+      const compositeScore = score + timeFraction;
+
       await redis.zAdd(leaderboardKey, {
         member: `${username}::${userId}`,
-        score: score,
+        score: compositeScore,
       });
     }
 
@@ -173,6 +178,7 @@ router.post('/api/submit-score', async (req, res) => {
     const newStats: UserStats = getUserStats(updatedStatsRaw);
 
     res.json({ success: true, newStats } as SubmitScoreResponse);
+
     await realtime.send(userDataChannel(userId), {
       type: STATS_UPDATE_MSG,
       userId: userId,
@@ -180,6 +186,7 @@ router.post('/api/submit-score', async (req, res) => {
         stats: newStats,
       },
     });
+
     if (confirmedIsDaily) {
       await realtime.send(userDataChannel(userId), {
         type: MODE_UPDATE_MSG,
@@ -216,7 +223,7 @@ router.get('/api/leaderboard', async (_req, res) => {
       const [username] = entry.member.split('::');
       return {
         username: username ?? 'Stranger',
-        score: entry.score,
+        score: Math.floor(entry.score),
         rank: index + 1,
       };
     });
@@ -242,7 +249,7 @@ router.get('/api/leaderboard', async (_req, res) => {
 
           userEntry = {
             username: username ?? 'Matey',
-            score: score,
+            score: Math.floor(score),
             rank: realRank,
           };
         }

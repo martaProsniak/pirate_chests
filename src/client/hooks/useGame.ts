@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { FindingsMap, GameConfigItem, MatrixItem, Mode } from '../../shared/types/game';
 import { usePirateChestAPI } from './usePirateChestApi';
 import { DailyChallengeResponse, PracticeGameResponse } from '../../shared/types/api';
@@ -46,6 +46,8 @@ export const useGame = ({ mode }: UseGameProps) => {
   const [treasuresFound, setTreasuresFound] = useState<number>(0);
   const [isWin, setIsWin] = useState(false);
   const [points, setPoints] = useState(0);
+  const startTimeRef = useRef<number>(0);
+  const [finalTime, setFinalTime] = useState<number>(0);
   const [checkedMode, setCheckedMode] = useState<Mode>(mode);
   const [wasBombed, setWasBombed] = useState(false);
   const [gameLoading, setGameLoading] = useState(false);
@@ -62,6 +64,8 @@ export const useGame = ({ mode }: UseGameProps) => {
     fish: 0,
     totalTreasures: 0,
   });
+
+
 
   const loadGameData = useCallback(
     (dataMatrix: MatrixItem[][], dataConfig: GameConfigItem, dataMode: Mode) => {
@@ -86,6 +90,7 @@ export const useGame = ({ mode }: UseGameProps) => {
     setMoves(config.maxMoves);
     setTreasuresFound(0);
     setPoints(0);
+    startTimeRef.current = Date.now();
     setWasBombed(false);
     setFindings({ chest: 0, gold: 0, fish: 0, bomb: 0 });
     const newMapInfo = { ...config.treasures, totalTreasures: countTreasures(config.treasures) };
@@ -123,11 +128,15 @@ export const useGame = ({ mode }: UseGameProps) => {
     setIsEnd(true);
     setIsWin(won);
 
+    const durationInSeconds = Math.floor((Date.now() - startTimeRef.current) / 1000);
+    setFinalTime(durationInSeconds);
+
     try {
       await submitScore({
         isDaily: mode === 'daily',
         isWin: won,
         score: finalScore,
+        time: durationInSeconds,
         moves: finalMoves,
         findings: finalFindings,
       });
@@ -236,5 +245,6 @@ export const useGame = ({ mode }: UseGameProps) => {
     findings,
     checkedMode,
     gameLoading,
+    finalTime,
   };
 };

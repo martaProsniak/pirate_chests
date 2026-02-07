@@ -40,6 +40,7 @@ export type PracticeGameResponse = {
 export type SubmitScoreRequest = {
   moves: number;
   score: number;
+  time: number;
   findings: FindingsMap;
   isWin: boolean;
   isDaily: boolean;

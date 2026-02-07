@@ -6,6 +6,12 @@ import { Button } from '../../UI/Button';
 import { Header } from '../../UI/ViewComponents';
 import { useRef } from 'react';
 
+const formatTime = (seconds: number): string => {
+  const mins = Math.floor(seconds / 60);
+  const secs = seconds % 60;
+  return `${mins > 0 ? mins + 'm' : ''} ${secs}s`;
+};
+
 interface EndGameModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -16,6 +22,7 @@ interface EndGameModalProps {
   points: number;
   findings: FindingsMap;
   moves: number;
+  time: number;
 }
 
 export const EndGameModal = ({
@@ -28,6 +35,7 @@ export const EndGameModal = ({
   points,
   findings,
   moves,
+  time
 }: EndGameModalProps) => {
   const contentRef = useRef<HTMLDivElement>(null);
 
@@ -103,7 +111,7 @@ export const EndGameModal = ({
                 {text.header}
               </h3>
 
-              <p className="text-[#e6d5ac] text-lg px-2 font-bree leading-tight drop-shadow-[1px_1px_0_rgba(0,0,0,0.8)]">
+              <p className="text-amber-100 text-shadow-sm text-shadow-amber-950 text-lg px-2 font-indie leading-tight">
                 {text.paragraph}
               </p>
             </div>
@@ -142,6 +150,15 @@ export const EndGameModal = ({
                 <div className="flex flex-col items-center gap-1">
                   <img src="/images/fish.png" alt="Fish" className="size-12 object-contain drop-shadow-sm opacity-90" />
                   <span className="font-bold text-[#5c3a21] text-lg leading-none">{findings.fish}</span>
+                </div>
+              </div>
+
+              <div className="flex flex-row items-center justify-center gap-1 py-3">
+                <div className="size-2">
+                  <img className="w-full h-full object-contain" src="/images/hourglass.png" alt="Time" />
+                </div>
+                <div className="text-[#5c3a21] font-bree font-bold text-xl tracking-wider">
+                  {formatTime(time)}
                 </div>
               </div>
             </div>
