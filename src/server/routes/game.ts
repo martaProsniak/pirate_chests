@@ -5,8 +5,6 @@ import {
   InitResponse,
   SubmitScoreRequest,
   SubmitScoreResponse,
-  LeaderboardResponse,
-  LeaderboardEntry,
   UserStats,
   PracticeGameResponse,
   PostCommentResponse,
@@ -20,6 +18,7 @@ import { generatePirateComment } from '../utils/commentGenerator';
 import { getOrCreateDailyBoard } from '../services/boardService';
 import { updateUserGlobalStats } from '../services/statsService';
 import { MODE_UPDATE_MSG, STATS_UPDATE_MSG, userDataChannel } from '../../shared/types/channels';
+import { LeaderboardService } from '../services/leaderboardService';
 
 const router = Router();
 
@@ -134,26 +133,21 @@ router.post('/api/submit-score', async (req, res) => {
   const { userId, postId, username } = context;
 
   if (!userId || !postId || !username) {
-    res.status(400).json({ error: 'Missing context (userId, username or postId)' });
+    res.status(400).json({ error: 'Missing context' });
     return;
   }
 
   const { score, findings, isWin, isDaily, time } = req.body as SubmitScoreRequest;
+  const leaderboardService = new LeaderboardService(redis);
+
   let confirmedIsDaily = isDaily;
 
   try {
     const playedKey = `daily_played_flag:${postId}:${userId}`;
-    const leaderboardKey = `daily_leaderboard:${postId}`;
-    const statsKey = `user_stats:${userId}`;
 
     if (isDaily) {
-      // Verify if user already played (security check)
       const playedRaw = await redis.get(playedKey);
-
       if (playedRaw) {
-        console.log(
-          `User ${userId} already played post ${postId}. Score not added to leaderboard.`
-        );
         confirmedIsDaily = false;
       }
     }
@@ -161,20 +155,16 @@ router.post('/api/submit-score', async (req, res) => {
     await updateUserGlobalStats(redis, userId, { score, findings, isWin });
 
     if (confirmedIsDaily) {
+      const memberKey = `${username}::${userId}`;
       await redis.set(playedKey, '1');
 
-      const MAX_TIME_CONSTANT = 100000;
-      const timeFraction = 1 - (Math.min(time, MAX_TIME_CONSTANT) / MAX_TIME_CONSTANT);
-
-      const compositeScore = score + timeFraction;
-
-      await redis.zAdd(leaderboardKey, {
-        member: `${username}::${userId}`,
-        score: compositeScore,
-      });
+      await Promise.all([
+        leaderboardService.addDailyScore(postId, memberKey, score, time),
+        leaderboardService.addWeeklyScore(memberKey, score, time)
+      ]);
     }
 
-    const updatedStatsRaw = await redis.hGetAll(statsKey);
+    const updatedStatsRaw = await redis.hGetAll(`user_stats:${userId}`);
     const newStats: UserStats = getUserStats(updatedStatsRaw);
 
     res.json({ success: true, newStats } as SubmitScoreResponse);
@@ -182,19 +172,14 @@ router.post('/api/submit-score', async (req, res) => {
     await realtime.send(userDataChannel(userId), {
       type: STATS_UPDATE_MSG,
       userId: userId,
-      payload: {
-        stats: newStats,
-      },
+      payload: { stats: newStats },
     });
 
     if (confirmedIsDaily) {
       await realtime.send(userDataChannel(userId), {
         type: MODE_UPDATE_MSG,
         userId: userId,
-        payload: {
-          postId: postId,
-          mode: 'practice',
-        },
+        payload: { postId: postId, mode: 'practice' },
       });
     }
   } catch (error) {
@@ -203,59 +188,21 @@ router.post('/api/submit-score', async (req, res) => {
   }
 });
 
-router.get('/api/leaderboard', async (_req, res) => {
+router.get('/api/leaderboard', async (req, res) => {
   const { postId, username, userId } = context;
+  const urlParams = new URLSearchParams(req.url.split('?')[1]);
+  const period = (urlParams.get('period') as 'daily' | 'weekly') || 'daily';
 
-  if (!postId) {
-    res.status(400).json({ entries: [] });
-    return;
-  }
+  const leaderboardService = new LeaderboardService(redis);
 
   try {
-    const leaderboardKey = `daily_leaderboard:${postId}`;
-
-    const topScores = await redis.zRange(leaderboardKey, 0, 9, {
-      by: 'rank',
-      reverse: true,
-    });
-
-    const entries: LeaderboardEntry[] = topScores.map((entry, index) => {
-      const [username] = entry.member.split('::');
-      return {
-        username: username ?? 'Stranger',
-        score: Math.floor(entry.score),
-        rank: index + 1,
-      };
-    });
-
-    let userEntry: LeaderboardEntry | null = null;
-
-    if (userId) {
-      const userInTopIndex = topScores.findIndex((s) => s.member.endsWith(`::${userId}`));
-
-      if (userInTopIndex !== -1) {
-        userEntry = entries[userInTopIndex] as LeaderboardEntry;
-      } else {
-        const memberKey = `${username}::${userId}`;
-
-        const [rankAsc, totalCount, score] = await Promise.all([
-          redis.zRank(leaderboardKey, memberKey),
-          redis.zCard(leaderboardKey),
-          redis.zScore(leaderboardKey, memberKey),
-        ]);
-
-        if (rankAsc !== undefined && totalCount !== undefined && score !== undefined) {
-          const realRank = totalCount - rankAsc;
-
-          userEntry = {
-            username: username ?? 'Matey',
-            score: Math.floor(score),
-            rank: realRank,
-          };
-        }
-      }
-      res.json({ entries, userEntry } as LeaderboardResponse);
-    }
+    const response = await leaderboardService.getLeaderboard(
+      period,
+      postId,
+      userId,
+      username
+    );
+    res.json(response);
   } catch (error) {
     console.error('Leaderboard Error:', error);
     res.status(500).json({ entries: [] });
