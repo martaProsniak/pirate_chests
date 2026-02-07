@@ -161,6 +161,12 @@ export const EndGameModal = ({
                   {formatTime(time)}
                 </div>
               </div>
+
+              <div className="flex flex-row items-center justify-center gap-1 py-3">
+                <div className="text-[#5c3a21] font-bree font-bold text-xl tracking-wider">
+                  in {formatTime(time)}
+                </div>
+              </div>
             </div>
 
             {mode === 'daily' && (
