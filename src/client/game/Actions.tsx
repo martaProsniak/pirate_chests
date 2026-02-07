@@ -21,7 +21,7 @@ export const Actions = ({
       {(mode === 'practice' || (mode === 'daily' && isEnd)) && (
         <Button
           onClick={onRestart}
-          image={'ice'}
+          image={'water'}
           label="Replay Level"
           classes=""
         >
@@ -32,7 +32,7 @@ export const Actions = ({
         <Button
           onClick={onShowModal!}
           label="Open Modal"
-          image={'ice'}
+          image={'water'}
           classes=""
         >
           <span className="px-4 py-1 w-[20ch] text-sky-900 text-shadow-xs text-shadow-sky-600 font-pirate text-base sm:text-lg">Captains Log</span>

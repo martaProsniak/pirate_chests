@@ -4,7 +4,7 @@ import { CaptainsTable } from '../../UI/CaptainsTable/CaptainsTable';
 import { ShareCommentSection } from '../ShareCommentSection/ShareCommentSection';
 import { Button } from '../../UI/Button';
 import { Header } from '../../UI/ViewComponents';
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 
 interface EndGameModalProps {
   isOpen: boolean;
@@ -31,11 +31,12 @@ export const EndGameModal = ({
 }: EndGameModalProps) => {
   const contentRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    if (!isOpen && contentRef.current) {
+  const handleClose = () => {
+    onClose();
+    if (contentRef.current) {
       contentRef.current.scrollTop = 0;
     }
-  }, [isOpen]);
+  }
 
   const getHeaderText = () => {
     if (isWin) {
@@ -61,7 +62,7 @@ export const EndGameModal = ({
   return (
     <div
       className={`fixed inset-0 z-50 items-center justify-center px-4 ${isOpen ? 'flex' : 'hidden'}`}
-      onClick={onClose}
+      onClick={handleClose}
     >
       <div className={`absolute inset-0 bg-stone-950/80 backdrop-blur-sm ${isOpen ? styles.fadeInAnimation : ''}`} />
 
