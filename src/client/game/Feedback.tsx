@@ -6,7 +6,7 @@ export interface FeedbackProps {
 export const Feedback = ({score, rum}: FeedbackProps) => {
 
   return (
-    <div className="absolute -top-8 left-1/2 -translate-x-1/2 flex flex-col items-center min-w-max pointer-events-none z-99 animate-float-up">
+    <div className="absolute -top-6 left-1/2 flex flex-col items-center min-w-max pointer-events-none z-99 animate-float-up">
 
       {score > 0 && (
         <div className="flex items-center gap-1 drop-shadow-md">
