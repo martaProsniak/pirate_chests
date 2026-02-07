@@ -131,11 +131,11 @@ const LeaderboardRow = ({
         isHighlighted
           ? `${variant === 'default' ? 'bg-amber-100 border border-amber-300 text-amber-900 px-3' : 'text-lime-700 font-bold'} `
           : `${variant === 'default' && 'bg-white odd:bg-amber-100 border border-amber-100 px-3'} text-amber-900`
-      } ${variant === 'default' ? 'font-bree' : 'font-indie'}`}
+      } font-bree`}
     >
       <div className="flex gap-2 items-center">
         <span className="font-bree w-6 text-right shrink-0">{entry.rank}.</span>
-        <span className="font-bold truncate grow mt-1">{entry.username}</span>
+        <span className="font-bold truncate grow">{entry.username}</span>
       </div>
       <span className={`font-bree font-bold  shrink-0 ${(isHighlighted && variant === 'default') && 'text-amber-900'} ${(isHighlighted && variant === 'endgame') && 'text-lime-700'}`}>{entry.score}</span>
     </div>

@@ -14,7 +14,7 @@ export const Navigation = ({ currentView, onViewChange }: NavigationProps) => {
         <NavButton
           active={currentView === 'home'}
           onClick={() => onViewChange('home')}
-          label="Home"
+          label="Ship"
           icon="/images/ship.png"
         />
         <NavButton
