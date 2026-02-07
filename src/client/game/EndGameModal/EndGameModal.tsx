@@ -1,4 +1,4 @@
-import { FindingsMap } from '../../../shared/types/game';
+import { FindingsMap, TreasureKind } from '../../../shared/types/game';
 import styles from './EndGameModal.module.css';
 import { CaptainsTable } from '../../UI/CaptainsTable/CaptainsTable';
 import { ShareCommentSection } from '../ShareCommentSection/ShareCommentSection';
@@ -39,6 +39,8 @@ export const EndGameModal = ({
 }: EndGameModalProps) => {
   const contentRef = useRef<HTMLDivElement>(null);
 
+  console.log(time);
+
   const handleClose = () => {
     onClose();
     if (contentRef.current) {
@@ -72,7 +74,9 @@ export const EndGameModal = ({
       className={`fixed inset-0 z-50 items-center justify-center px-4 ${isOpen ? 'flex' : 'hidden'}`}
       onClick={handleClose}
     >
-      <div className={`absolute inset-0 bg-stone-950/80 backdrop-blur-sm ${isOpen ? styles.fadeInAnimation : ''}`} />
+      <div
+        className={`absolute inset-0 bg-stone-950/80 backdrop-blur-sm ${isOpen ? styles.fadeInAnimation : ''}`}
+      />
 
       <div
         onClick={(e) => e.stopPropagation()}
@@ -90,81 +94,87 @@ export const EndGameModal = ({
           backgroundImage: `url("/images/wood.png")`,
           backgroundRepeat: 'repeat',
           backgroundSize: '256px auto',
-          backgroundColor: '#5d4037'
+          backgroundColor: '#5d4037',
         }}
       >
-        <div className="endModal flex-1 overflow-y-auto p-5 scrollbar-pirate"
-             ref={contentRef}
-        >
+        <div className="endModal flex-1 overflow-y-auto p-5 scrollbar-pirate" ref={contentRef}>
           <div className="flex flex-col gap-5 text-center">
-
             <div className="flex flex-col gap-3 py-2">
               <h3
                 className={`
-                font-pirate text-4xl tracking-wider
-                ${isWin
-                  ? 'text-[#fbbf24] drop-shadow-[2px_3px_0_rgba(66,32,6,1)]'
-                  : 'text-rose-400 text-shadow-rose-900 text-shadow-sm'
+                font-pirate text-4xl tracking-wider  text-shadow-black text-shadow-lg
+                ${
+                  isWin
+                    ? 'text-lime-500'
+                    : 'text-rose-500'
                 }
               `}
               >
                 {text.header}
               </h3>
 
-              <p className="text-amber-100 text-shadow-sm text-shadow-amber-950 text-lg px-2 font-indie leading-tight">
+              <p className="text-amber-100 text-shadow-sm text-shadow-amber-950 text-lg px-2 font-aladin leading-tight">
                 {text.paragraph}
               </p>
             </div>
 
             <div className="overflow-hidden drop-shadow-lg"
-                 style={{
-                   borderImageSource: 'url("/images/banner_hud.png")',
-                   borderImageSlice: '96 fill',
-                   borderWidth: '20px',
-                   borderStyle: 'solid',
-                   background: 'none',
-                   filter: 'sepia(0.2)'
-                 }}
+              style={{
+                borderImageSource: 'url("/images/banner_hud.png")',
+                borderImageSlice: '96 fill',
+                borderWidth: '20px',
+                borderStyle: 'solid',
+                background: 'none',
+                filter: 'sepia(0.2)'
+              }}
             >
-              <div className="py-2">
-                <Header>
-                  Total Loot
-                </Header>
-                <div className="text-amber-600 text-shadow-amber-950 text-shadow-sm font-bree font-bold text-3xl block tracking-wider">
+              <div className="py-4">
+                <Header>Total Loot</Header>
+                <div
+                  className={
+                    `text-shadow-md text-shadow-black font-aladin font-bold text-3xl block tracking-wider
+                     ${points > 0 ? 'text-amber-500' : 'text-rose-500'}
+                    `
+                  }
+                >
                   {points}
                 </div>
               </div>
 
-              <div className="p-3 flex justify-center gap-6 font-bree">
-
-                <div className="flex flex-col items-center gap-1">
-                  <img src="/images/chest.png" alt="Chest" className="size-12 object-contain drop-shadow-sm opacity-90" />
-                  <span className="font-bold text-[#5c3a21] text-lg leading-none">{findings.chest}</span>
-                </div>
-
-                <div className="flex flex-col items-center gap-1">
-                  <img src="/images/gold.png" alt="Gold" className="size-12 object-contain drop-shadow-sm opacity-90" />
-                  <span className="font-bold text-[#5c3a21] text-lg leading-none">{findings.gold}</span>
-                </div>
-
-                <div className="flex flex-col items-center gap-1">
-                  <img src="/images/fish.png" alt="Fish" className="size-12 object-contain drop-shadow-sm opacity-90" />
-                  <span className="font-bold text-[#5c3a21] text-lg leading-none">{findings.coconut}</span>
-                </div>
+              <div className="flex justify-center gap-6 font-aladin">
+                {Object.keys(findings).map((key) => {
+                  if (key === 'bomb') {
+                    return null;
+                  }
+                  return (
+                    <div className="flex flex-col items-center gap-1" key={key}>
+                      <img
+                        src={`/images/${key}.png`}
+                        alt={key}
+                        className="w-12 h-10 object-contain drop-shadow-xs drop-shadow-stone-900 opacity-90"
+                      />
+                      <span
+                        className={
+                          `font-bold text-shadow-md text-shadow-black text-xl leading-none text-amber-300`
+                        }
+                      >
+                        {findings[key as TreasureKind]}
+                      </span>
+                    </div>
+                  );
+                })}
               </div>
 
-              <div className="flex flex-row items-center justify-center gap-1 py-3">
-                <div className="size-2">
-                  <img className="w-full h-full object-contain" src="/images/hourglass.png" alt="Time" />
+              <div className="flex flex-row items-center justify-center gap-2 py-4">
+                <div className="h-6 w-5 mt-1">
+                  <img
+                    className="w-full h-full object-contain drop-shadow-xs drop-shadow-amber-900"
+                    src="/images/hourglass.png"
+                    alt="Time"
+                  />
                 </div>
-                <div className="text-[#5c3a21] font-bree font-bold text-xl tracking-wider">
-                  {formatTime(time)}
-                </div>
-              </div>
-
-              <div className="flex flex-row items-center justify-center gap-1 py-3">
-                <div className="text-[#5c3a21] font-bree font-bold text-xl tracking-wider">
-                  in {formatTime(time)}
+                <div className="text-amber-800 font-aladin text-shadow-none text-xl h-4 leading-6 tracking-wider">
+                  {formatTime(100)}
                 </div>
               </div>
             </div>
@@ -193,10 +203,9 @@ export const EndGameModal = ({
 
         <div className="p-3 border-t-2 border-[#3e2723] bg-[#2a1a10]/30 flex justify-center items-center gap-4 shrink-0 shadow-[0_-4px_10px_rgba(0,0,0,0.3)]">
           <Button image={'yellow'} label={'Replay'} onClick={onRestart}>
-          <span
-            className='px-8 py-2 text-[#422006] font-pirate text-xl font-bold tracking-wide'>
-            Casual Raid
-          </span>
+            <span className="px-8 py-2 text-[#422006] font-pirate text-xl font-bold tracking-wide">
+              Casual Raid
+            </span>
           </Button>
         </div>
       </div>

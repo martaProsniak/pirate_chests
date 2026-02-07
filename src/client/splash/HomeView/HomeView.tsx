@@ -13,9 +13,9 @@ interface HomeViewProps {
 export const HomeView = ({ username, mode, loading, onStart }: HomeViewProps) => {
   return (
     <ViewWrapper>
-      <div className="flex flex-col gap-4 font-bree justify-center items-center w-full h-full">
-        <h1 className="text-xl md:text-2xl font-bold text-amber-900">
-          Ahoy, <span>{username}</span>!
+      <div className="flex flex-col gap-4 font-aladin justify-center items-center w-full h-full">
+        <h1 className="text-xl md:text-2xl font-bold gap-0.5 text-amber-900 flex flex-row justify-center items-center w-full">
+          <span>Ahoy,</span><span>{username}!</span>
         </h1>
 
           <div className="w-fit">
@@ -34,11 +34,14 @@ export const HomeView = ({ username, mode, loading, onStart }: HomeViewProps) =>
             </Button>
           </div>
 
-        <div className="text-lg md:text-xl text-amber-800 text-shadow-xs">
+        <div className="text-base md:text-lg text-orange-900 font-aladin">
           {loading ? (
             'Navigating...'
           ) : mode === 'daily' ? (
-            'New land on a horizon!'
+            <div className="w-full flex flex-row gap-2 items-center justify-center">
+              <img className="w-10 object-contain" src="/images/spyglass.png" alt="Spyglass" />
+              <span>New land on a horizon!</span>
+            </div>
           ) : (
             <NextChallengeTimer />
           )}

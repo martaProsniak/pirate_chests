@@ -52,7 +52,7 @@ const NavButton = ({ active, onClick, label, icon }: NavButtonProps) => {
     <button
       onClick={onClick}
       className={`
-        font-bree flex flex-col items-center justify-center py-3 px-1 transition-all duration-300 relative group cursor-pointer border-t-2
+        font-aladin flex flex-col items-center justify-center py-3 px-1 transition-all duration-300 relative group cursor-pointer border-t-2
         ${
           active
             ? `border-opacity-100 border-orange-400 bg-orange-800/20`
@@ -69,7 +69,7 @@ const NavButton = ({ active, onClick, label, icon }: NavButtonProps) => {
         `}
       />
 
-      <span className="text-xs uppercase font-bold tracking-wider">{label}</span>
+      <span className="text-xs uppercase font-bold tracking-wider brightness-105">{label}</span>
     </button>
   );
 };

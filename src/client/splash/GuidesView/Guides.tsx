@@ -11,7 +11,7 @@ export const Guides = () => {
           <div className="relative size-10 border-yellow-600 bg-yellow-300 border-dashed rounded-md border-1">
             <Treasure kind={'chest'} />
           </div>
-          <p className="text-base leading-tight font-bree font-normal text-amber-900">
+          <p className="text-base leading-tight font-aladin font-normal text-amber-900">
             Dig to discover all loot!
           </p>
         </article>
@@ -19,7 +19,7 @@ export const Guides = () => {
           <div className="relative size-10 bg-stone-300 border-stone-800 border-dashed rounded-md border-1">
             <Clue value={'4'} bombs={0} />
           </div>
-          <p className="text-base leading-tight font-bree font-normal text-amber-900">
+          <p className="text-base leading-tight font-aladin font-normal text-amber-900">
             Count steps to find treasures (only straight lines, matey)!
           </p>
         </article>
@@ -27,7 +27,7 @@ export const Guides = () => {
           <div className="relative size-10 bg-stone-300 border-stone-800 border-dashed rounded-md border-1">
             <Clue value={'4'} bombs={1} />
           </div>
-          <p className="text-base leading-tight font-bree font-normal text-amber-900">
+          <p className="text-base leading-tight font-aladin font-normal text-amber-900">
             Mind the Bomb! The detector only scans adjacent lands!
           </p>
         </article>
@@ -35,7 +35,7 @@ export const Guides = () => {
           <div className="size-8 shrink-0">
             <img src={`/images/rum.png`} alt={'Rum'} className="w-full h-full object-contain" />
           </div>
-          <p className="text-base leading-tight font-bree font-normal text-amber-900">
+          <p className="text-base leading-tight font-aladin font-normal text-amber-900">
             Walkin' takes Rum. Don't run dry!
           </p>
         </article>

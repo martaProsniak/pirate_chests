@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Pirata+One&family=Bree+Serif&family=Indie+Flower&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Pirata+One&family=Aladin&family=Bree+Serif&family=Indie+Flower&display=swap');
 @import 'tailwindcss';
 
 :root {
@@ -20,6 +20,12 @@
 
 .font-bree {
   font-family: 'Bree Serif', serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.font-aladin {
+  font-family: "Aladin", system-ui;
   font-weight: 400;
   font-style: normal;
 }
