@@ -25,6 +25,8 @@ export const Board = ({ matrix, onClick }: BoardProps) => {
               <Tile
                 key={`${rowIndex}-${colIndex}`}
                 item={cell}
+                row={rowIndex}
+                col={colIndex}
                 onClick={() => onClick(rowIndex, colIndex)}
               />
             ))}

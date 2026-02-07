@@ -1,17 +1,43 @@
 import { MatrixItem } from '../../shared/types/game';
 import { Treasure } from './Treasure';
 import { Clue } from './Clue';
+import { useEffect, useState } from 'react';
+import { EVENT_NAME, FeedbackDetail } from '../utils/feedbackEvent';
+import { Feedback } from './Feedback';
 
 interface TileProps {
   item: MatrixItem;
   onClick: () => void;
+  row: number;
+  col: number;
 }
 
-export const Tile = ({ item, onClick }: TileProps) => {
+export const Tile = ({ item, onClick, row, col }: TileProps) => {
   const { isRevealed, value, isTreasure, isHighlighted, bombs } = item;
+  const [feedback, setFeedback] = useState<FeedbackDetail | null>(null);
+  const shouldListenForFeedback = item.isTreasure && item.value !== 'bomb';
+
+  useEffect(() => {
+    const handleFeedback = (e: Event) => {
+      const detail = (e as CustomEvent<FeedbackDetail>).detail;
+      if (detail.row === row && detail.col === col) {
+        setFeedback(detail);
+        setTimeout(() => setFeedback(null), 1500);
+      }
+    };
+
+    if (shouldListenForFeedback) {
+      window.addEventListener(EVENT_NAME, handleFeedback);
+    }
+    return () => {
+      if (shouldListenForFeedback) {
+        window.removeEventListener(EVENT_NAME, handleFeedback)
+      }
+    };
+  }, [row, col]);
 
   const baseClasses =
-    'w-12 h-12 flex items-center justify-center font-bold rounded-md select-none transition-all duration-75 border-dashed';
+    'relative w-12 h-12 flex items-center justify-center font-bold rounded-md select-none transition-all duration-75 border-dashed';
 
   const hiddenClasses = `
     text-transparent
@@ -44,6 +70,10 @@ export const Tile = ({ item, onClick }: TileProps) => {
           {isTreasure && <Treasure kind={value} />}
           {!isTreasure && <Clue value={value} bombs={bombs} />}
         </>
+      )}
+
+      {feedback && (
+        <Feedback score={feedback.score} rum={feedback.rum} />
       )}
     </div>
   );

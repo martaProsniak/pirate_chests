@@ -25,7 +25,7 @@ export const Actions = ({
           label="Replay Level"
           classes=""
         >
-          <span className="px-4 py-1 w-[16ch] text-sky-900 text-shadow-xs text-shadow-sky-600 font-pirate text-base sm:text-lg">{!isEnd ? 'Reload!' : 'One more!'}</span>
+          <span className="px-4 py-1 w-[20ch] text-sky-900 text-shadow-xs text-shadow-sky-600 font-pirate text-base sm:text-lg">{!isEnd ? 'Reload!' : 'One more!'}</span>
         </Button>
       )}
       {showModalBtn && (
@@ -35,7 +35,7 @@ export const Actions = ({
           image={'ice'}
           classes=""
         >
-          <span className="px-4 py-1 w-[16ch] text-sky-900 text-shadow-xs text-shadow-sky-600 font-pirate text-base sm:text-lg">Captains Log</span>
+          <span className="px-4 py-1 w-[20ch] text-sky-900 text-shadow-xs text-shadow-sky-600 font-pirate text-base sm:text-lg">Captains Log</span>
         </Button>
       )}
     </div>

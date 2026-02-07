@@ -4,6 +4,7 @@ import { CaptainsTable } from '../../UI/CaptainsTable/CaptainsTable';
 import { ShareCommentSection } from '../ShareCommentSection/ShareCommentSection';
 import { Button } from '../../UI/Button';
 import { Header } from '../../UI/ViewComponents';
+import { useEffect, useRef } from 'react';
 
 interface EndGameModalProps {
   isOpen: boolean;
@@ -28,6 +29,14 @@ export const EndGameModal = ({
   findings,
   moves,
 }: EndGameModalProps) => {
+  const contentRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!isOpen && contentRef.current) {
+      contentRef.current.scrollTop = 0;
+    }
+  }, [isOpen]);
+
   const getHeaderText = () => {
     if (isWin) {
       return {
@@ -75,7 +84,9 @@ export const EndGameModal = ({
           backgroundColor: '#5d4037'
         }}
       >
-        <div className="endModal flex-1 overflow-y-auto p-5 scrollbar-pirate">
+        <div className="endModal flex-1 overflow-y-auto p-5 scrollbar-pirate"
+             ref={contentRef}
+        >
           <div className="flex flex-col gap-5 text-center">
 
             <div className="flex flex-col gap-3 py-2">
@@ -84,7 +95,7 @@ export const EndGameModal = ({
                 font-pirate text-4xl tracking-wider
                 ${isWin
                   ? 'text-[#fbbf24] drop-shadow-[2px_3px_0_rgba(66,32,6,1)]'
-                  : 'text-[#ef4444] drop-shadow-[2px_3px_0_rgba(50,0,0,1)]'
+                  : 'text-rose-400 text-shadow-rose-900 text-shadow-sm'
                 }
               `}
               >

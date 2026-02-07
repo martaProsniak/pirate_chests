@@ -26,7 +26,7 @@ export const Clue = ({ value, bombs }: ClueProps) => {
           className="
             absolute -bottom-1.5 -right-1.5
             size-6 pt-1 pl-1
-            flex items-center justify-center
+            flex items-center justify-center z-30
           "
           style={{
             backgroundImage: 'url("/images/bomb.png")',
@@ -35,7 +35,7 @@ export const Clue = ({ value, bombs }: ClueProps) => {
             backgroundPosition: 'center',
           }}
         >
-          <span className="text-xs leading-2 font-bold text-slate-100">{bombs}</span>
+          {/*<span className="text-xs leading-2 font-bold text-slate-100">{bombs}</span>*/}
         </div>
       )}
     </div>

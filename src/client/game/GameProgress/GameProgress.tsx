@@ -40,7 +40,7 @@ export const GameProgress = ({
 }: GameProgressProps) => {
   return (
     <div
-      className="flex w-full items-center justify-evenly gap-5 select-none px-5 py-2 md:py-1"
+      className="flex w-full items-center justify-evenly gap-5 select-none px-5 py-1"
       style={{
         borderImageSource: 'url("/images/banner_hud.png")',
         borderImageSlice: '96 fill',

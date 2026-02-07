@@ -2,9 +2,10 @@ import { useState, useEffect, useCallback } from 'react';
 import { FindingsMap, GameConfigItem, MatrixItem, Mode } from '../../shared/types/game';
 import { usePirateChestAPI } from './usePirateChestApi';
 import { DailyChallengeResponse, PracticeGameResponse } from '../../shared/types/api';
+import { triggerFeedback } from '../utils/feedbackEvent';
 
 const pointsMap: FindingsMap = {
-  chest: 200,
+  chest: 250,
   gold: 50,
   fish: 1,
   bomb: 0,
@@ -13,7 +14,7 @@ const pointsMap: FindingsMap = {
 const movesMap: FindingsMap = {
   chest: 3,
   gold: 1,
-  fish: 0,
+  fish: 1,
   bomb: 0,
 };
 
@@ -175,6 +176,8 @@ export const useGame = ({ mode }: UseGameProps) => {
 
       let newPoints = points + (pointsMap[kind] || 0);
       bonusMoves = movesMap[kind] || 0;
+
+      triggerFeedback(rowIndex, colIndex, pointsMap[kind], bonusMoves);
 
       if (updatedFound === mapInfo.totalTreasures) {
         const movesLeft = moves - 1 + bonusMoves;
