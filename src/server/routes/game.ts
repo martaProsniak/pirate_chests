@@ -160,7 +160,7 @@ router.post('/api/submit-score', async (req, res) => {
 
       await Promise.all([
         leaderboardService.addDailyScore(postId, memberKey, score, time),
-        leaderboardService.addWeeklyScore(memberKey, score, time)
+        leaderboardService.addWeeklyScore(memberKey, score, time),
       ]);
     }
 

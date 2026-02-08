@@ -62,7 +62,9 @@ export const ShareCommentSection = ({
 
   return (
     <div className="flex flex-col gap-2 items-center justify-center py-2">
-      <p className="text-lg italic text-amber-100 text-shadow-amber-950 text-shadow-xs font-aladin">Show off yer loot to the crew!</p>
+      <p className="text-lg italic text-amber-100 text-shadow-amber-950 text-shadow-xs font-aladin">
+        Show off yer loot to the crew!
+      </p>
       <Button
         onClick={handleShare}
         label={'Comment'}
@@ -70,7 +72,9 @@ export const ShareCommentSection = ({
         image={'royal'}
         classes=""
       >
-        <span className="px-7 py-3 text-yellow-200 text-shadow-md text-shadow-blue-950 font-pirate text-lg">{getButtonLabel()}</span>
+        <span className="px-7 py-3 text-yellow-200 text-shadow-md text-shadow-blue-950 font-pirate text-lg">
+          {getButtonLabel()}
+        </span>
       </Button>
     </div>
   );

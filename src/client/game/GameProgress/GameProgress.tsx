@@ -18,7 +18,9 @@ const ProgressSection = ({
   return (
     <div className="flex gap-x-1 items-center justify-center w-full">
       <img src={iconSrc} alt={label} className={`object-contain h-6 select-none ${imgClasses}`} />
-      <div className={`text-2xl leading-5 font-bold font-bree  drop-shadow-sm ${classes}`}>{value}</div>
+      <div className={`text-2xl leading-5 font-bold font-bree  drop-shadow-sm ${classes}`}>
+        {value}
+      </div>
     </div>
   );
 };
@@ -46,7 +48,7 @@ export const GameProgress = ({
         borderImageSlice: '96 fill',
         borderWidth: '16px',
         borderStyle: 'solid',
-        background: 'none'
+        background: 'none',
       }}
     >
       {/* RUM SECTION */}

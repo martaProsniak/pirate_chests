@@ -53,6 +53,7 @@ export default defineConfig([
     rules: {
       '@typescript-eslint/no-floating-promises': 'error',
       '@typescript-eslint/no-unused-vars': ['off'],
+      '@typescript-eslint/no-explicit-any': 'off',
       'no-unused-vars': ['off'],
     },
     ignores: [

@@ -27,7 +27,7 @@ export const StatsView = () => {
       }
     };
 
-    fetchData();
+    void fetchData();
 
     return () => {
       mounted = false;

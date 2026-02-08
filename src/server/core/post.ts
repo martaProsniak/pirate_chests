@@ -17,18 +17,18 @@ export const createDailyPost = async (subredditName: string) => {
   const title = `🏴‍☠️ Mystery Land Spotted! - Pirate Chest: ${dateString}`;
 
   const commentLines = [
-    "**Ahoy Captains!** 🏴‍☠️",
-    "",
+    '**Ahoy Captains!** 🏴‍☠️',
+    '',
     "Today's map is ready for exploration. Remember the Pirate Code:",
-    "- Moves are limited by your Rum supply.",
-    "- Watch out for bombs!",
-    "- Only one attempt per day counts for the leaderboard.",
-    "",
-    "Good luck and may your chest be full of gold!",
-    "",
-    "---",
-    "*Credits:*",
-    "*Game Assets designed by Freepik.*"
+    '- Moves are limited by your Rum supply.',
+    '- Watch out for bombs!',
+    '- Only one attempt per day counts for the leaderboard.',
+    '',
+    'Good luck and may your chest be full of gold!',
+    '',
+    '---',
+    '*Credits:*',
+    '*Game Assets designed by Freepik.*',
   ];
 
   const commentText = commentLines.join('\n');

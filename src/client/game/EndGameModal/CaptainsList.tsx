@@ -7,10 +7,7 @@ interface CaptainsListProps {
   className?: string;
 }
 
-export const CaptainsList = ({
-   leaderboardData,
-   className = '',
- }: CaptainsListProps) => {
+export const CaptainsList = ({ leaderboardData, className = '' }: CaptainsListProps) => {
   const { username } = context;
 
   const containerStyle = {
@@ -41,9 +38,9 @@ export const CaptainsList = ({
       );
     }
 
-    const isUserInTop = userEntry && entries.some(
-      (e) => e.rank === userEntry.rank && e.username === userEntry.username
-    );
+    const isUserInTop =
+      userEntry &&
+      entries.some((e) => e.rank === userEntry.rank && e.username === userEntry.username);
 
     return (
       <div className="flex flex-col gap-1 w-full">
@@ -67,10 +64,7 @@ export const CaptainsList = ({
             <div className="text-center text-xs leading-[0.5rem] mt-1 mb-1 text-amber-400/50 select-none">
               • • •
             </div>
-            <LeaderboardRow
-              entry={userEntry}
-              isHighlighted={true}
-            />
+            <LeaderboardRow entry={userEntry} isHighlighted={true} />
           </>
         )}
       </div>
@@ -88,9 +82,9 @@ export const CaptainsList = ({
 };
 
 const LeaderboardRow = ({
-    entry,
-    isHighlighted,
-  }: {
+  entry,
+  isHighlighted,
+}: {
   entry: LeaderboardEntry;
   isHighlighted: boolean;
 }) => {

@@ -55,8 +55,6 @@ export const useGame = ({ mode }: UseGameProps) => {
     totalTreasures: 0,
   });
 
-
-
   const loadGameData = useCallback(
     (dataMatrix: MatrixItem[][], dataConfig: GameConfigItem, dataMode: Mode) => {
       setMatrix(dataMatrix);
@@ -188,7 +186,7 @@ export const useGame = ({ mode }: UseGameProps) => {
         newPoints = newPoints + movesLeft * RUM_POINTS;
         setPoints(newPoints);
         setMoves(movesLeft);
-        finishGame(true, newPoints, newFindings, movesLeft);
+        void finishGame(true, newPoints, newFindings, movesLeft);
         return;
       }
 
@@ -199,7 +197,7 @@ export const useGame = ({ mode }: UseGameProps) => {
 
     if (leftMoves === 0) {
       revealTreasures();
-      finishGame(false, points, findings, 0);
+      void finishGame(false, points, findings, 0);
     }
 
     setMoves(leftMoves);
@@ -220,7 +218,7 @@ export const useGame = ({ mode }: UseGameProps) => {
   };
 
   useEffect(() => {
-    startGame();
+    void startGame();
   }, []);
 
   return {
@@ -241,6 +239,6 @@ export const useGame = ({ mode }: UseGameProps) => {
     checkedMode,
     gameLoading,
     finalTime,
-    leaderboardData
+    leaderboardData,
   };
 };

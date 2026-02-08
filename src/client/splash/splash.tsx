@@ -14,7 +14,7 @@ export const Splash = () => {
   const [currentView, setCurrentView] = useState<ViewState>('home');
 
   const handleStartGame = (e: MouseEvent) => {
-    requestExpandedMode(e.nativeEvent, 'game');
+    void requestExpandedMode(e.nativeEvent, 'game');
   };
 
   const renderContent = () => {

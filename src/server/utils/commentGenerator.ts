@@ -35,7 +35,7 @@ const BOMB_BODIES = [
   'I found the secret gunpowder stash... the hard way.',
   "So that wasn't a coconut... ouch.",
   'What scallywag put the bomb there?',
-  "Found a bomb instead of gold. Bad trade.",
+  'Found a bomb instead of gold. Bad trade.',
 ];
 
 const BOMB_FOOTERS = [
@@ -60,11 +60,7 @@ const LOSE_BODIES = [
   'No prey, no pay.',
 ];
 
-const LOSE_FOOTERS = [
-  'Better fortune next tide.',
-  'Will work for grog.',
-  'I swear I was near.',
-];
+const LOSE_FOOTERS = ['Better fortune next tide.', 'Will work for grog.', 'I swear I was near.'];
 
 const getRandomElement = (arr: string[]): string => {
   return arr[Math.floor(Math.random() * arr.length)] ?? '';

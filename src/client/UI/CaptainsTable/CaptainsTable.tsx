@@ -11,11 +11,7 @@ interface CaptainsTableProps {
   className?: string;
 }
 
-export const CaptainsTable = ({
-    period,
-    limit = 10,
-    className = '',
-  }: CaptainsTableProps) => {
+export const CaptainsTable = ({ period, limit = 10, className = '' }: CaptainsTableProps) => {
   const { getLeaderboard } = usePirateChestAPI();
   const { username } = context;
 
@@ -43,7 +39,7 @@ export const CaptainsTable = ({
       }
     };
 
-    fetchData();
+    void fetchData();
 
     return () => {
       mounted = false;
@@ -123,9 +119,9 @@ export const CaptainsTable = ({
 };
 
 const LeaderboardRow = ({
-    entry,
-    isHighlighted,
-  }: {
+  entry,
+  isHighlighted,
+}: {
   entry: LeaderboardEntry;
   isHighlighted: boolean;
 }) => {
@@ -134,10 +130,10 @@ const LeaderboardRow = ({
       className={`
         relative flex items-center justify-between py-1 px-2 rounded-md transition-all w-full
         ${
-        isHighlighted
-          ? 'bg-gradient-to-r from-amber-200 to-amber-100 border border-amber-300 shadow-sm'
-          : 'bg-white odd:bg-amber-50 border border-amber-100/50 shadow-sm'
-      }
+          isHighlighted
+            ? 'bg-gradient-to-r from-amber-200 to-amber-100 border border-amber-300 shadow-sm'
+            : 'bg-white odd:bg-amber-50 border border-amber-100/50 shadow-sm'
+        }
       `}
     >
       <div

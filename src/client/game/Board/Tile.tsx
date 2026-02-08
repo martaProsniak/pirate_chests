@@ -31,7 +31,7 @@ export const Tile = ({ item, onClick, row, col }: TileProps) => {
     }
     return () => {
       if (shouldListenForFeedback) {
-        window.removeEventListener(EVENT_NAME, handleFeedback)
+        window.removeEventListener(EVENT_NAME, handleFeedback);
       }
     };
   }, [row, col]);
@@ -72,9 +72,7 @@ export const Tile = ({ item, onClick, row, col }: TileProps) => {
         </>
       )}
 
-      {feedback && (
-        <Feedback score={feedback.score} rum={feedback.rum} />
-      )}
+      {feedback && <Feedback score={feedback.score} rum={feedback.rum} />}
     </div>
   );
 };

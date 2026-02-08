@@ -20,7 +20,7 @@ interface EndGameModalProps {
   findings: FindingsMap;
   moves: number;
   time: number;
-  leaderboard: LeaderboardResponse | null
+  leaderboard: LeaderboardResponse | null;
 }
 
 export const EndGameModal = ({
@@ -45,7 +45,7 @@ export const EndGameModal = ({
     if (contentRef.current) {
       contentRef.current.scrollTop = 0;
     }
-  }
+  };
 
   const getHeaderText = () => {
     if (isWin) {
@@ -102,11 +102,7 @@ export const EndGameModal = ({
               <h3
                 className={`
                 font-pirate text-4xl tracking-wider  text-shadow-orange-950 text-shadow-lg
-                ${
-                  isWin
-                    ? 'text-lime-400'
-                    : 'text-rose-400'
-                }
+                ${isWin ? 'text-lime-400' : 'text-rose-400'}
               `}
               >
                 {text.header}
@@ -117,24 +113,23 @@ export const EndGameModal = ({
               </p>
             </div>
 
-            <div className="overflow-hidden drop-shadow-lg"
+            <div
+              className="overflow-hidden drop-shadow-lg"
               style={{
                 borderImageSource: 'url("/images/banner_hud.png")',
                 borderImageSlice: '96 fill',
                 borderWidth: '20px',
                 borderStyle: 'solid',
                 background: 'none',
-                filter: 'sepia(0.2)'
+                filter: 'sepia(0.2)',
               }}
             >
               <div className="py-4">
                 <Header>Total Loot</Header>
                 <div
-                  className={
-                    `text-shadow-md text-shadow-black font-aladin font-bold text-3xl block tracking-wider
+                  className={`text-shadow-md text-shadow-black font-aladin font-bold text-3xl block tracking-wider
                      ${points > 0 ? 'text-amber-500' : 'text-rose-500'}
-                    `
-                  }
+                    `}
                 >
                   {points}
                 </div>
@@ -153,9 +148,7 @@ export const EndGameModal = ({
                         className="w-12 h-10 object-contain drop-shadow-xs drop-shadow-stone-900 opacity-90"
                       />
                       <span
-                        className={
-                          `font-bold text-shadow-xs text-shadow-amber-950 text-base leading-none text-amber-800`
-                        }
+                        className={`font-bold text-shadow-xs text-shadow-amber-950 text-base leading-none text-amber-800`}
                       >
                         {findings[key as TreasureKind]} x {pointsMap[key as TreasureKind]}
                       </span>
@@ -176,7 +169,9 @@ export const EndGameModal = ({
                   <span className="text-amber-800 text-shadow-none text-base tracking-wider">
                     Rum Bonus
                   </span>
-                  <span className="font-bold text-shadow-xs text-shadow-amber-950 text-base leading-none text-amber-800">{moves} x {RUM_POINTS}</span>
+                  <span className="font-bold text-shadow-xs text-shadow-amber-950 text-base leading-none text-amber-800">
+                    {moves} x {RUM_POINTS}
+                  </span>
                 </div>
                 <div className="flex flex-col items-center gap-1 w-fit font-aladin">
                   <div className="h-6 w-5">
@@ -189,7 +184,9 @@ export const EndGameModal = ({
                   <span className="text-amber-800 text-shadow-none text-base tracking-wider">
                     Raid Time
                   </span>
-                  <span className="font-bold text-shadow-xs text-shadow-amber-950 text-base leading-none text-amber-800">{formatters(time)}</span>
+                  <span className="font-bold text-shadow-xs text-shadow-amber-950 text-base leading-none text-amber-800">
+                    {formatters(time)}
+                  </span>
                 </div>
               </div>
             </div>

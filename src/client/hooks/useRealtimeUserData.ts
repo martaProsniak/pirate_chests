@@ -58,7 +58,7 @@ export const useRealtimeUserData = () => {
       }
     };
 
-    fetchInitialData();
+    void fetchInitialData();
 
     return () => {
       isMounted = false;
@@ -100,7 +100,7 @@ export const useRealtimeUserData = () => {
       }
     };
 
-    setupRealtimeConnection();
+    void setupRealtimeConnection();
 
     return () => {
       if (connection) {

@@ -17,7 +17,10 @@ export class LeaderboardService {
     if (!leaderboardKey || !timeKey) return;
 
     await Promise.all([
-      this.redis.zAdd(leaderboardKey, { member: memberKey, score: calculateCompositeScore(score, time) }),
+      this.redis.zAdd(leaderboardKey, {
+        member: memberKey,
+        score: calculateCompositeScore(score, time),
+      }),
       this.redis.hSet(timeKey, { [memberKey]: time.toString() }),
     ]);
   }
@@ -46,16 +49,18 @@ export class LeaderboardService {
       return { entries: [], dateLabel };
     }
 
-    const rawEntries = await this.getTopEntries(leaderboardKey, timeKey, limit + TIE_BREAKER_BUFFER);
+    const rawEntries = await this.getTopEntries(
+      leaderboardKey,
+      timeKey,
+      limit + TIE_BREAKER_BUFFER
+    );
 
-    const entries: LeaderboardEntry[] = rawEntries
-      .slice(0, limit)
-      .map((e, index) => ({
-        username: e.member.split('::')[0] ?? 'Stranger',
-        score: e.score,
-        time: e.time,
-        rank: index + 1,
-      }));
+    const entries: LeaderboardEntry[] = rawEntries.slice(0, limit).map((e, index) => ({
+      username: e.member.split('::')[0] ?? 'Stranger',
+      score: e.score,
+      time: e.time,
+      rank: index + 1,
+    }));
 
     const userEntry = await this.resolveUserEntry(
       leaderboardKey,
@@ -81,11 +86,7 @@ export class LeaderboardService {
       : { leaderboardKey: null, timeKey: null };
   }
 
-  private async getTopEntries(
-    leaderboardKey: string,
-    timeKey: string,
-    fetchLimit: number
-  ) {
+  private async getTopEntries(leaderboardKey: string, timeKey: string, fetchLimit: number) {
     const rawScores = await this.redis.zRange(leaderboardKey, 0, fetchLimit - 1, {
       by: 'rank',
       reverse: true,

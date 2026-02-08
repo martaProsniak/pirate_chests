@@ -79,9 +79,7 @@ export const usePirateChestAPI = () => {
 
   const getLeaderboard = useCallback(
     async (period: 'daily' | 'weekly' = 'daily', limit: number = 10) => {
-      return await request<LeaderboardResponse>(
-        `/api/leaderboard?period=${period}&limit=${limit}`
-      );
+      return await request<LeaderboardResponse>(`/api/leaderboard?period=${period}&limit=${limit}`);
     },
     [request]
   );

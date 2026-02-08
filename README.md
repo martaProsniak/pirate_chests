@@ -9,7 +9,9 @@ Welcome to **Pirate Chest**, a logic puzzle game where you hunt for buried treas
 Your goal is to find all the hidden treasures (Gold 💰, Chests 📦, Coconuts 🥥) without running out of Rum or hitting a Bomb.
 
 ### How to Read the Map
+
 Unlike classic minesweepers, this map requires a true treasure hunter's intuition:
+
 - **The Clue (Number):** Represents the **distance** (number of steps) to the nearest treasure in a straight line (horizontally or vertically).
 - **Bomb Detector:** Watch out for warnings! The detector only scans for bombs in the immediately **adjacent** lands.
 - **Rum (Moves):** Every tile you reveal costs Rum. Plan your path wisely, or you'll be marooned!
@@ -17,13 +19,17 @@ Unlike classic minesweepers, this map requires a true treasure hunter's intuitio
 ## ⚔️ Game Modes
 
 ### 📅 Daily Raid
+
 A unique, generated map available for 24 hours.
+
 - **Fair Play:** Every captain faces the exact same map layout.
 - **One Shot:** You only have one attempt per day to claim the loot.
 - **Raid Log:** Compete against other pirates for the fastest time and highest score.
 
 ### ⚓ Practice Voyage
+
 Unlimited random maps to sharpen your skills.
+
 - Play as much as you want.
 - Perfect for learning how to triangulate treasure locations.
 
@@ -49,29 +55,32 @@ Built with ❤️ and ☕ using the **Devvit** platform.
 > **Prerequisites:** Make sure you have Node.js 22+ installed.
 
 1.  **Install Dependencies:**
+
     ```bash
     npm install
     ```
 
 2.  **Run Development Server:**
     To test the app inside a simulated Reddit environment:
+
     ```bash
     npm run dev
     ```
 
 3.  **Upload & Publish:**
-  * `npm run build`: Compiles the code.
-  * `npm run deploy`: Uploads a private version.
-  * `npm run launch`: Submits your app for review.
+
+- `npm run build`: Compiles the code.
+- `npm run deploy`: Uploads a private version.
+- `npm run launch`: Submits your app for review.
 
 ## 📜 Commands Reference
 
-| Command | Description |
-| :--- | :--- |
-| `npm run dev` | Starts the local dev server |
-| `npm run build` | Builds the project |
-| `npm run check` | Runs type checking and linting |
-| `npm run deploy` | Deploys to Reddit servers |
+| Command          | Description                    |
+| :--------------- | :----------------------------- |
+| `npm run dev`    | Starts the local dev server    |
+| `npm run build`  | Builds the project             |
+| `npm run check`  | Runs type checking and linting |
+| `npm run deploy` | Deploys to Reddit servers      |
 
 ---
 

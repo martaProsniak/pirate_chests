@@ -42,7 +42,7 @@ export const App = () => {
 
   const handleRestart = () => {
     setIsModalOpen(false);
-    startGame();
+    void startGame();
   };
 
   return (
@@ -88,13 +88,15 @@ export const App = () => {
           leaderboard={leaderboardData}
         />
 
-        {!gameLoading ? <Actions
-          onRestart={startGame}
-          mode={checkedMode}
-          showModalBtn={isEnd && !isModalOpen}
-          onShowModal={() => setIsModalOpen(true)}
-          isEnd={isEnd}
-        /> : null}
+        {!gameLoading ? (
+          <Actions
+            onRestart={startGame}
+            mode={checkedMode}
+            showModalBtn={isEnd && !isModalOpen}
+            onShowModal={() => setIsModalOpen(true)}
+            isEnd={isEnd}
+          />
+        ) : null}
       </div>
     </Layout>
   );
