@@ -190,8 +190,12 @@ router.post('/api/submit-score', async (req, res) => {
 
 router.get('/api/leaderboard', async (req, res) => {
   const { postId, username, userId } = context;
+
   const urlParams = new URLSearchParams(req.url.split('?')[1]);
   const period = (urlParams.get('period') as 'daily' | 'weekly') || 'daily';
+
+  const limitParam = urlParams.get('limit');
+  const limit = limitParam ? parseInt(limitParam, 10) : 10;
 
   const leaderboardService = new LeaderboardService(redis);
 
@@ -200,7 +204,8 @@ router.get('/api/leaderboard', async (req, res) => {
       period,
       postId,
       userId,
-      username
+      username,
+      limit
     );
     res.json(response);
   } catch (error) {

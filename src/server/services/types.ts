@@ -15,4 +15,7 @@ export interface ILeaderboardRedis {
   zRank(key: string, member: string): Promise<number | undefined>;
   zCard(key: string): Promise<number>;
   zScore(key: string, member: string): Promise<number | undefined>;
+  hSet(key: string, fieldValues: { [field: string]: string }): Promise<number>;
+  hGet(key: string, field: string): Promise<string | undefined>;
+  hIncrBy(key: string, field: string, increment: number): Promise<number>;
 }

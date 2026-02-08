@@ -17,6 +17,7 @@ export type LeaderboardEntry = {
   username: string;
   score: number;
   rank: number;
+  time: number;
 };
 
 export type DailyChallengeResponse = {
