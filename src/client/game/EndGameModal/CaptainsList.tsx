@@ -1,7 +1,6 @@
 import { context } from '@devvit/web/client';
 import { LeaderboardEntry, LeaderboardResponse } from '../../../shared/types/api';
 import { Header } from '../../UI/ViewComponents';
-import { formatters } from '../../utils/formatters';
 
 interface CaptainsListProps {
   leaderboardData: LeaderboardResponse | null;
@@ -99,27 +98,21 @@ const LeaderboardRow = ({
   return (
     <div
       className={`
-        flex justify-between items-center text-sm py-1.5 w-full rounded-md transition-colors font-bree px-2
-        ${isHighlighted ? 'text-lime-700 font-bold bg-lime-900/5' : 'text-amber-900'}
+        flex justify-between items-center text-xs py-1.5 w-full rounded-md transition-colors font-bree px-1
+        ${isHighlighted ? 'text-amber-600 font-bold' : 'text-amber-900'}
       `}
     >
       <div className="flex gap-2 items-center min-w-0">
         <span className={`w-5 text-right shrink-0 ${isHighlighted ? 'opacity-100' : 'opacity-60'}`}>
           {entry.rank}.
         </span>
-        <span className="truncate grow pr-2" title={entry.username}>
+        <span className={`truncate grow pr-2`} title={entry.username}>
           {entry.username}
         </span>
       </div>
 
       <div className="flex gap-4 items-center shrink-0">
-         <span className={`text-xs ${isHighlighted ? 'text-lime-600' : 'text-amber-800/70'}`}>
-            {formatters(entry.time)}
-         </span>
-
-        <span className="font-bold min-w-[30px] shrink-0 text-right">
-            {entry.score}
-         </span>
+        <span className="font-bold min-w-[30px] shrink-0 text-right">{entry.score}</span>
       </div>
     </div>
   );

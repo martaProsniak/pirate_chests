@@ -166,7 +166,7 @@ router.post('/api/submit-score', async (req, res) => {
 
     const [updatedStatsRaw, leaderboardData] = await Promise.all([
       redis.hGetAll(`user_stats:${userId}`),
-      leaderboardService.getLeaderboard('daily', postId, userId, username, 10),
+      leaderboardService.getLeaderboard('daily', postId, userId, username, 5),
     ]);
     const newStats: UserStats = getUserStats(updatedStatsRaw);
 
