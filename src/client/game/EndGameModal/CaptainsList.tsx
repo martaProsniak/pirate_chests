@@ -47,10 +47,9 @@ export const CaptainsList = ({
 
     return (
       <div className="flex flex-col gap-1 w-full">
-        <div className="flex justify-between px-2 text-[10px] text-amber-800/60 font-bold uppercase tracking-wider mb-1">
+        <div className="flex justify-between px-1 text-[10px] text-amber-800/60 font-bold uppercase tracking-wider mb-1">
           <span>Captain</span>
           <div className="flex gap-4">
-            <span>Time</span>
             <span>Score</span>
           </div>
         </div>
