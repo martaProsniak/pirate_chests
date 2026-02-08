@@ -48,6 +48,10 @@ Built with ❤️ and ☕ using the **Devvit** platform.
 - **Data:** Redis
 - **Language:** TypeScript
 
+## 🎨 Credits
+
+Game assets and icons designed by **Freepik**.
+
 ---
 
 ## 🚀 Getting Started
