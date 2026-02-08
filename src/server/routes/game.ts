@@ -218,9 +218,9 @@ router.get('/api/leaderboard', async (req, res) => {
 });
 
 router.post('/api/post-comment', async (req, res) => {
-  const { userId, postId } = context;
+  const { userId, postId, username } = context;
 
-  if (!userId || !postId) {
+  if (!userId || !username || !postId) {
     res.status(401).json({ error: 'Unauthorized' });
     return;
   }
@@ -228,7 +228,7 @@ router.post('/api/post-comment', async (req, res) => {
   const { score, isWin, wasBombed, moves, findings } = req.body as PostCommentRequest;
 
   try {
-    const commentText = generatePirateComment(score, isWin, wasBombed, moves, findings);
+    const commentText = generatePirateComment(username, score, isWin, wasBombed, moves, findings);
 
     const comment = await reddit.submitComment({
       id: postId,

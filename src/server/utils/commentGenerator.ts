@@ -67,6 +67,7 @@ const getRandomElement = (arr: string[]): string => {
 };
 
 export const generatePirateComment = (
+  username: string,
   score: number,
   isWin: boolean,
   wasBombed: boolean,
@@ -100,13 +101,16 @@ export const generatePirateComment = (
   if (findings.chest > 0) lootDetails.push(`${findings.chest}x 📦`);
   if (findings.gold > 0) lootDetails.push(`${findings.gold}x 💰`);
   if (findings.coconut > 0) lootDetails.push(`${findings.coconut}x 🥥`);
-  if (moves > 0) lootDetails.push(`Rum left: ${moves} 🍹`);
+  if (moves > 0) lootDetails.push(`${moves} 🍹`);
 
   const lootString = lootDetails.length > 0 ? lootDetails.join(' | ') : '';
-  const statsString = `**Total Loot** ${score}:\n${lootString}`;
+  const statsString = `**Total Loot**: ${score}\n${lootString}`;
 
   parts.push(statsString);
   parts.push(getRandomElement(footers));
+
+  parts.push(`⚓ **Captain:** u/${username}`);
+
   parts.push(CTA_TEXT);
 
   return parts.join('\n\n');
