@@ -50,6 +50,7 @@ export type SubmitScoreRequest = {
 export type SubmitScoreResponse = {
   success: boolean;
   newStats: UserStats;
+  leaderboard: LeaderboardResponse;
 };
 
 export type LeaderboardResponse = {

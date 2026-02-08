@@ -1,7 +1,11 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { FindingsMap, GameConfigItem, MatrixItem, Mode } from '../../shared/types/game';
 import { usePirateChestAPI } from './usePirateChestApi';
-import { DailyChallengeResponse, PracticeGameResponse } from '../../shared/types/api';
+import {
+  DailyChallengeResponse,
+  LeaderboardResponse,
+  PracticeGameResponse,
+} from '../../shared/types/api';
 import { triggerFeedback } from '../utils/feedbackEvent';
 import { FALLBACK_GRID_SIZE, movesMap, pointsMap, RUM_POINTS } from '../../shared/constants/game';
 
@@ -35,6 +39,8 @@ export const useGame = ({ mode }: UseGameProps) => {
   const [checkedMode, setCheckedMode] = useState<Mode>(mode);
   const [wasBombed, setWasBombed] = useState(false);
   const [gameLoading, setGameLoading] = useState(false);
+  const [leaderboardData, setLeaderboardData] = useState<LeaderboardResponse | null>(null);
+
   const [findings, setFindings] = useState<FindingsMap>({
     chest: 0,
     gold: 0,
@@ -76,6 +82,7 @@ export const useGame = ({ mode }: UseGameProps) => {
     setPoints(0);
     startTimeRef.current = Date.now();
     setWasBombed(false);
+    setLeaderboardData(null);
     setFindings({ chest: 0, gold: 0, coconut: 0, bomb: 0 });
     const newMapInfo = { ...config.treasures, totalTreasures: countTreasures(config.treasures) };
     setMapInfo(newMapInfo);
@@ -116,7 +123,7 @@ export const useGame = ({ mode }: UseGameProps) => {
     setFinalTime(durationInSeconds);
 
     try {
-      await submitScore({
+      const response = await submitScore({
         isDaily: mode === 'daily',
         isWin: won,
         score: finalScore,
@@ -124,6 +131,10 @@ export const useGame = ({ mode }: UseGameProps) => {
         moves: finalMoves,
         findings: finalFindings,
       });
+
+      if (response && response.leaderboard) {
+        setLeaderboardData(response.leaderboard);
+      }
     } catch (e) {
       console.error('Failed to submit score', e);
     }
@@ -230,5 +241,6 @@ export const useGame = ({ mode }: UseGameProps) => {
     checkedMode,
     gameLoading,
     finalTime,
+    leaderboardData
   };
 };

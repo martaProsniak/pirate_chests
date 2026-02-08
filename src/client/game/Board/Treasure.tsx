@@ -1,4 +1,4 @@
-import { TreasureKind } from '../../shared/types/game';
+import { TreasureKind } from '../../../shared/types/game';
 
 interface TreasureProps {
   kind: TreasureKind;

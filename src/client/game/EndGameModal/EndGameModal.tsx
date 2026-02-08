@@ -1,17 +1,13 @@
 import { FindingsMap, TreasureKind } from '../../../shared/types/game';
 import styles from './EndGameModal.module.css';
-import { CaptainsTable } from '../../UI/CaptainsTable/CaptainsTable';
-import { ShareCommentSection } from '../ShareCommentSection/ShareCommentSection';
+import { ShareCommentSection } from './ShareCommentSection/ShareCommentSection';
 import { Button } from '../../UI/Button';
 import { Header } from '../../UI/ViewComponents';
 import { useRef } from 'react';
 import { pointsMap, RUM_POINTS } from '../../../shared/constants/game';
-
-const formatTime = (seconds: number): string => {
-  const mins = Math.floor(seconds / 60);
-  const secs = seconds % 60;
-  return `${mins > 0 ? mins + 'm' : ''} ${secs}s`;
-};
+import { formatTime } from '../../utils/formatTime';
+import { CaptainsList } from './CaptainsList';
+import { LeaderboardResponse } from '../../../shared/types/api';
 
 interface EndGameModalProps {
   isOpen: boolean;
@@ -24,6 +20,7 @@ interface EndGameModalProps {
   findings: FindingsMap;
   moves: number;
   time: number;
+  leaderboard: LeaderboardResponse | null
 }
 
 export const EndGameModal = ({
@@ -36,7 +33,8 @@ export const EndGameModal = ({
   points,
   findings,
   moves,
-  time
+  time,
+  leaderboard,
 }: EndGameModalProps) => {
   const contentRef = useRef<HTMLDivElement>(null);
 
@@ -210,7 +208,7 @@ export const EndGameModal = ({
 
             {mode === 'daily' && (
               <div className="overflow-hidden">
-                <CaptainsTable variant="endgame" className="" />
+                <CaptainsList leaderboardData={leaderboard} className="" />
               </div>
             )}
 

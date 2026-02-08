@@ -1,6 +1,6 @@
 import { Header, ViewWrapper } from '../../UI/ViewComponents';
-import { Clue } from '../../game/Clue';
-import { Treasure } from '../../game/Treasure';
+import { Clue } from '../../game/Board/Clue';
+import { Treasure } from '../../game/Board/Treasure';
 
 export const Guides = () => {
   return (

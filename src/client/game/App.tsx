@@ -23,7 +23,8 @@ export const App = () => {
     findings,
     checkedMode,
     gameLoading,
-    finalTime
+    finalTime,
+    leaderboardData,
   } = useGame({ mode: 'daily' });
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -84,6 +85,7 @@ export const App = () => {
           findings={findings}
           moves={moves}
           time={finalTime}
+          leaderboard={leaderboardData}
         />
 
         {!gameLoading ? <Actions

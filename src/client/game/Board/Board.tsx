@@ -1,4 +1,4 @@
-import { Tile } from '../Tile';
+import { Tile } from './Tile';
 import { MatrixItem } from '../../../shared/types/game';
 
 export interface BoardProps {

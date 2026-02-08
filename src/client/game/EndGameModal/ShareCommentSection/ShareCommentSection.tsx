@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { usePirateChestAPI } from '../../hooks/usePirateChestApi';
-import { FindingsMap } from '../../../shared/types/game';
-import { Button } from '../../UI/Button';
+import { usePirateChestAPI } from '../../../hooks/usePirateChestApi';
+import { FindingsMap } from '../../../../shared/types/game';
+import { Button } from '../../../UI/Button';
 
 interface ShareCommentSectionProps {
   score: number;

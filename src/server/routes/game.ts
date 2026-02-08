@@ -164,10 +164,13 @@ router.post('/api/submit-score', async (req, res) => {
       ]);
     }
 
-    const updatedStatsRaw = await redis.hGetAll(`user_stats:${userId}`);
+    const [updatedStatsRaw, leaderboardData] = await Promise.all([
+      redis.hGetAll(`user_stats:${userId}`),
+      leaderboardService.getLeaderboard('daily', postId, userId, username, 10),
+    ]);
     const newStats: UserStats = getUserStats(updatedStatsRaw);
 
-    res.json({ success: true, newStats } as SubmitScoreResponse);
+    res.json({ success: true, newStats, leaderboard: leaderboardData } as SubmitScoreResponse);
 
     await realtime.send(userDataChannel(userId), {
       type: STATS_UPDATE_MSG,

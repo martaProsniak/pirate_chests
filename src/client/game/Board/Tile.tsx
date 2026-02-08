@@ -1,8 +1,8 @@
-import { MatrixItem } from '../../shared/types/game';
+import { MatrixItem } from '../../../shared/types/game';
 import { Treasure } from './Treasure';
 import { Clue } from './Clue';
 import { useEffect, useState } from 'react';
-import { EVENT_NAME, FeedbackDetail } from '../utils/feedbackEvent';
+import { EVENT_NAME, FeedbackDetail } from '../../utils/feedbackEvent';
 import { Feedback } from './Feedback';
 
 interface TileProps {
