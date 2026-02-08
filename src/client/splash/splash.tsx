@@ -7,7 +7,6 @@ import { useRealtimeUserData } from '../hooks/useRealtimeUserData';
 import { CaptainsTable } from '../UI/CaptainsTable/CaptainsTable';
 import { Navigation, ViewState } from './Navigation/Navigation';
 import { HomeView } from './HomeView/HomeView';
-import { StatsView } from './StatsView/StatsView';
 import { Guides } from './GuidesView/Guides';
 
 export const Splash = () => {
@@ -25,17 +24,17 @@ export const Splash = () => {
           <HomeView username={username} loading={loading} mode={mode} onStart={handleStartGame} />
         );
 
-      case 'leaderboard':
+      case 'weekly-rank':
         return (
           <div className="w-full flex flex-col animate-fade-in">
-            <CaptainsTable className="w-full" limit={10} />
+            <CaptainsTable period="weekly" className="w-full" limit={10} />
           </div>
         );
 
-      case 'stats':
+      case 'daily-rank':
         return (
           <div className="w-full flex flex-col animate-fade-in">
-            <StatsView />
+            <CaptainsTable period="daily" className="w-full" limit={10} />
           </div>
         );
       case 'guides':

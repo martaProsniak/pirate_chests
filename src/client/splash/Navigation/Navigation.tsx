@@ -1,4 +1,4 @@
-export type ViewState = 'home' | 'stats' | 'leaderboard' | 'guides';
+export type ViewState = 'home' | 'daily-rank' | 'weekly-rank' | 'guides';
 
 interface NavigationProps {
   currentView: ViewState;
@@ -18,16 +18,16 @@ export const Navigation = ({ currentView, onViewChange }: NavigationProps) => {
           icon="/images/ship.png"
         />
         <NavButton
-          active={currentView === 'stats'}
-          onClick={() => onViewChange('stats')}
-          label="Stats"
-          icon="/images/chest.png"
+          active={currentView === 'daily-rank'}
+          onClick={() => onViewChange('daily-rank')}
+          label="Raid Log"
+          icon="/images/gold.png"
         />
         <NavButton
-          active={currentView === 'leaderboard'}
-          onClick={() => onViewChange('leaderboard')}
-          label="Rank"
-          icon="/images/gold.png"
+          active={currentView === 'weekly-rank'}
+          onClick={() => onViewChange('weekly-rank')}
+          label="Voyage Log"
+          icon="/images/chest.png"
         />
         <NavButton
           active={currentView === 'guides'}

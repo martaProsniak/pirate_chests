@@ -1,7 +1,7 @@
 import { context } from '@devvit/web/client';
 import { LeaderboardEntry, LeaderboardResponse } from '../../../shared/types/api';
 import { Header } from '../../UI/ViewComponents';
-import { formatTime } from '../../utils/formatTime';
+import { formatters } from '../../utils/formatters';
 
 interface CaptainsListProps {
   leaderboardData: LeaderboardResponse | null;
@@ -114,7 +114,7 @@ const LeaderboardRow = ({
 
       <div className="flex gap-4 items-center shrink-0">
          <span className={`text-xs ${isHighlighted ? 'text-lime-600' : 'text-amber-800/70'}`}>
-            {formatTime(entry.time)}
+            {formatters(entry.time)}
          </span>
 
         <span className="font-bold min-w-[30px] shrink-0 text-right">

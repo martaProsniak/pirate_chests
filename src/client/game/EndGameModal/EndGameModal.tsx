@@ -5,7 +5,7 @@ import { Button } from '../../UI/Button';
 import { Header } from '../../UI/ViewComponents';
 import { useRef } from 'react';
 import { pointsMap, RUM_POINTS } from '../../../shared/constants/game';
-import { formatTime } from '../../utils/formatTime';
+import { formatters } from '../../utils/formatters';
 import { CaptainsList } from './CaptainsList';
 import { LeaderboardResponse } from '../../../shared/types/api';
 
@@ -189,7 +189,7 @@ export const EndGameModal = ({
                   <span className="text-amber-800 text-shadow-none text-base tracking-wider">
                     Raid Time
                   </span>
-                  <span className="font-bold text-shadow-xs text-shadow-amber-950 text-base leading-none text-amber-800">{formatTime(time)}</span>
+                  <span className="font-bold text-shadow-xs text-shadow-amber-950 text-base leading-none text-amber-800">{formatters(time)}</span>
                 </div>
               </div>
             </div>

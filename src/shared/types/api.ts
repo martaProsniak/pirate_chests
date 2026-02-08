@@ -56,6 +56,7 @@ export type SubmitScoreResponse = {
 export type LeaderboardResponse = {
   entries: LeaderboardEntry[];
   userEntry?: LeaderboardEntry | null;
+  dateLabel: string;
 };
 
 export type PostCommentRequest = {

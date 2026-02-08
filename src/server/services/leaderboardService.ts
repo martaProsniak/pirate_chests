@@ -1,5 +1,5 @@
 import { LeaderboardEntry, LeaderboardResponse } from '../../shared/types/api';
-import { calculateCompositeScore, getCurrentWeekKey } from '../utils/scoreUtils';
+import { calculateCompositeScore, getCurrentWeekKey, getDateLabel } from '../utils/scoreUtils';
 import { ILeaderboardRedis } from './types';
 
 const DEFAULT_LIMIT = 10;
@@ -40,7 +40,11 @@ export class LeaderboardService {
     limit: number = DEFAULT_LIMIT
   ): Promise<LeaderboardResponse> {
     const { leaderboardKey, timeKey } = this.getKeys(period, postId);
-    if (!leaderboardKey || !timeKey) return { entries: [] };
+    const dateLabel = getDateLabel(period);
+
+    if (!leaderboardKey || !timeKey) {
+      return { entries: [], dateLabel };
+    }
 
     const rawEntries = await this.getTopEntries(leaderboardKey, timeKey, limit + TIE_BREAKER_BUFFER);
 
@@ -61,7 +65,7 @@ export class LeaderboardService {
       currentUsername
     );
 
-    return { entries, userEntry };
+    return { entries, userEntry, dateLabel };
   }
 
   private getKeys(period: 'daily' | 'weekly', postId?: string) {

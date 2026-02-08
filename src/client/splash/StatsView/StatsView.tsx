@@ -3,10 +3,7 @@ import { UserStats } from '../../../shared/types/api';
 import { TreasureKind } from '../../../shared/types/game';
 import { usePirateChestAPI } from '../../hooks/usePirateChestApi';
 import { Header, ViewWrapper } from '../../UI/ViewComponents';
-
-const formatScore = (num: number): string => {
-  return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-};
+import { formatScore } from '../../utils/formatters';
 
 export const StatsView = () => {
   const { getUserStats } = usePirateChestAPI();
