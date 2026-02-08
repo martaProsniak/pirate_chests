@@ -3,23 +3,7 @@ import { FindingsMap, GameConfigItem, MatrixItem, Mode } from '../../shared/type
 import { usePirateChestAPI } from './usePirateChestApi';
 import { DailyChallengeResponse, PracticeGameResponse } from '../../shared/types/api';
 import { triggerFeedback } from '../utils/feedbackEvent';
-
-const pointsMap: FindingsMap = {
-  chest: 250,
-  gold: 50,
-  coconut: 1,
-  bomb: 0,
-};
-
-const movesMap: FindingsMap = {
-  chest: 3,
-  gold: 1,
-  coconut: 1,
-  bomb: 0,
-};
-
-const RUM_POINTS = 10;
-const FALLBACK_GRID_SIZE = 6;
+import { FALLBACK_GRID_SIZE, movesMap, pointsMap, RUM_POINTS } from '../../shared/constants/game';
 
 interface UseGameProps {
   mode: Mode;

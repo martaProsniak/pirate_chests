@@ -5,6 +5,7 @@ import { ShareCommentSection } from '../ShareCommentSection/ShareCommentSection'
 import { Button } from '../../UI/Button';
 import { Header } from '../../UI/ViewComponents';
 import { useRef } from 'react';
+import { pointsMap, RUM_POINTS } from '../../../shared/constants/game';
 
 const formatTime = (seconds: number): string => {
   const mins = Math.floor(seconds / 60);
@@ -102,11 +103,11 @@ export const EndGameModal = ({
             <div className="flex flex-col gap-3 py-2">
               <h3
                 className={`
-                font-pirate text-4xl tracking-wider  text-shadow-black text-shadow-lg
+                font-pirate text-4xl tracking-wider  text-shadow-orange-950 text-shadow-lg
                 ${
                   isWin
-                    ? 'text-lime-500'
-                    : 'text-rose-500'
+                    ? 'text-lime-400'
+                    : 'text-rose-400'
                 }
               `}
               >
@@ -141,7 +142,7 @@ export const EndGameModal = ({
                 </div>
               </div>
 
-              <div className="flex justify-center gap-6 font-aladin">
+              <div className="flex justify-evenly gap-4 font-aladin">
                 {Object.keys(findings).map((key) => {
                   if (key === 'bomb') {
                     return null;
@@ -155,26 +156,42 @@ export const EndGameModal = ({
                       />
                       <span
                         className={
-                          `font-bold text-shadow-md text-shadow-black text-xl leading-none text-amber-300`
+                          `font-bold text-shadow-xs text-shadow-amber-950 text-base leading-none text-amber-800`
                         }
                       >
-                        {findings[key as TreasureKind]}
+                        {findings[key as TreasureKind]} x {pointsMap[key as TreasureKind]}
                       </span>
                     </div>
                   );
                 })}
               </div>
 
-              <div className="flex flex-row items-center justify-center gap-2 py-4">
-                <div className="h-6 w-5 mt-1">
-                  <img
-                    className="w-full h-full object-contain drop-shadow-xs drop-shadow-amber-900"
-                    src="/images/hourglass.png"
-                    alt="Time"
-                  />
+              <div className="flex flex-row items-center justify-evenly gap-4 pb-4 pt-6">
+                <div className="flex flex-col items-center gap-1 w-fit font-aladin">
+                  <div className="h-6 w-5">
+                    <img
+                      className="w-full h-full object-contain drop-shadow-xs drop-shadow-amber-900"
+                      src="/images/rum.png"
+                      alt="Rum"
+                    />
+                  </div>
+                  <span className="text-amber-800 text-shadow-none text-base tracking-wider">
+                    Rum Bonus
+                  </span>
+                  <span className="font-bold text-shadow-xs text-shadow-amber-950 text-base leading-none text-amber-800">{moves} x {RUM_POINTS}</span>
                 </div>
-                <div className="text-amber-800 font-aladin text-shadow-none text-xl h-4 leading-6 tracking-wider">
-                  {formatTime(100)}
+                <div className="flex flex-col items-center gap-1 w-fit font-aladin">
+                  <div className="h-6 w-5">
+                    <img
+                      className="w-full h-full object-contain drop-shadow-xs drop-shadow-amber-900"
+                      src="/images/hourglass.png"
+                      alt="Time"
+                    />
+                  </div>
+                  <span className="text-amber-800 text-shadow-none text-base tracking-wider">
+                    Raid Time
+                  </span>
+                  <span className="font-bold text-shadow-xs text-shadow-amber-950 text-base leading-none text-amber-800">{formatTime(time)}</span>
                 </div>
               </div>
             </div>

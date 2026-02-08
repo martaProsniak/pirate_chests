@@ -19,7 +19,7 @@ export const HomeView = ({ username, mode, loading, onStart }: HomeViewProps) =>
         </h1>
 
           <div className="w-fit">
-            <Button onClick={onStart} label={'Play'} classes={loading ? 'opacity-0' : 'opacity-100'} image={mode === 'daily' ? 'red' : 'yellow'}>
+            <Button onClick={onStart} label={'Play'} image={mode === 'daily' ? 'red' : 'yellow'}>
               {mode === 'daily' && (
                 <span className="px-9 py-3 text-rose-50 text-shadow-xs text-shadow-rose-900 font-pirate text-xl">
                 Daily Raid
