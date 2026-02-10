@@ -1,6 +1,7 @@
 import { LeaderboardEntry, LeaderboardResponse } from '../../shared/types/api';
-import { calculateCompositeScore, getCurrentWeekKey, getDateLabel } from '../utils/scoreUtils';
+import { calculateCompositeScore } from '../utils/scoreUtils';
 import { ILeaderboardRedis } from './types';
+import { getDateLabel, getWeekKey } from '../utils/dateUtils';
 
 const DEFAULT_LIMIT = 10;
 const TIE_BREAKER_BUFFER = 20;
@@ -25,8 +26,8 @@ export class LeaderboardService {
     ]);
   }
 
-  async addWeeklyScore(memberKey: string, score: number, time: number) {
-    const { leaderboardKey, timeKey } = this.getKeys('weekly');
+  async addWeeklyScore(memberKey: string, score: number, time: number, dateString: string) {
+    const { leaderboardKey, timeKey } = this.getKeys('weekly', dateString);
     if (!leaderboardKey || !timeKey) return;
 
     await Promise.all([
@@ -40,10 +41,11 @@ export class LeaderboardService {
     postId: string | undefined,
     currentUserId: string | undefined,
     currentUsername: string | undefined,
-    limit: number = DEFAULT_LIMIT
+    limit: number = DEFAULT_LIMIT,
+    dateString: string = '',
   ): Promise<LeaderboardResponse> {
-    const { leaderboardKey, timeKey } = this.getKeys(period, postId);
-    const dateLabel = getDateLabel(period);
+    const { leaderboardKey, timeKey } = this.getKeys(period, dateString, postId);
+    const dateLabel = getDateLabel(period, dateString);
 
     if (!leaderboardKey || !timeKey) {
       return { entries: [], dateLabel };
@@ -73,9 +75,9 @@ export class LeaderboardService {
     return { entries, userEntry, dateLabel };
   }
 
-  private getKeys(period: 'daily' | 'weekly', postId?: string) {
+  private getKeys(period: 'daily' | 'weekly', dateString: string, postId?: string) {
     if (period === 'weekly') {
-      const weekKey = getCurrentWeekKey();
+      const weekKey = getWeekKey(dateString);
       return {
         leaderboardKey: `weekly_leaderboard:${weekKey}`,
         timeKey: `weekly_times:${weekKey}`,

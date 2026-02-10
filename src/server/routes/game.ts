@@ -19,6 +19,7 @@ import { getOrCreateDailyBoard } from '../services/boardService';
 import { updateUserGlobalStats } from '../services/statsService';
 import { MODE_UPDATE_MSG, STATS_UPDATE_MSG, userDataChannel } from '../../shared/types/channels';
 import { LeaderboardService } from '../services/leaderboardService';
+import { extractDateFromTitle } from '../utils/dateUtils';
 
 const router = Router();
 
@@ -130,7 +131,7 @@ router.get('/api/practice-challenge', async (_req, res) => {
 });
 
 router.post('/api/submit-score', async (req, res) => {
-  const { userId, postId, username } = context;
+  const { userId, postId, username, postData } = context;
 
   if (!userId || !postId || !username) {
     res.status(400).json({ error: 'Missing context' });
@@ -158,9 +159,19 @@ router.post('/api/submit-score', async (req, res) => {
       const memberKey = `${username}::${userId}`;
       await redis.set(playedKey, '1');
 
+      let dateString = '';
+      const postDate = postData?.date as string | undefined;
+
+      if (postDate) {
+        dateString = postDate;
+      } else {
+        const post = await reddit.getPostById(postId);
+        dateString = extractDateFromTitle(post.title);
+      }
+
       await Promise.all([
         leaderboardService.addDailyScore(postId, memberKey, score, time),
-        leaderboardService.addWeeklyScore(memberKey, score, time),
+        leaderboardService.addWeeklyScore(memberKey, score, time, dateString),
       ]);
     }
 
@@ -192,7 +203,22 @@ router.post('/api/submit-score', async (req, res) => {
 });
 
 router.get('/api/leaderboard', async (req, res) => {
-  const { postId, username, userId } = context;
+  const { postId, username, userId, postData } = context;
+
+  if (!postId || !username) {
+    res.status(400).json({ error: 'Missing context' });
+    return;
+  }
+
+  let dateString = '';
+  const postDate = postData?.date as string | undefined;
+
+  if (postDate) {
+    dateString = postDate;
+  } else {
+    const post = await reddit.getPostById(postId);
+    dateString = extractDateFromTitle(post.title);
+  }
 
   const urlParams = new URLSearchParams(req.url.split('?')[1]);
   const period = (urlParams.get('period') as 'daily' | 'weekly') || 'daily';
@@ -208,7 +234,8 @@ router.get('/api/leaderboard', async (req, res) => {
       postId,
       userId,
       username,
-      limit
+      limit,
+      dateString,
     );
     res.json(response);
   } catch (error) {
