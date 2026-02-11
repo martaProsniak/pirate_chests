@@ -44,16 +44,17 @@ export const ShareCommentSection = ({
 
   const getButtonLabel = () => {
     if (isPosting) return 'Telling Tales...';
-    return 'Brag in the Tavern';
+    if (wasBombed) return 'Rant in the Tavern';
+    return isWin ? 'Brag in the Tavern' : 'Whine in the Tavern';
   };
 
   if (hasPosted) {
     return (
-      <div className="flex flex-row flex-nowrap gap-1 items-center justify-center p-2">
-        <div className="size-6">
+      <div className="flex flex-row flex-nowrap gap-1 items-center justify-center p-2 h-full">
+        <div className="size-12">
           <img className="w-full h-full object-contain" src="/images/mug.png" alt="Mug" />
         </div>
-        <p className="text-base font-bold text-amber-200 text-shadow-amber-950 font-aladin text-shadow-xs leading-[35px] h-[30px]">
+        <p className="text-xl font-bold text-amber-200 text-shadow-amber-950 font-aladin text-shadow-xs leading-[35px] h-[30px]">
           Mugs Raised!
         </p>
       </div>
@@ -61,10 +62,7 @@ export const ShareCommentSection = ({
   }
 
   return (
-    <div className="flex flex-col gap-2 items-center justify-center py-2">
-      <p className="text-lg italic text-amber-100 text-shadow-amber-950 text-shadow-xs font-aladin">
-        Show off yer loot to the crew!
-      </p>
+    <div className="flex flex-col gap-2 items-center justify-center py-2 h-full">
       <Button
         onClick={handleShare}
         label={'Comment'}

@@ -51,7 +51,7 @@ export const EndGameModal = ({
     if (isWin) {
       return {
         header: 'Yo Ho Ho!',
-        paragraph: 'Ye found all the booty! The crew is rich!',
+        paragraph: 'Ye found all the booty! Good hunt!',
       };
     }
     if (wasBombed) {
@@ -62,7 +62,7 @@ export const EndGameModal = ({
     }
     return {
       header: 'Why is the Rum Gone?!',
-      paragraph: 'The Cask is Empty! Yer mates refused to move!',
+      paragraph: `The cask is empty! No mo' treasure hunt!`,
     };
   };
 
@@ -112,6 +112,18 @@ export const EndGameModal = ({
                 {text.paragraph}
               </p>
             </div>
+
+            {mode === 'daily' && (
+              <div className="h-[96px]">
+                <ShareCommentSection
+                  score={points}
+                  isWin={isWin}
+                  wasBombed={wasBombed}
+                  moves={moves}
+                  findings={findings}
+                />
+              </div>
+            )}
 
             <div
               className="overflow-hidden drop-shadow-lg"
@@ -190,18 +202,6 @@ export const EndGameModal = ({
                 </div>
               </div>
             </div>
-
-            {mode === 'daily' && (
-              <div className="">
-                <ShareCommentSection
-                  score={points}
-                  isWin={isWin}
-                  wasBombed={wasBombed}
-                  moves={moves}
-                  findings={findings}
-                />
-              </div>
-            )}
 
             {mode === 'daily' && (
               <div className="overflow-hidden">

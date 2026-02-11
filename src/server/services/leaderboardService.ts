@@ -45,10 +45,7 @@ export class LeaderboardService {
     dateString: string = '',
   ): Promise<LeaderboardResponse> {
     const { leaderboardKey, timeKey } = this.getKeys(period, dateString, postId);
-    console.log('leaderboard received date:', dateString);
-
     const dateLabel = getDateLabel(period, dateString);
-    console.log('leaderboard date label:', dateLabel);
 
     if (!leaderboardKey || !timeKey) {
       return { entries: [], dateLabel };
