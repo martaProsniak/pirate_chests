@@ -1,8 +1,8 @@
 # 🏴‍☠️ Pirate Chest
 
-**A daily treasure hunting puzzle game built on Reddit's Developer Platform.**
+**A daily treasure hunting puzzle game built with daily maps and casual mode.**
 
-Welcome to **Pirate Chest**, a logic puzzle game where you hunt for buried treasures and use clues to pinpoint the loot. But keep a weather eye - one wrong step on a hidden bomb, and you'll be feeding the fish!
+Welcome to **Pirate Chest**, a logic puzzle game where you hunt for buried treasures and use clues to pinpoint the loot.
 
 ## 🦜 About The Game
 
@@ -10,9 +10,9 @@ Your goal is to find all the hidden treasures (Gold 💰, Chests 📦, Coconuts 
 
 ### How to Read the Map
 
-Unlike classic minesweepers, this map requires a true treasure hunter's intuition:
+Unlike classic minesweepers, this map requires a different approach
 
-- **The Clue (Number):** Represents the **distance** (number of steps) to the nearest treasure in a straight line (horizontally or vertically).
+- **The Clue (Number):** Represents the **shortest distance** (number of steps) to the nearest treasure. It's sum of vertical and horizontal steps you need to take to uncover the loot.
 - **Bomb Detector:** Watch out for warnings! The detector only scans for bombs in the immediately **adjacent** lands.
 - **Rum (Moves):** Every tile you reveal costs Rum. Plan your path wisely, or you'll be marooned!
 
@@ -26,7 +26,7 @@ A unique, generated map available for 24 hours.
 - **One Shot:** You only have one attempt per day to claim the loot.
 - **Raid Log:** Compete against other pirates for the fastest time and highest score.
 
-### ⚓ Practice Voyage
+### ⚓ Casual Raid 
 
 Unlimited random maps to sharpen your skills.
 
@@ -36,7 +36,7 @@ Unlimited random maps to sharpen your skills.
 ## 🏆 Leaderboards
 
 - **Raid Log (Daily):** Daily ranking of the most efficient pirates.
-- **Hall of Fame (Weekly):** The most legendary captains of the week.
+- **Voyage Log:** The most legendary captains of the week.
 - **Bragging Rights:** Generate unique, pirate-themed comments to share your victory (or hilarious defeat) with the community.
 
 ## 🛠️ Tech Stack
