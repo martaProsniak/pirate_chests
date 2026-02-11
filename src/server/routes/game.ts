@@ -155,29 +155,29 @@ router.post('/api/submit-score', async (req, res) => {
 
     await updateUserGlobalStats(redis, userId, { score, findings, isWin });
 
+    let dateString = '';
+    const postDate = postData?.date as string | undefined;
+
+    if (postDate) {
+      dateString = postDate;
+    } else {
+      const post = await reddit.getPostById(postId);
+      dateString = extractDateFromTitle(post.title);
+    }
+
     if (confirmedIsDaily) {
       const memberKey = `${username}::${userId}`;
       await redis.set(playedKey, '1');
 
-      let dateString = '';
-      const postDate = postData?.date as string | undefined;
-
-      if (postDate) {
-        dateString = postDate;
-      } else {
-        const post = await reddit.getPostById(postId);
-        dateString = extractDateFromTitle(post.title);
-      }
-
       await Promise.all([
-        leaderboardService.addDailyScore(postId, memberKey, score, time),
+        leaderboardService.addDailyScore(postId, memberKey, score, time, dateString),
         leaderboardService.addWeeklyScore(memberKey, score, time, dateString),
       ]);
     }
 
     const [updatedStatsRaw, leaderboardData] = await Promise.all([
       redis.hGetAll(`user_stats:${userId}`),
-      leaderboardService.getLeaderboard('daily', postId, userId, username, 5),
+      leaderboardService.getLeaderboard('daily', postId, userId, username, 5, dateString),
     ]);
     const newStats: UserStats = getUserStats(updatedStatsRaw);
 
