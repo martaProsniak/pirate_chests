@@ -1,6 +1,5 @@
 import { Header, ViewWrapper } from '../../UI/ViewComponents';
 import { Clue } from '../../game/Board/Clue';
-import { Treasure } from '../../game/Board/Treasure';
 
 export const Guides = () => {
   return (
@@ -8,27 +7,33 @@ export const Guides = () => {
       <Header>Pirate Code</Header>
       <div className="flex flex-col gap-2 w-full">
         <article className="flex flex-row flex-nowrap items-center justify-start gap-3 w-full p-2 bg-white rounded-md border border-amber-100 shadow-sm">
-          <div className="relative size-10 border-yellow-600 bg-yellow-300 border-dashed rounded-md border-1">
-            <Treasure kind={'chest'} />
+          <div className="relative size-10 border-green-600  border-dashed rounded-md border-1"
+               style={{
+                 backgroundImage: 'url("/images/tile.png")',
+                 backgroundSize: 'contain',
+                 backgroundPosition: 'center',
+                 backgroundRepeat: 'no-repeat',
+               }}
+          >
           </div>
           <p className="text-base leading-tight font-aladin font-normal text-amber-900">
-            Dig to discover all loot!
+            Dig in the grass patch to find the loot!
           </p>
         </article>
         <article className="flex flex-row flex-nowrap items-center justify-start gap-3 w-full p-2 bg-white rounded-md border border-amber-100 shadow-sm">
-          <div className="relative size-10 bg-stone-300 border-stone-800 border-dashed rounded-md border-1">
+          <div className="relative bg-stone-300 border-stone-800 border-dashed rounded-md border-1">
             <Clue value={'4'} bombs={0} />
           </div>
           <p className="text-base leading-tight font-aladin font-normal text-amber-900">
-            Count steps to find treasures (only straight lines, matey)!
+            Each clue shows the shortest distance to the nearest treasure: sum of steps sideways and upright. No diagonal shortcuts!
           </p>
         </article>
         <article className="flex flex-row flex-nowrap items-center justify-start gap-3 w-full p-2 bg-white rounded-md border border-amber-100 shadow-sm">
-          <div className="relative size-10 bg-stone-300 border-stone-800 border-dashed rounded-md border-1">
+          <div className="relative bg-stone-300 border-stone-800 border-dashed rounded-md border-1">
             <Clue value={'4'} bombs={1} />
           </div>
           <p className="text-base leading-tight font-aladin font-normal text-amber-900">
-            Mind the Bomb! The detector only scans adjacent lands!
+            Some fields might be explosive - watch out! The detector only scans directly adjacent fields.
           </p>
         </article>
         <article className="flex flex-row flex-nowrap items-center justify-start gap-3 w-full p-2 bg-white rounded-md border border-amber-100 shadow-sm">

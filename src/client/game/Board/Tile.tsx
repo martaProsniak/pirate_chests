@@ -10,9 +10,10 @@ interface TileProps {
   onClick: () => void;
   row: number;
   col: number;
+  className?: string;
 }
 
-export const Tile = ({ item, onClick, row, col }: TileProps) => {
+export const Tile = ({ item, onClick, row, col, className = '' }: TileProps) => {
   const { isRevealed, value, isTreasure, isHighlighted, bombs } = item;
   const [feedback, setFeedback] = useState<FeedbackDetail | null>(null);
   const shouldListenForFeedback = item.isTreasure && item.value !== 'bomb';
@@ -57,7 +58,7 @@ export const Tile = ({ item, onClick, row, col }: TileProps) => {
   return (
     <div
       onClick={onClick}
-      className={`${baseClasses} ${isRevealed ? revealedClasses : hiddenClasses}`}
+      className={`${baseClasses} ${isRevealed ? revealedClasses : hiddenClasses} ${className}`}
       style={{
         backgroundImage: !isRevealed ? 'url("/images/tile.png")' : 'none',
         backgroundSize: 'contain',
