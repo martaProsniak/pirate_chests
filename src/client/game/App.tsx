@@ -1,13 +1,18 @@
 import { Board } from './Board/Board';
-import { Layout } from '../UI/Layout';
 import { useGame } from '../hooks/useGame';
 import { useEffect, useState } from 'react';
 import { ShipLoader } from './ShipLoader/ShipLoader';
 import { GameProgress } from './GameProgress/GameProgress';
 import { EndGameModal } from './EndGameModal/EndGameModal';
 import { Actions } from './Actions';
+import { Button } from '../UI/Button';
 
-export const App = () => {
+export interface AppProps {
+  view?: 'fullscreen' | 'splash',
+  handleBack?: () => void
+}
+
+export const App = ({view = 'fullscreen', handleBack}: AppProps) => {
   const {
     matrix,
     moves,
@@ -46,7 +51,7 @@ export const App = () => {
   };
 
   return (
-    <Layout className="overflow-hidden" image="water">
+    <>
       <div className="relative overflow-hidden w-full flex justify-center h-full">
         {!gameLoading && matrix && matrix.length > 0 && (
           <div className="absolute z-30 w-max pointer-events-none top-2 left-1/2 -translate-x-1/2">
@@ -97,7 +102,16 @@ export const App = () => {
             isEnd={isEnd}
           />
         ) : null}
+        {view === 'splash' ? (
+          <div className="fixed bottom-2 right-4 flex md:flex-col items-end gap-2 z-20">
+            <Button onClick={() => handleBack?.()} label="Back" image={'water'} classes="">
+          <span className="px-4 py-1 w-[20ch] text-sky-900 text-shadow-xs text-shadow-sky-600 font-pirate text-base sm:text-lg">
+            Back
+          </span>
+            </Button>
+          </div>
+        ) : null}
       </div>
-    </Layout>
+    </>
   );
 };
