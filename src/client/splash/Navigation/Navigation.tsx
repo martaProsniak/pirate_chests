@@ -1,4 +1,4 @@
-export type ViewState = 'home' | 'daily-rank' | 'weekly-rank' | 'guides';
+export type ViewState = 'home' | 'daily-rank' | 'weekly-rank' | 'guides' | 'game';
 
 interface NavigationProps {
   currentView: ViewState;

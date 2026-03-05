@@ -5,14 +5,12 @@ import { ShipLoader } from './ShipLoader/ShipLoader';
 import { GameProgress } from './GameProgress/GameProgress';
 import { EndGameModal } from './EndGameModal/EndGameModal';
 import { Actions } from './Actions';
-import { Button } from '../UI/Button';
 
 export interface AppProps {
   view?: 'fullscreen' | 'splash',
-  handleBack?: () => void
 }
 
-export const App = ({view = 'fullscreen', handleBack}: AppProps) => {
+export const App = ({view = 'fullscreen'}: AppProps) => {
   const {
     matrix,
     moves,
@@ -32,6 +30,8 @@ export const App = ({view = 'fullscreen', handleBack}: AppProps) => {
     leaderboardData,
   } = useGame({ mode: 'daily' });
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  console.log(view);
 
   useEffect(() => {
     if (isEnd) {
@@ -101,15 +101,6 @@ export const App = ({view = 'fullscreen', handleBack}: AppProps) => {
             onShowModal={() => setIsModalOpen(true)}
             isEnd={isEnd}
           />
-        ) : null}
-        {view === 'splash' ? (
-          <div className="fixed bottom-2 right-4 flex md:flex-col items-end gap-2 z-20">
-            <Button onClick={() => handleBack?.()} label="Back" image={'water'} classes="">
-          <span className="px-4 py-1 w-[20ch] text-sky-900 text-shadow-xs text-shadow-sky-600 font-pirate text-base sm:text-lg">
-            Back
-          </span>
-            </Button>
-          </div>
         ) : null}
       </div>
     </>

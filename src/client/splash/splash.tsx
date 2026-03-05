@@ -1,28 +1,32 @@
 import '../index.css';
-import { StrictMode, useState, MouseEvent } from 'react';
+import { StrictMode, useState } from 'react';
 import { createRoot } from 'react-dom/client';
-import { requestExpandedMode } from '@devvit/web/client';
+// import { requestExpandedMode } from '@devvit/web/client';
 import { Layout } from '../UI/Layout';
 import { useRealtimeUserData } from '../hooks/useRealtimeUserData';
 import { CaptainsTable } from '../UI/CaptainsTable/CaptainsTable';
 import { Navigation, ViewState } from './Navigation/Navigation';
 import { HomeView } from './HomeView/HomeView';
-// import { Guides } from './GuidesView/Guides';
+import { Guides } from './GuidesView/Guides';
 import { App } from '../game/App';
 
 export const Splash = () => {
   const { username, mode, loading } = useRealtimeUserData();
   const [currentView, setCurrentView] = useState<ViewState>('home');
 
-  const handleStartGame = (e: MouseEvent) => {
-    void requestExpandedMode(e.nativeEvent, 'game');
-  };
+  // const handleStartGame = (e: MouseEvent) => {
+  //   void requestExpandedMode(e.nativeEvent, 'game');
+  // };
+
+  const onStartGame = () => {
+    setCurrentView('game');
+  }
 
   const renderContent = () => {
     switch (currentView) {
       case 'home':
         return (
-          <HomeView username={username} loading={loading} mode={mode} onStart={handleStartGame} />
+          <HomeView username={username} loading={loading} mode={mode} onStart={onStartGame} />
         );
 
       case 'weekly-rank':
@@ -41,8 +45,7 @@ export const Splash = () => {
       case 'guides':
         return (
           <div className="w-full flex flex-col animate-fade-in">
-            {/*<Guides />*/}
-            <App />
+            <Guides />
           </div>
         );
       default:
@@ -52,7 +55,7 @@ export const Splash = () => {
 
   return (
     <Layout className="overflow-hidden" image="water">
-      {currentView !== 'guides' ? (
+      {currentView !== 'game' ? (
         <div
           className="h-screen w-full bg-cover bg-center bg-no-repeat overflow-hidden relative"
           // style={{ backgroundImage: 'url("/images/pirate-land.jpg")' }}
@@ -71,14 +74,13 @@ export const Splash = () => {
                 {renderContent()}
               </div>
             </div>
-
-            <div className="col-span-12 flex justify-center items-center z-50">
-              <Navigation currentView={currentView} onViewChange={setCurrentView} />
-            </div>
           </div>
         </div>
-      ) : <App view='splash' handleBack={() => setCurrentView('home')}/>
+      ) : <App view='splash'/>
       }
+      <div className="w-full left-1/2 right-1/2 -translate-1/2 flex justify-center items-center z-50">
+        <Navigation currentView={currentView} onViewChange={setCurrentView} />
+      </div>
     </Layout>
   );
 };
