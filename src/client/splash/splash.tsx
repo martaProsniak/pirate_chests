@@ -78,7 +78,7 @@ export const Splash = () => {
         </div>
       ) : <App view='splash'/>
       }
-      <div className="w-full left-1/2 right-1/2 -translate-1/2 flex justify-center items-center z-50">
+      <div className="w-full fixed bottom-0 flex justify-center items-center z-50">
         <Navigation currentView={currentView} onViewChange={setCurrentView} />
       </div>
     </Layout>
